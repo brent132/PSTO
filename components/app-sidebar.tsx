@@ -59,8 +59,8 @@ export function AppSidebar() {
               (item.href !== "/" && pathname.startsWith(item.href + "/"));
             return (
               <SidebarMenuItem key={index}>
-                <SidebarMenuButton asChild isActive={isActive}>
-                  <Link href={item.href}>
+                <SidebarMenuButton asChild className={`${isActive ? "bg-muted" : "text-muted-foreground"}`}>
+                  <Link href={item.href} className="font-medium">
                     {item.icon}
                     {item.name}
                   </Link>

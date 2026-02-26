@@ -1,18 +1,22 @@
 import { ChevronsUpDown } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { Button } from "./ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { ModeToggle } from "./mode-toggle";
+import { useTheme } from "next-themes";
+import React from "react";
 
 export const Footer = () => {
+    const { resolvedTheme, setTheme } = useTheme()
+
+  const toggleTheme = React.useCallback(() => {
+    setTheme(resolvedTheme === "dark" ? "light" : "dark")
+  }, [resolvedTheme, setTheme])
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -36,9 +40,8 @@ export const Footer = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuGroup>
-          <DropdownMenuLabel>Theme</DropdownMenuLabel>
-          <DropdownMenuItem>
-            Toggle Mode <ModeToggle/>
+          <DropdownMenuItem onClick={toggleTheme}>
+            Toggle Theme <ModeToggle/>
           </DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>

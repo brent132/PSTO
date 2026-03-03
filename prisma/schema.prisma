@@ -11,9 +11,10 @@ datasource db {
 
 model User {
   id         Int     @id @default(autoincrement())
+  username   String  @unique
   firstName  String
   lastName   String
-  middleName String?  // optional
-  suffix     String?  // optional
-  password   String   // store a HASH, not plain text
+  middleName String?
+  suffix     String?
+  password   String  // store a HASH, not plain text
 }

@@ -5,7 +5,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
 async function createUser(payload: CreateUserInput) {
-  const res = await fetch("/api/users", {
+  const res = await fetch("/api/signup", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
@@ -17,6 +17,7 @@ async function createUser(payload: CreateUserInput) {
 export default function SignUp() {
   const qc = useQueryClient();
   const [form, setForm] = useState<CreateUserInput>({
+    username: "",
     firstName: "",
     middleName: "",
     lastName: "",
@@ -28,6 +29,7 @@ export default function SignUp() {
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["users"] });
       setForm({
+        username: "",
         firstName: "",
         middleName: "",
         lastName: "",

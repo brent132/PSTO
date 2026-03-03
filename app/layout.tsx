@@ -2,12 +2,10 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 
-import { SidebarProvider } from "@/components/ui/sidebar";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { AppSidebar } from "@/components/app-sidebar";
-import { Header } from "@/components/header";
 import { ThemeProvider } from "next-themes";
 import Providers from "./providers";
+import AppShell from "./app-shell";
 
 const poppins = Poppins({
   weight: ["300", "400", "500", "600", "700", "800", "900"],
@@ -35,13 +33,7 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <TooltipProvider delayDuration={0}>
-              <SidebarProvider>
-                <AppSidebar />
-                <main className="w-full">
-                  <Header />
-                  <div className="max-w-7xl mx-auto">{children}</div>
-                </main>
-              </SidebarProvider>
+              <AppShell>{children}</AppShell>
             </TooltipProvider>
           </ThemeProvider>
         </Providers>

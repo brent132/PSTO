@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { userListSelect } from "@/lib/user";
 import bcrypt from "bcryptjs";
 
+//Get users from database
 export async function GET() {
   try {
     const users = await prisma.user.findMany({
@@ -20,6 +21,7 @@ export async function GET() {
   }
 }
 
+//Insert users to database
 export async function POST(req: Request) {
   try {
     const body = await req.json();
@@ -28,6 +30,7 @@ export async function POST(req: Request) {
 
     const user = await prisma.user.create({
       data: {
+        username: body.username,
         firstName: body.firstName,
         lastName: body.lastName,
         suffix: body.suffix ?? null,

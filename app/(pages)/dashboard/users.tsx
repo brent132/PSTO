@@ -1,11 +1,10 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { Loading } from "./loading";
 import { UserListItem } from "@/lib/user";
 
 const getUsers = async (): Promise<UserListItem[]> => {
-  const response = await fetch("/api/users");
+  const response = await fetch("/api/signup");
   return await response.json();
 };
 export function Users() {
@@ -22,7 +21,7 @@ export function Users() {
     return <div>{error.message}</div>;
   }
   if (usersPending) {
-    return <Loading />;
+    return <div>Loading...</div>;
   }
 
   return (

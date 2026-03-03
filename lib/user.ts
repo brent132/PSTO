@@ -2,6 +2,7 @@ import type { Prisma } from "@prisma/client";
 
 export const userListSelect = {
   id: true,
+  username: true,
   firstName: true,
   middleName: true,
   lastName: true,

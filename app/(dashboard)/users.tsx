@@ -1,40 +1,40 @@
-
 "use client";
 
-import { useEffect, useState } from "react";
-import type { UserListItem } from "@/lib/user";
+import { useQuery } from "@tanstack/react-query";
+import { Loading } from "./loading";
+import { UserListItem } from "@/lib/user";
 
+const getUsers = async (): Promise<UserListItem[]> => {
+  const response = await fetch("/api/users");
+  return await response.json();
+};
 export function Users() {
-  const [users, setUsers] = useState<UserListItem[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const {
+    data: users,
+    isPending: usersPending,
+    error,
+  } = useQuery({
+    queryKey: ["users"],
+    queryFn: getUsers,
+  });
 
-  useEffect(() => {
-    const loadUsers = async () => {
-      try {
-        const response = await fetch("/api/users", { method: "GET" });
-
-        if (!response.ok) {
-          throw new Error("Request failed");
-        }
-
-        const data: UserListItem[] = await response.json();
-        setUsers(data);
-      } catch {
-        setError("Could not load users.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadUsers();
-  }, []);
+  if (error) {
+    return <div>{error.message}</div>;
+  }
+  if (usersPending) {
+    return <Loading />;
+  }
 
   return (
     <div>
       <h1>Users</h1>
-
-      
+      <ul>
+        {users.map((user) => (
+          <li key={user.id}>
+            {user.firstName} {user.lastName}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

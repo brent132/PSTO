@@ -6,8 +6,11 @@ export const userListSelect = {
   middleName: true,
   lastName: true,
   suffix: true,
+  password: true,
 } satisfies Prisma.UserSelect;
 
 export type UserListItem = Prisma.UserGetPayload<{
   select: typeof userListSelect;
 }>;
+
+export type CreateUserInput = Omit<UserListItem, "id">;

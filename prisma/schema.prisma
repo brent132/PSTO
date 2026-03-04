@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "mysql"
 }
 
 model User {
@@ -17,4 +17,6 @@ model User {
   middleName String?
   suffix     String?
   password   String  // store a HASH, not plain text
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 }

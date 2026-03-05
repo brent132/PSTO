@@ -3,7 +3,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { CreateUserInput } from "@/lib/user";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 
 async function createUser(payload: CreateUserInput) {
   const res = await fetch("/api/signup", {
@@ -16,7 +18,7 @@ async function createUser(payload: CreateUserInput) {
 }
 
 export default function SignUp() {
-  const [message, setMessage] = useState("");
+  const [show, setShow] = useState(false);
   const qc = useQueryClient();
   const [form, setForm] = useState<CreateUserInput>({
     username: "",
@@ -38,10 +40,12 @@ export default function SignUp() {
         suffix: "",
         password: "",
       });
-      setMessage("Sign up successful");
+      toast.success(
+        <p className="text-success">Account created successfully</p>,
+      );
     },
     onError: () => {
-      setMessage("Failed to create account");
+      toast.error(<p className="text-destructive">Something went wrong</p>);
     },
   });
 
@@ -117,25 +121,31 @@ export default function SignUp() {
         </div>
         <div>
           <label className="text-sm text-muted-foreground">Password</label>
-          <Input
-            value={form.password}
-            onChange={(e) =>
-              setForm((p) => ({ ...p, password: e.target.value }))
-            }
-            id="input-field-password"
-            type="password"
-            placeholder="Enter your password"
-            minLength={6}
-            required
-          />
+          <div className="relative">
+            <Input
+              value={form.password}
+              onChange={(e) =>
+                setForm((p) => ({ ...p, password: e.target.value }))
+              }
+              id="input-field-password"
+              type={show ? "text" : "password"}
+              placeholder="Enter your password"
+              minLength={6}
+              required
+            />
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              onClick={() => setShow((s) => !s)}
+              className="absolute right-0 text-muted-foreground hover:bg-transparent"
+            >
+              {show ? <EyeOff /> : <Eye />}
+            </Button>
+          </div>
         </div>
       </div>
 
-      {message && (
-        <p className={mutation.isSuccess ? "text-success" : "text-destructive"}>
-          {message}
-        </p>
-      )}
       <Button type="submit" disabled={mutation.isPending} className="w-full">
         {mutation.isPending ? <p>Loading...</p> : <p>Sign Up</p>}
       </Button>

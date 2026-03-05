@@ -1,12 +1,16 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { LoginPayload, LoginResponse } from "@/lib/login";
+import { LoginPayload, LoginResponse } from "@/types/login";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import SignUp from "../signup/page";
 import { Input } from "@/components/ui/input";
+import { Eye, EyeOff } from "lucide-react";
+import fund_tracker_logo from "@/public/fund tracker 2.png";
+import Image from "next/image";
+import { toast } from "sonner";
 
 async function LoginRequest(payload: LoginPayload): Promise<LoginResponse> {
   const res = await fetch("/api/login", {
@@ -25,7 +29,7 @@ async function LoginRequest(payload: LoginPayload): Promise<LoginResponse> {
 }
 
 export default function LoginPage() {
-  const [message, setMessage] = useState("");
+  const [show, setShow] = useState(false);
   const router = useRouter();
   const [form, setForm] = useState<LoginPayload>({
     username: "",
@@ -37,15 +41,27 @@ export default function LoginPage() {
     onSuccess: () => {
       router.push("/");
       router.refresh();
-      setMessage("Logged in successful");
+      toast.success(
+        <p className="text-success">Logged in successfull, redirecting</p>,
+      );
     },
     onError: () => {
-      setMessage("Wrong Password or Username");
+      toast.error(
+        <p className="text-destructive">Incorrect Username or Password</p>,
+      );
     },
   });
 
   return (
-    <div className="max-w-xs h-screen mx-auto flex items-center justify-center">
+    <div className="max-w-xs h-screen mx-auto flex flex-col items-center justify-center gap-4">
+      <div className="w-25 h-auto aspect-square">
+        <Image
+          src={fund_tracker_logo}
+          alt="fund-tracker"
+          loading="eager"
+          sizes="fill"
+        />
+      </div>
       <Tabs defaultValue="Login" className="flex gap-8 items-center">
         <TabsList className="w-full">
           <TabsTrigger value="Login">Login</TabsTrigger>
@@ -59,18 +75,11 @@ export default function LoginPage() {
             }}
             className="flex flex-col gap-4"
           >
-            {message && (
-              <p
-                className={
-                  loginMutation.isSuccess ? "text-success" : "text-destructive"
-                }
-              >
-                {message}
-              </p>
-            )}
             <div className="flex flex-col gap-4">
               <div>
-                <label className="text-sm">Username</label>
+                <label className="text-sm text-muted-foreground">
+                  Username
+                </label>
                 <Input
                   value={form.username}
                   onChange={(e) =>
@@ -83,17 +92,31 @@ export default function LoginPage() {
                 />
               </div>
               <div>
-                <label className="text-sm">Password</label>
-                <Input
-                  value={form.password}
-                  onChange={(e) =>
-                    setForm((p) => ({ ...p, password: e.target.value }))
-                  }
-                  id="input-field-password"
-                  type="password"
-                  placeholder="Enter your password"
-                  required
-                />
+                <label className="text-sm text-muted-foreground">
+                  Password
+                </label>
+                <div className="relative">
+                  <Input
+                    value={form.password}
+                    onChange={(e) =>
+                      setForm((p) => ({ ...p, password: e.target.value }))
+                    }
+                    id="input-field-password"
+                    type={show ? "text" : "password"}
+                    placeholder="Enter your password"
+                    minLength={6}
+                    required
+                  />
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => setShow((s) => !s)}
+                    className="absolute right-0 text-muted-foreground hover:bg-transparent"
+                  >
+                    {show ? <EyeOff /> : <Eye />}
+                  </Button>
+                </div>
               </div>
             </div>
 

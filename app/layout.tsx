@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "next-themes";
 import Providers from "./providers";
 import AppShell from "./app-shell";
+import { Toaster } from "@/components/ui/sonner";
 
 const poppins = Poppins({
   weight: ["300", "400", "500", "600", "700", "800", "900"],
@@ -34,6 +35,7 @@ export default function RootLayout({
           >
             <TooltipProvider delayDuration={0}>
               <AppShell>{children}</AppShell>
+              <Toaster />
             </TooltipProvider>
           </ThemeProvider>
         </Providers>

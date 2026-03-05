@@ -10,13 +10,15 @@ import {
 import { ModeToggle } from "./mode-toggle";
 import { useTheme } from "next-themes";
 import React from "react";
+import { LogoutButton } from "./logout-btn";
+import { CurrentUser } from "@/app/(pages)/dashboard/me";
 
 export const Footer = () => {
-    const { resolvedTheme, setTheme } = useTheme()
+  const { resolvedTheme, setTheme } = useTheme();
 
   const toggleTheme = React.useCallback(() => {
-    setTheme(resolvedTheme === "dark" ? "light" : "dark")
-  }, [resolvedTheme, setTheme])
+    setTheme(resolvedTheme === "dark" ? "light" : "dark");
+  }, [resolvedTheme, setTheme]);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -27,8 +29,7 @@ export const Footer = () => {
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
             <div>
-              <h1 className="font-bold text-sm">John Doe</h1>
-              <p className="text-xs font-medium text-muted-foreground">John_Doe@gmail.com</p>
+              <CurrentUser />
             </div>
           </div>
           <ChevronsUpDown
@@ -41,7 +42,10 @@ export const Footer = () => {
       <DropdownMenuContent>
         <DropdownMenuGroup>
           <DropdownMenuItem onClick={toggleTheme}>
-            Toggle Theme <ModeToggle/>
+            Toggle Theme <ModeToggle />
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <LogoutButton />
           </DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>

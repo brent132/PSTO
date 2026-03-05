@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import {
   Sidebar,
   SidebarContent,
@@ -44,7 +44,7 @@ export function AppSidebar() {
           </div>
           <div>
             <h1 className="font-bold text-sm">FUND TRACKER</h1>
-            <p className="text-xs font-medium truncate max-w-40 text-muted-foreground">
+            <p className="text-xs font-medium truncate max-w-50 text-muted-foreground">
               Provincial Science and Technology Offices
             </p>
           </div>
@@ -59,7 +59,10 @@ export function AppSidebar() {
               (item.href !== "/" && pathname.startsWith(item.href + "/"));
             return (
               <SidebarMenuItem key={index}>
-                <SidebarMenuButton asChild className={`${isActive ? "bg-muted" : "text-muted-foreground"}`}>
+                <SidebarMenuButton
+                  asChild
+                  className={`${isActive ? "bg-muted" : "text-muted-foreground"}`}
+                >
                   <Link href={item.href} className="font-medium">
                     {item.icon}
                     {item.name}

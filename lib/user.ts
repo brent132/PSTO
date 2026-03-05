@@ -10,6 +10,15 @@ export const userListSelect = {
   password: true,
 } satisfies Prisma.UserSelect;
 
+export const userListSelectNoPass = {
+  id: true,
+  username: true,
+  firstName: true,
+  middleName: true,
+  lastName: true,
+  suffix: true,
+} satisfies Prisma.UserSelect;
+
 export type UserListItem = Prisma.UserGetPayload<{
   select: typeof userListSelect;
 }>;

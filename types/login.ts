@@ -4,6 +4,6 @@ export type LoginPayload = {
 };
 
 export type LoginResponse = {
-    ok: boolean;
-    message?: string;
-}; 
+  ok: boolean;
+  message?: string;
+};

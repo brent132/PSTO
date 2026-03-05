@@ -5,20 +5,14 @@ import {
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { ModeToggle } from "./mode-toggle";
-import { useTheme } from "next-themes";
-import React from "react";
 import { LogoutButton } from "./logout-btn";
 import { CurrentUser } from "@/app/(pages)/dashboard/me";
 
 export const Footer = () => {
-  const { resolvedTheme, setTheme } = useTheme();
-
-  const toggleTheme = React.useCallback(() => {
-    setTheme(resolvedTheme === "dark" ? "light" : "dark");
-  }, [resolvedTheme, setTheme]);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -39,11 +33,14 @@ export const Footer = () => {
           />
         </div>
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
+      <DropdownMenuContent className="w-50" align="end">
         <DropdownMenuGroup>
-          <DropdownMenuItem onClick={toggleTheme}>
-            Toggle Theme <ModeToggle />
+          <DropdownMenuItem>
+            <ModeToggle />
           </DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
           <DropdownMenuItem>
             <LogoutButton />
           </DropdownMenuItem>

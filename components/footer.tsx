@@ -10,7 +10,7 @@ import {
 } from "./ui/dropdown-menu";
 import { ModeToggle } from "./mode-toggle";
 import { LogoutButton } from "./logout-btn";
-import { CurrentUser } from "@/app/(pages)/dashboard/me";
+import { CurrentUser } from "@/components/me";
 
 export const Footer = () => {
   return (

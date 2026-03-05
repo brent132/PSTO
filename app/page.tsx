@@ -1,3 +1,7 @@
 export default function HOME() {
-  return <div>this a dashboard</div>;
+  return (
+    <div>
+      <h1>Financial Health Dashboard</h1>
+    </div>
+  );
 }

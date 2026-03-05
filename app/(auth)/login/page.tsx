@@ -41,9 +41,7 @@ export default function LoginPage() {
     onSuccess: () => {
       router.push("/");
       router.refresh();
-      toast.success(
-        <p className="text-success">Logged in successfull, redirecting</p>,
-      );
+      toast.success(<p className="text-success">Logged in successfull</p>);
     },
     onError: () => {
       toast.error(

@@ -2,7 +2,7 @@
 
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { Ghost, LogOut } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { Button } from "./ui/button";
 
 async function logoutRequest() {

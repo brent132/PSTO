@@ -27,12 +27,10 @@ export function LogoutButton() {
   return (
     <div
       onClick={() => logoutMutation.mutate()}
-      className="text-xs text-destructive flex items-center justify-between w-full"
+      className="text-xs text-destructive flex items-center gap-2 w-full"
     >
+      <LogOut className="text-destructive" />
       {logoutMutation.isPending ? "Logging out..." : "Logout"}
-      <Button variant="ghost" size="icon-sm">
-        <LogOut className="text-destructive" />
-      </Button>
     </div>
   );
 }

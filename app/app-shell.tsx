@@ -18,7 +18,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       <AppSidebar />
       <main className="w-full">
         <Header />
-        <div className="max-w-7xl mx-auto">{children}</div>
+        <div className="max-w-7xl mx-auto py-4">{children}</div>
       </main>
     </SidebarProvider>
   );

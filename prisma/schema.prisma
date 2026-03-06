@@ -17,6 +17,8 @@ model User {
   middleName String?
   suffix     String?
   password   String  // store a HASH, not plain text
+  profileImage     Bytes?
+  profileImageMime String?
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }

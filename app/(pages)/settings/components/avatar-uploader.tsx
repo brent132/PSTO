@@ -1,5 +1,3 @@
-"use client";
-
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { Button } from "../../../../components/ui/button";
@@ -29,7 +27,11 @@ async function uploadAvatar(file: File) {
   return data;
 }
 
-export function AvatarUploader() {
+type AvatarUploaderProps = {
+  onClose: () => void;
+};
+
+export function AvatarUploader({ onClose }: AvatarUploaderProps) {
   const qc = useQueryClient();
   const inputRef = useRef<HTMLInputElement | null>(null);
   const objecturlRef = useRef<string | null>(null);
@@ -45,6 +47,7 @@ export function AvatarUploader() {
       toast(<p>Avatar uploaded successfully</p>);
       setFile(null);
       setPreviewUrl(null);
+      onClose();
     },
     onError: () => {
       toast(<p>Upload Failed</p>);

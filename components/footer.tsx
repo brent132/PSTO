@@ -12,9 +12,16 @@ import { ModeToggle } from "./mode-toggle";
 import { LogoutButton } from "./logout-btn";
 import { CurrentUser } from "@/components/me";
 import { useRouter } from "next/navigation";
+import { useSidebar } from "./ui/sidebar";
+import { HandleItemClick } from "@/hooks/handle-item-click";
+
+const DropItems1 = [
+  { name: "Settings", icon: <Settings />, href: "/settings" },
+];
 
 export const Footer = () => {
   const route = useRouter();
+  const { isMobile, setOpenMobile } = useSidebar();
 
   return (
     <DropdownMenu>
@@ -42,17 +49,18 @@ export const Footer = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-50" align="end">
         <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <button
-              className="flex items-center gap-2 w-full text-xs"
+          {DropItems1.map((DropItem) => (
+            <DropdownMenuItem
+              key={DropItem.name}
               onClick={() => {
-                route.push("/settings");
+                route.push(DropItem.href);
+                HandleItemClick(isMobile, setOpenMobile);
               }}
             >
-              <Settings />
-              <p>Settings</p>
-            </button>
-          </DropdownMenuItem>
+              {DropItem.icon}
+              <p className="text-xs">{DropItem.name}</p>
+            </DropdownMenuItem>
+          ))}
           <DropdownMenuItem>
             <ModeToggle />
           </DropdownMenuItem>

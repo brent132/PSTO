@@ -8,6 +8,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import LOGO from "@/public/LOGO.png";
 import Image from "next/image";
@@ -19,9 +20,9 @@ import {
   FileText,
   Layers,
   LayoutDashboard,
-  Settings,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
+import { HandleItemClick } from "@/hooks/handle-item-click";
 
 const Items = [
   { name: "Dashboard", icon: <LayoutDashboard />, href: "/" },
@@ -29,10 +30,10 @@ const Items = [
   { name: "Projects", icon: <Layers />, href: "/projects" },
   { name: "Reports", icon: <FileText />, href: "/Reports" },
   { name: "Notifications", icon: <Bell />, href: "/Notifications" },
-  { name: "Settings", icon: <Settings />, href: "/Settings" },
 ];
 
 export function AppSidebar() {
+  const { isMobile, setOpenMobile } = useSidebar();
   const pathname = usePathname();
 
   return (
@@ -63,7 +64,11 @@ export function AppSidebar() {
                   asChild
                   className={`${isActive ? "bg-muted" : "text-muted-foreground"}`}
                 >
-                  <Link href={item.href} className="font-medium">
+                  <Link
+                    href={item.href}
+                    className="font-medium"
+                    onClick={() => HandleItemClick(isMobile, setOpenMobile)}
+                  >
                     {item.icon}
                     {item.name}
                   </Link>

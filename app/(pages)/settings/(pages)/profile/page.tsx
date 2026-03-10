@@ -11,8 +11,10 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { Pen } from "lucide-react";
 import { AvatarUploader } from "../../components/avatar-uploader";
+import { useState } from "react";
 
 export default function ProfilePage() {
+  const [open, setOpen] = useState(false);
   const { data } = useQuery({
     queryKey: ["me"],
     queryFn: fetchMe,
@@ -29,7 +31,7 @@ export default function ProfilePage() {
               className="object-contain"
             />
           </Avatar>
-          <Dialog>
+          <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger className="absolute bottom-0 right-0" asChild>
               <Button variant="outline" size="icon">
                 <Pen />
@@ -37,7 +39,7 @@ export default function ProfilePage() {
             </DialogTrigger>
             <DialogContent>
               <DialogTitle>Upload profile picture</DialogTitle>
-              <AvatarUploader />
+              <AvatarUploader onClose={() => setOpen(false)} />
             </DialogContent>
           </Dialog>
         </div>

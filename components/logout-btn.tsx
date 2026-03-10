@@ -3,7 +3,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { LogOut } from "lucide-react";
-import { Button } from "./ui/button";
 
 async function logoutRequest() {
   const res = await fetch("/api/logout", {

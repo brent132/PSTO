@@ -22,7 +22,11 @@ export const Footer = () => {
         <div className="flex justify-between items-center bg-muted p-2 rounded-sm">
           <div className="flex gap-2 items-center">
             <Avatar>
-              <AvatarImage src="/LOGO.png" alt="profile" />
+              <AvatarImage
+                src="/api/me/get-avatar"
+                alt="profile"
+                className="object-cover"
+              />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
             <div>
@@ -43,7 +47,6 @@ export const Footer = () => {
               className="flex items-center gap-2 w-full text-xs"
               onClick={() => {
                 route.push("/settings");
-                route.refresh();
               }}
             >
               <Settings />

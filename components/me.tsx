@@ -1,7 +1,7 @@
 import { Me } from "@/types/me";
 import { useQuery } from "@tanstack/react-query";
 
-async function fetchMe(): Promise<Me> {
+export async function fetchMe(): Promise<Me> {
   const res = await fetch("/api/me", {
     method: "GET",
     credentials: "include",

@@ -22,3 +22,41 @@ model User {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }
+
+model Categories {
+  id            Int      @id @default(autoincrement())
+  category_name String
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+}
+
+model Projects {
+  id           Int      @id @default(autoincrement())
+  project_code String
+  project_name String
+  fiscal_year  String
+  budget       Float
+  start_date   DateTime
+  end_date     DateTime
+  status       String
+  description  String
+  manager_name String
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
+}
+
+model Transactions {
+  id               Int      @id @default(autoincrement())
+  transaction_date DateTime
+  project_code     String
+  category_id      Int
+  voucher_no       String
+  particulars      String
+  amount           Float
+  status           String
+  transaction_type String
+  created_by       String
+  created_at       DateTime @default(now())
+  fiscal_year      String
+  updated_at       DateTime @updatedAt
+}

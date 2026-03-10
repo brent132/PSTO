@@ -181,7 +181,7 @@
     }
 
     body {
-        @apply bg-background text-foreground list-none;
+        @apply bg-muted text-foreground list-none;
     }
 
     /* Nice “logo-blue” selection highlight */

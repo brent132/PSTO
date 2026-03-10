@@ -6,6 +6,7 @@ import { Button } from "../../../../components/ui/button";
 import { useRef, useState } from "react";
 import Image from "next/image";
 import { ImageDown } from "lucide-react";
+import { DialogClose, DialogFooter } from "@/components/ui/dialog";
 
 async function uploadAvatar(file: File) {
   // make form data
@@ -120,7 +121,7 @@ export function AvatarUploader() {
             const dropped = e.dataTransfer.files?.[0] ?? null;
             handleFile(dropped);
           }}
-          className={`border-2 rounded-lg overflow-hidden border-muted-foreground ${isdragging ? "border border-primary" : ""}`}
+          className={`border-2 rounded-full overflow-hidden border-muted-foreground ${isdragging ? "border border-primary" : ""}`}
         >
           {previewUrl ? (
             <div className="w-30 h-30 aspect-square flex items-center justify-center relative self-center">
@@ -134,14 +135,27 @@ export function AvatarUploader() {
           ) : (
             <div className="w-30 h-30 flex flex-col items-center justify-center text-center gap-2">
               <ImageDown className="text-muted-foreground" />
-              <p className="text-xs">Click or Drag</p>
+              <p className="text-xs text-muted-foreground font-medium">
+                Maximum (2mb)
+              </p>
             </div>
           )}
         </div>
       </div>
-      <Button type="submit" disabled={mutation.isPending} className="w-fit">
-        {mutation.isPending ? "Saving..." : "Save Avatar"}
-      </Button>
+      <DialogFooter className="w-full">
+        <div className="flex justify-between">
+          <DialogClose asChild>
+            <Button variant="outline">Cancel</Button>
+          </DialogClose>
+          <Button
+            type="submit"
+            disabled={mutation.isPending}
+            className="w-fit cursor-pointer"
+          >
+            {mutation.isPending ? "Saving..." : "Save Avatar"}
+          </Button>
+        </div>
+      </DialogFooter>
     </form>
   );
 }

@@ -24,7 +24,7 @@ import {
 import { usePathname } from "next/navigation";
 import { HandleItemClick } from "@/hooks/handle-item-click";
 
-const Items = [
+export const SideItems = [
   { name: "Dashboard", icon: <LayoutDashboard />, href: "/" },
   { name: "Transaction", icon: <ArrowLeftRight />, href: "/Transaction" },
   { name: "Projects", icon: <Layers />, href: "/projects" },
@@ -54,7 +54,7 @@ export function AppSidebar() {
       <SidebarContent className="p-4">
         <SidebarGroupLabel>Menu</SidebarGroupLabel>
         <SidebarMenu>
-          {Items.map((item, index) => {
+          {SideItems.map((item, index) => {
             const isActive =
               pathname === item.href ||
               (item.href !== "/" && pathname.startsWith(item.href + "/"));

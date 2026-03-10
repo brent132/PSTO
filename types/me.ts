@@ -7,6 +7,7 @@ export type Me =
         lastName: string;
         middleName: string;
         suffix: string;
+        role: string;
       };
     }
   | { ok: false; me: null };

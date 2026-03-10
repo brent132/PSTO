@@ -34,7 +34,7 @@ export const Footer = () => {
                 alt="profile"
                 className="object-cover"
               />
-              <AvatarFallback>CN</AvatarFallback>
+              <AvatarFallback>DT</AvatarFallback>
             </Avatar>
             <div>
               <CurrentUser />

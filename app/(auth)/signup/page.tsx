@@ -10,9 +10,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { AdminExistsProps } from "@/types/admin-exists";
 import { SignUpProps } from "@/types/signup";
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -25,6 +26,12 @@ async function createUser(payload: SignUpProps) {
   });
   if (!res.ok) throw new Error("Failed Creating Account");
   return res.json();
+}
+
+async function checkAdminExists() {
+  const res = await fetch("/api/admin-exists");
+  if (!res.ok) throw new Error("Failed to check admin");
+  return res.json() as Promise<AdminExistsProps>;
 }
 
 export default function SignUp() {
@@ -41,8 +48,11 @@ export default function SignUp() {
   });
   const mutation = useMutation({
     mutationFn: createUser,
-    onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ["users"] });
+    onSuccess: async () => {
+      await Promise.all([
+        qc.invalidateQueries({ queryKey: ["users"] }),
+        qc.invalidateQueries({ queryKey: ["admin-exists"] }),
+      ]);
       setForm({
         username: "",
         firstName: "",
@@ -60,6 +70,13 @@ export default function SignUp() {
       toast.error(<p className="text-destructive">Something went wrong</p>);
     },
   });
+
+  const { data: admin } = useQuery({
+    queryKey: ["admin-exists"],
+    queryFn: checkAdminExists,
+  });
+
+  const adminExists = admin?.adminExists ?? false;
 
   return (
     <form
@@ -146,7 +163,7 @@ export default function SignUp() {
               <SelectGroup>
                 <SelectLabel>Roles</SelectLabel>
                 <SelectItem value="USER">User</SelectItem>
-                <SelectItem value="ADMIN">Admin</SelectItem>
+                {!adminExists && <SelectItem value="ADMIN">Admin</SelectItem>}
               </SelectGroup>
             </SelectContent>
           </Select>

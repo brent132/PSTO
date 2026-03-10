@@ -8,6 +8,7 @@ export type Me =
         middleName: string;
         suffix: string;
         role: string;
+        updated_at: string;
       };
     }
   | { ok: false; me: null };

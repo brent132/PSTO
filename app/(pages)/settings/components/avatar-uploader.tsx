@@ -41,9 +41,9 @@ export function AvatarUploader({ onClose }: AvatarUploaderProps) {
 
   const mutation = useMutation({
     mutationFn: uploadAvatar,
-    onSuccess: () => {
+    onSuccess: async () => {
       // refetch current user data if you have a "me" query
-      qc.invalidateQueries({ queryKey: ["me"] });
+      await qc.invalidateQueries({ queryKey: ["me"] });
       toast(<p>Avatar uploaded successfully</p>);
       setFile(null);
       setPreviewUrl(null);

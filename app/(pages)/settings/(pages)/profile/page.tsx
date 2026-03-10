@@ -20,13 +20,18 @@ export default function ProfilePage() {
     queryFn: fetchMe,
   });
 
+  const avatarSrc = data?.me?.updated_at
+    ? `/api/me/get-avatar?v=${encodeURIComponent(data.me.updated_at)}`
+    : "/api/me/get-avatar";
+
   return (
     <div>
       <div className="flex flex-col text-center items-center gap-4">
         <div className="relative">
           <Avatar className="bg-primary/20 w-50 h-50 relative">
             <AvatarImage
-              src="/api/me/get-avatar"
+              key={avatarSrc}
+              src={avatarSrc}
               alt="Profile Picture"
               className="object-contain"
             />

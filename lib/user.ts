@@ -9,6 +9,7 @@ export const userListSelect = {
   suffix: true,
   role: true,
   password: true,
+  updated_at: true,
 } satisfies Prisma.UserSelect;
 
 export const userListSelectNoPass = {
@@ -19,6 +20,7 @@ export const userListSelectNoPass = {
   lastName: true,
   suffix: true,
   role: true,
+  updated_at: true,
 } satisfies Prisma.UserSelect;
 
 export type UserListItem = Prisma.UserGetPayload<{

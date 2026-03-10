@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { LoginPayload, LoginResponse } from "@/types/login";
+import { LoginProps, LoginResponse } from "@/types/login";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -12,7 +12,7 @@ import fund_tracker_logo from "@/public/fund tracker 2.png";
 import Image from "next/image";
 import { toast } from "sonner";
 
-async function LoginRequest(payload: LoginPayload): Promise<LoginResponse> {
+async function LoginRequest(payload: LoginProps): Promise<LoginResponse> {
   const res = await fetch("/api/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -31,7 +31,7 @@ async function LoginRequest(payload: LoginPayload): Promise<LoginResponse> {
 export default function LoginPage() {
   const [show, setShow] = useState(false);
   const router = useRouter();
-  const [form, setForm] = useState<LoginPayload>({
+  const [form, setForm] = useState<LoginProps>({
     username: "",
     password: "",
   });
@@ -61,7 +61,7 @@ export default function LoginPage() {
         />
       </div>
       <Tabs defaultValue="Login" className="flex gap-8 items-center">
-        <TabsList className="w-full">
+        <TabsList className="w-full border">
           <TabsTrigger value="Login">Login</TabsTrigger>
           <TabsTrigger value="Signup">Signup</TabsTrigger>
         </TabsList>

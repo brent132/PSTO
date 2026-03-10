@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { userListSelect } from "@/lib/user";
 import bcrypt from "bcryptjs";
+import { Role } from "@prisma/client";
 
 //Insert users to database
 export async function POST(req: Request) {
@@ -18,6 +19,10 @@ export async function POST(req: Request) {
         suffix: body.suffix ?? null,
         middleName: body.middleName ?? null,
         password: passwordHash,
+        role:
+          body.role === Role.ADMIN || body.role === Role.USER
+            ? body.role
+            : Role.USER,
       },
       select: userListSelect,
     });

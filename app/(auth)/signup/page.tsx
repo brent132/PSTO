@@ -1,13 +1,23 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { CreateUserInput } from "@/lib/user";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { SignUpProps } from "@/types/signup";
+
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
-async function createUser(payload: CreateUserInput) {
+async function createUser(payload: SignUpProps) {
   const res = await fetch("/api/signup", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -20,13 +30,14 @@ async function createUser(payload: CreateUserInput) {
 export default function SignUp() {
   const [show, setShow] = useState(false);
   const qc = useQueryClient();
-  const [form, setForm] = useState<CreateUserInput>({
+  const [form, setForm] = useState<SignUpProps>({
     username: "",
     firstName: "",
     middleName: "",
     lastName: "",
     suffix: "",
     password: "",
+    role: "USER",
   });
   const mutation = useMutation({
     mutationFn: createUser,
@@ -39,6 +50,7 @@ export default function SignUp() {
         lastName: "",
         suffix: "",
         password: "",
+        role: "USER",
       });
       toast.success(
         <p className="text-success">Account created successfully</p>,
@@ -118,6 +130,26 @@ export default function SignUp() {
             type="text"
             placeholder="Enter your suffix"
           />
+        </div>
+        <div>
+          <label className="text-sm text-muted-foreground">Pick Role</label>
+          <Select
+            value={form.role}
+            onValueChange={(value: "USER" | "ADMIN") =>
+              setForm((prev) => ({ ...prev, role: value }))
+            }
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select a role" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Roles</SelectLabel>
+                <SelectItem value="USER">User</SelectItem>
+                <SelectItem value="ADMIN">Admin</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
         </div>
         <div>
           <label className="text-sm text-muted-foreground">Password</label>

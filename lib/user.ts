@@ -7,6 +7,7 @@ export const userListSelect = {
   middleName: true,
   lastName: true,
   suffix: true,
+  role: true,
   password: true,
 } satisfies Prisma.UserSelect;
 
@@ -17,6 +18,7 @@ export const userListSelectNoPass = {
   middleName: true,
   lastName: true,
   suffix: true,
+  role: true,
 } satisfies Prisma.UserSelect;
 
 export type UserListItem = Prisma.UserGetPayload<{

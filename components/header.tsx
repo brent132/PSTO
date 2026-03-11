@@ -12,7 +12,9 @@ export const Header = () => {
   return (
     <div className="bg-background h-12 flex items-center px-4 shadow justify-between">
       <SidebarTrigger variant="ghost" />{" "}
-      <Badge className="text-brand-foreground">{data?.me?.role}</Badge>
+      <Badge className="text-primary font-bold" variant="ghost">
+        {data?.me?.role}
+      </Badge>
     </div>
   );
 };

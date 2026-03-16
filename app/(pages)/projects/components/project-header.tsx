@@ -1,0 +1,19 @@
+"use client";
+import { useStickyActive } from "@/hooks/use-sticky-active";
+import { AddNewProject } from "./add-new-project";
+
+export function ProjectHeader() {
+  const { ref, isStickyActive } = useStickyActive<HTMLDivElement>();
+
+  return (
+    <div
+      ref={ref}
+      className={`sticky top-0 z-10 flex items-center justify-between px-4 py-2 transition-colors duration-100 ${
+        isStickyActive ? "bg-background shadow-sm" : "bg-transparent"
+      }`}
+    >
+      <h1 className="text-2xl font-bold">Projects</h1>
+      <AddNewProject />
+    </div>
+  );
+}

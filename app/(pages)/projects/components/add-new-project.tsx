@@ -26,6 +26,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { formatMoneyOnBlur, formatWithCommas } from "@/hooks/number-format";
 import { ProjectForm } from "@/types/projects";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { formatDate } from "date-fns";
@@ -45,6 +46,7 @@ async function createProject(payload: ProjectForm) {
 
 export function AddNewProject() {
   const qc = useQueryClient();
+  const [open, setOpen] = useState(false);
   const [startDate, setStartDate] = React.useState<Date>();
   const [endDate, setEndDate] = React.useState<Date>();
   const [form, setForm] = useState<ProjectForm>({
@@ -80,6 +82,7 @@ export function AddNewProject() {
       toast.success(
         <p className="text-success">Project created succesfully</p>,
       );
+      setOpen(false);
     },
     onError: () => {
       toast.error(<p className="text-destructive">Something went wrong</p>);
@@ -87,14 +90,14 @@ export function AddNewProject() {
   });
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button className="text-xs">
           <Plus />
           Create project
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-md">
+      <DialogContent className="max-w-sm">
         <DialogHeader>
           <DialogTitle>Create a new Project</DialogTitle>
           <DialogDescription className="text-xs">
@@ -143,13 +146,27 @@ export function AddNewProject() {
               </label>
               <Input
                 value={form.budget}
-                onChange={(e) =>
+                type="text"
+                inputMode="decimal"
+                onChange={(e) => {
+                  const raw = e.target.value.replace(/,/g, "");
+
+                  // allow only numbers and one decimal point
+                  if (/^\d*\.?\d{0,2}$/.test(raw)) {
+                    setForm((p) => ({
+                      ...p,
+                      budget: formatWithCommas(raw),
+                    }));
+                  }
+                }}
+                onBlur={() => {
+                  if (form.budget === "") return;
+
                   setForm((p) => ({
                     ...p,
-                    budget: e.target.value === "" ? "" : Number(e.target.value),
-                  }))
-                }
-                type="number"
+                    budget: formatMoneyOnBlur(p.budget),
+                  }));
+                }}
                 required
               />
             </div>

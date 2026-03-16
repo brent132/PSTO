@@ -4,20 +4,20 @@ export type ProjectProps = {
   project_name: string;
   fiscal_year: string;
   budget: number;
-  start_date: Date;
-  end_date: Date;
+  start_date: string;
+  end_date: string;
   status: string;
   description: string;
   manager_name: string;
-  created_at: Date;
-  updated_at: Date;
+  created_at: string;
+  updated_at: string;
 };
 
 export type ProjectForm = {
   project_code: string;
   project_name: string;
   fiscal_year: string;
-  budget: number | "";
+  budget: string;
   start_date: string;
   end_date: string;
   status: string;

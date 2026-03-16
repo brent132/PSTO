@@ -11,4 +11,6 @@ export const projectListSelect = {
   status: true,
   description: true,
   manager_name: true,
+  created_at: true,
+  updated_at: true,
 } satisfies Prisma.ProjectsSelect;

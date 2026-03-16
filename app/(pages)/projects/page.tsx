@@ -1,12 +1,11 @@
-import { AddNewProject } from "./components/add-new-project";
+import { ProjectHeader } from "./components/project-header";
+import { ProjectsList } from "./components/projects-list";
 
 export default function ProjectsPage() {
   return (
-    <div>
-      <div className="flex justify-between">
-        <h1 className="text-2xl font-bold">Projects</h1>
-        <AddNewProject />
-      </div>
+    <div className="flex flex-col">
+      <ProjectHeader />
+      <ProjectsList />
     </div>
   );
 }

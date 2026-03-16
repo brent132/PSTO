@@ -29,13 +29,6 @@ model User {
   updated_at DateTime @updatedAt
 }
 
-model Categories {
-  id            Int      @id @default(autoincrement())
-  category_name String
-  created_at    DateTime @default(now())
-  updated_at    DateTime @updatedAt
-}
-
 model Projects {
   id           Int      @id @default(autoincrement())
   project_code String
@@ -51,8 +44,17 @@ model Projects {
   updated_at   DateTime @updatedAt
 }
 
+model Categories {
+  id            Int            @id @default(autoincrement())
+  category_name String
+  created_at    DateTime       @default(now())
+  updated_at    DateTime       @updatedAt
+
+  transactions  Transactions[]
+}
+
 model Transactions {
-  id               Int      @id @default(autoincrement())
+  id               Int         @id @default(autoincrement())
   transaction_date DateTime
   project_code     String
   category_id      Int
@@ -62,7 +64,9 @@ model Transactions {
   status           String
   transaction_type String
   created_by       String
-  created_at       DateTime @default(now())
+  created_at       DateTime    @default(now())
   fiscal_year      String
-  updated_at       DateTime @updatedAt
+  updated_at       DateTime    @updatedAt
+
+category Categories @relation(fields: [category_id], references: [id], onDelete: Restrict, onUpdate: Cascade)
 }

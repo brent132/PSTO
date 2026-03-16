@@ -5,13 +5,14 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
   try {
     const body = await req.json();
+    const cleanBudget = Number(String(body.budget).replace(/,/g, ""));
 
     const project = await prisma.projects.create({
       data: {
         project_code: body.project_code,
         project_name: body.project_name,
         fiscal_year: body.fiscal_year,
-        budget: body.budget,
+        budget: cleanBudget,
         start_date: body.start_date,
         end_date: body.end_date,
         status: body.status,
@@ -20,6 +21,13 @@ export async function POST(req: Request) {
       },
       select: projectListSelect,
     });
+
+    if (Number.isNaN(cleanBudget)) {
+      return NextResponse.json(
+        { message: "Invalid budget value" },
+        { status: 400 },
+      );
+    }
 
     return NextResponse.json(project, { status: 201 });
   } catch (error) {

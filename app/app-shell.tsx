@@ -20,7 +20,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       <main className="w-full">
         <Header />
         <BreadCrumbHeader />
-        <div className="max-w-7xl mx-auto p-4">{children}</div>
+        <div className="max-w-7xl mx-auto">{children}</div>
       </main>
     </SidebarProvider>
   );

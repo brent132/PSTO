@@ -143,7 +143,7 @@ export function ProjectDialogForm({
         >
           <div className="flex flex-col gap-2">
             <div>
-              <label className="text-xs text-muted-foreground">
+              <label className="text-xs font-medium text-muted-foreground">
                 Project Name
               </label>
               <Input
@@ -152,12 +152,13 @@ export function ProjectDialogForm({
                   setForm((p) => ({ ...p, project_name: e.target.value }))
                 }
                 type="text"
+                className="text-sm"
                 required
               />
             </div>
 
             <div>
-              <label className="text-xs text-muted-foreground">
+              <label className="text-xs font-medium text-muted-foreground">
                 Project Code
               </label>
               <Input
@@ -170,17 +171,18 @@ export function ProjectDialogForm({
                 }
                 type="text"
                 required
-                className="uppercase"
+                className="uppercase text-sm"
               />
             </div>
 
             <div>
-              <label className="text-xs text-muted-foreground">
+              <label className="text-xs font-medium text-muted-foreground">
                 Allocated Budget
               </label>
               <Input
                 value={form.budget}
                 type="text"
+                className="text-sm"
                 inputMode="decimal"
                 onChange={(e) => {
                   const raw = e.target.value.replace(/,/g, "");
@@ -206,7 +208,7 @@ export function ProjectDialogForm({
 
             <div className="grid grid-cols-2 gap-2">
               <div className="flex flex-col">
-                <label className="text-xs text-muted-foreground">
+                <label className="text-xs font-medium text-muted-foreground">
                   Start Date
                 </label>
                 <Popover>
@@ -242,7 +244,7 @@ export function ProjectDialogForm({
               </div>
 
               <div className="flex flex-col">
-                <label className="text-xs text-muted-foreground">
+                <label className="text-xs font-medium text-muted-foreground">
                   End Date
                 </label>
                 <Popover>
@@ -280,7 +282,7 @@ export function ProjectDialogForm({
 
             <div className="grid grid-cols-2 gap-2">
               <div>
-                <label className="text-xs text-muted-foreground">
+                <label className="text-xs font-medium text-muted-foreground">
                   Fiscal Year
                 </label>
                 <Input
@@ -292,13 +294,15 @@ export function ProjectDialogForm({
                     }))
                   }
                   type="text"
-                  className="uppercase"
+                  className="uppercase text-sm"
                   required
                 />
               </div>
 
               <div>
-                <label className="text-xs text-muted-foreground">Status</label>
+                <label className="text-xs font-medium text-muted-foreground">
+                  Status
+                </label>
                 <Select
                   value={form.status}
                   onValueChange={(value) =>
@@ -322,19 +326,22 @@ export function ProjectDialogForm({
             </div>
 
             <div>
-              <label className="text-xs text-muted-foreground">Manager</label>
+              <label className="text-xs font-medium text-muted-foreground">
+                Manager
+              </label>
               <Input
                 value={form.manager_name}
                 onChange={(e) =>
                   setForm((p) => ({ ...p, manager_name: e.target.value }))
                 }
                 type="text"
+                className="text-sm"
                 required
               />
             </div>
 
             <div>
-              <label className="text-xs text-muted-foreground">
+              <label className="text-xs font-medium text-muted-foreground">
                 Description
               </label>
               <Textarea
@@ -344,7 +351,7 @@ export function ProjectDialogForm({
                 }
                 rows={4}
                 required
-                className="max-h-40"
+                className="max-h-40 text-sm"
                 style={{ scrollbarWidth: "none" }}
               />
             </div>
@@ -353,12 +360,16 @@ export function ProjectDialogForm({
           <DialogFooter>
             <div className="flex w-full justify-between">
               <DialogClose asChild>
-                <Button type="button" variant="outline">
+                <Button type="button" variant="outline" className="text-xs">
                   Cancel
                 </Button>
               </DialogClose>
 
-              <Button type="submit" disabled={mutation.isPending}>
+              <Button
+                type="submit"
+                disabled={mutation.isPending}
+                className="text-xs"
+              >
                 {mutation.isPending
                   ? mode === "create"
                     ? "Creating..."

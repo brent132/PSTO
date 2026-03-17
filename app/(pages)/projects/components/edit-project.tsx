@@ -10,8 +10,8 @@ export function EditProject({ project }: EditProjectProps) {
       mode="edit"
       project={project}
       trigger={
-        <Button variant="outline" size="icon">
-          <SquarePen />
+        <Button variant="ghost" className="flex justify-between text-xs">
+          <h1>Edit project</h1> <SquarePen />
         </Button>
       }
     />

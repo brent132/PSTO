@@ -34,3 +34,7 @@ export type ProjectDialogFormProps = {
 export type EditProjectProps = {
   project: ProjectProps;
 };
+
+export type DeleteProjectDialogProps = {
+  projectId: number;
+};

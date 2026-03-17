@@ -9,11 +9,21 @@ import {
   Calendar1,
   CalendarRange,
   Clock,
+  EllipsisVertical,
   HandCoins,
   MoveRight,
   User,
 } from "lucide-react";
 import { EditProject } from "./edit-project";
+import { DeleteProjectDialog } from "./delete-project-dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
 
 async function fetchProjects(): Promise<ProjectProps[]> {
   const res = await fetch("/api/projects/get-project");
@@ -42,7 +52,21 @@ export function ProjectsList() {
                 <Badge className="text-xs bg-success/20 text-success">
                   {project.status}
                 </Badge>
-                <EditProject project={project} />
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="icon-sm">
+                      <EllipsisVertical />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-40" align="end">
+                    <DropdownMenuGroup>
+                      <div className="flex flex-col">
+                        <EditProject project={project} />
+                        <DeleteProjectDialog projectId={project.id} />
+                      </div>
+                    </DropdownMenuGroup>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
             </div>
             <p className="uppercase text-xs font-medium text-muted-foreground">
@@ -117,7 +141,7 @@ export function ProjectsList() {
             </p>
           </div>
 
-          <div className="text-muted-foreground text-xs flex text-center gap-2">
+          <div className="text-muted-foreground text-xs flex gap-2 justify-center">
             <Clock width={16} height={16} />
             <p>{formatDateTime(project.created_at)}</p>
           </div>

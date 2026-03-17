@@ -12,7 +12,7 @@ export function ProjectHeader() {
         isStickyActive ? "bg-background shadow-sm" : "bg-transparent"
       }`}
     >
-      <h1 className="text-2xl font-bold">Projects</h1>
+      <h1 className="text-xl font-bold">Projects</h1>
       <AddProject />
     </div>
   );

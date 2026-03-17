@@ -1,6 +1,6 @@
 "use client";
 import { useStickyActive } from "@/hooks/use-sticky-active";
-import { AddNewProject } from "./add-new-project";
+import { AddProject } from "./add-project";
 
 export function ProjectHeader() {
   const { ref, isStickyActive } = useStickyActive<HTMLDivElement>();
@@ -13,7 +13,7 @@ export function ProjectHeader() {
       }`}
     >
       <h1 className="text-2xl font-bold">Projects</h1>
-      <AddNewProject />
+      <AddProject />
     </div>
   );
 }

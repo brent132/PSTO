@@ -1,6 +1,6 @@
 "use client";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { formatDateTime } from "@/hooks/date-format";
 import { formatMoney } from "@/hooks/number-format";
 import { ProjectProps } from "@/types/projects";
@@ -13,6 +13,7 @@ import {
   MoveRight,
   User,
 } from "lucide-react";
+import { EditProject } from "./edit-project";
 
 async function fetchProjects(): Promise<ProjectProps[]> {
   const res = await fetch("/api/projects/get-project");
@@ -37,9 +38,12 @@ export function ProjectsList() {
           <div>
             <div className="flex items-center justify-between">
               <h1 className="font-bold text-lg">{project.project_name}</h1>
-              <Badge className="text-xs bg-success/20 text-success">
-                {project.status}
-              </Badge>
+              <div className="flex items-center gap-2">
+                <Badge className="text-xs bg-success/20 text-success">
+                  {project.status}
+                </Badge>
+                <EditProject project={project} />
+              </div>
             </div>
             <p className="uppercase text-xs font-medium text-muted-foreground">
               {project.project_code}

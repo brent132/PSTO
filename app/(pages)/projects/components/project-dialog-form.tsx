@@ -1,6 +1,9 @@
-"use client";
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
+import { ProjectDialogFormProps, ProjectForm } from "@/types/projects";
+import { format } from "date-fns";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMemo, useState } from "react";
+import { EMPTY_PROJECT_FORM, projectToForm } from "../hooks/project-to-form";
+import { toast } from "sonner";
 import {
   Dialog,
   DialogClose,
@@ -12,11 +15,14 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { formatMoneyOnBlur, formatWithCommas } from "@/hooks/number-format";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
+import { ChevronDownIcon } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -26,13 +32,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { formatMoneyOnBlur, formatWithCommas } from "@/hooks/number-format";
-import { ProjectForm } from "@/types/projects";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { formatDate } from "date-fns";
-import { ChevronDownIcon, Plus } from "lucide-react";
-import React, { useState } from "react";
-import { toast } from "sonner";
+import { Calendar } from "@/components/ui/calendar";
 
 async function createProject(payload: ProjectForm) {
   const res = await fetch("/api/projects/insert-project", {
@@ -40,49 +40,80 @@ async function createProject(payload: ProjectForm) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
   });
+
   if (!res.ok) throw new Error("Failed adding new project");
   return res.json();
 }
 
-export function AddNewProject() {
+async function updateProject(id: number, payload: ProjectForm) {
+  const res = await fetch("/api/projects/update-project", {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ id, ...payload }),
+  });
+  if (!res.ok) throw new Error("Failed updating project");
+  return res.json();
+}
+
+export function ProjectDialogForm({
+  mode,
+  project,
+  trigger,
+}: ProjectDialogFormProps) {
   const qc = useQueryClient();
   const [open, setOpen] = useState(false);
-  const [startDate, setStartDate] = React.useState<Date>();
-  const [endDate, setEndDate] = React.useState<Date>();
-  const [form, setForm] = useState<ProjectForm>({
-    project_code: "",
-    project_name: "",
-    fiscal_year: "",
-    budget: "",
-    start_date: "",
-    end_date: "",
-    status: "",
-    description: "",
-    manager_name: "",
-  });
+  const [form, setForm] = useState<ProjectForm>(() =>
+    mode === "edit" && project ? projectToForm(project) : EMPTY_PROJECT_FORM,
+  );
+
+  const startDate = useMemo(
+    () => (form.start_date ? new Date(form.start_date) : undefined),
+    [form.start_date],
+  );
+
+  const endDate = useMemo(
+    () => (form.end_date ? new Date(form.end_date) : undefined),
+    [form.end_date],
+  );
+
+  function resetForm() {
+    setForm(
+      mode === "edit" && project ? projectToForm(project) : EMPTY_PROJECT_FORM,
+    );
+  }
+
+  function handleOpenChanges(nextOpen: boolean) {
+    setOpen(nextOpen);
+
+    if (nextOpen) {
+      resetForm();
+    }
+
+    if (!nextOpen) {
+      mutation.reset();
+    }
+  }
+
   const mutation = useMutation({
-    mutationFn: createProject,
+    mutationFn: async (payload: ProjectForm) => {
+      if (mode === "edit" && project) {
+        return updateProject(project.id, payload);
+      }
+
+      return createProject(payload);
+    },
     onSuccess: () => {
-      qc.invalidateQueries({
-        queryKey: ["projects"],
-      });
-      setForm({
-        project_code: "",
-        project_name: "",
-        fiscal_year: "",
-        budget: "",
-        start_date: "",
-        end_date: "",
-        status: "",
-        description: "",
-        manager_name: "",
-      });
-      setStartDate(undefined);
-      setEndDate(undefined);
+      qc.invalidateQueries({ queryKey: ["projects"] });
+
       toast.success(
-        <p className="text-success">Project created succesfully</p>,
+        <p className="text-success">
+          {mode === "create"
+            ? "Project created successfully"
+            : "Project updated successfully"}
+        </p>,
       );
       setOpen(false);
+      resetForm();
     },
     onError: () => {
       toast.error(<p className="text-destructive">Something went wrong</p>);
@@ -90,19 +121,17 @@ export function AddNewProject() {
   });
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button className="text-xs">
-          <Plus />
-          Create project
-        </Button>
-      </DialogTrigger>
+    <Dialog open={open} onOpenChange={handleOpenChanges}>
+      <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent className="max-w-sm">
         <DialogHeader>
-          <DialogTitle>Create a new Project</DialogTitle>
-          <DialogDescription className="text-xs">
-            Set up a new project by filling in its basic information, budget,
-            timeline, status, and manager details.
+          <DialogTitle>
+            {mode === "create" ? "Create a new Project" : "Edit Project"}
+          </DialogTitle>
+          <DialogDescription>
+            {mode === "create"
+              ? "Set up a new project by filling in its basic information, budget, timeline, status, and manager details."
+              : "Update the project information, budget, timeline, status, and manager details."}
           </DialogDescription>
         </DialogHeader>
         <form
@@ -126,6 +155,7 @@ export function AddNewProject() {
                 required
               />
             </div>
+
             <div>
               <label className="text-xs text-muted-foreground">
                 Project Code
@@ -133,13 +163,17 @@ export function AddNewProject() {
               <Input
                 value={form.project_code}
                 onChange={(e) =>
-                  setForm((p) => ({ ...p, project_code: e.target.value }))
+                  setForm((p) => ({
+                    ...p,
+                    project_code: e.target.value.toUpperCase(),
+                  }))
                 }
                 type="text"
                 required
                 className="uppercase"
               />
             </div>
+
             <div>
               <label className="text-xs text-muted-foreground">
                 Allocated Budget
@@ -151,7 +185,6 @@ export function AddNewProject() {
                 onChange={(e) => {
                   const raw = e.target.value.replace(/,/g, "");
 
-                  // allow only numbers and one decimal point
                   if (/^\d*\.?\d{0,2}$/.test(raw)) {
                     setForm((p) => ({
                       ...p,
@@ -179,12 +212,13 @@ export function AddNewProject() {
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
+                      type="button"
                       variant="outline"
                       data-empty={!startDate}
                       className="w-full justify-between text-left font-normal data-[empty=true]:text-muted-foreground"
                     >
                       {startDate ? (
-                        formatDate(startDate, "PPP")
+                        format(startDate, "PPP")
                       ) : (
                         <span>Pick a date</span>
                       )}
@@ -196,7 +230,6 @@ export function AddNewProject() {
                       mode="single"
                       selected={startDate}
                       onSelect={(date) => {
-                        setStartDate(date);
                         setForm((prev) => ({
                           ...prev,
                           start_date: date ? date.toISOString() : "",
@@ -207,6 +240,7 @@ export function AddNewProject() {
                   </PopoverContent>
                 </Popover>
               </div>
+
               <div className="flex flex-col">
                 <label className="text-xs text-muted-foreground">
                   End Date
@@ -214,12 +248,13 @@ export function AddNewProject() {
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
+                      type="button"
                       variant="outline"
                       data-empty={!endDate}
                       className="w-full justify-between text-left font-normal data-[empty=true]:text-muted-foreground"
                     >
                       {endDate ? (
-                        formatDate(endDate, "PPP")
+                        format(endDate, "PPP")
                       ) : (
                         <span>Pick a date</span>
                       )}
@@ -231,7 +266,6 @@ export function AddNewProject() {
                       mode="single"
                       selected={endDate}
                       onSelect={(date) => {
-                        setEndDate(date);
                         setForm((prev) => ({
                           ...prev,
                           end_date: date ? date.toISOString() : "",
@@ -252,13 +286,17 @@ export function AddNewProject() {
                 <Input
                   value={form.fiscal_year}
                   onChange={(e) =>
-                    setForm((p) => ({ ...p, fiscal_year: e.target.value }))
+                    setForm((p) => ({
+                      ...p,
+                      fiscal_year: e.target.value.toUpperCase(),
+                    }))
                   }
                   type="text"
                   className="uppercase"
                   required
                 />
               </div>
+
               <div>
                 <label className="text-xs text-muted-foreground">Status</label>
                 <Select
@@ -267,7 +305,7 @@ export function AddNewProject() {
                     setForm((prev) => ({ ...prev, status: value }))
                   }
                 >
-                  <SelectTrigger className="w-full max-w-53">
+                  <SelectTrigger className="w-full">
                     <SelectValue placeholder="Select status" />
                   </SelectTrigger>
                   <SelectContent>
@@ -282,6 +320,7 @@ export function AddNewProject() {
                 </Select>
               </div>
             </div>
+
             <div>
               <label className="text-xs text-muted-foreground">Manager</label>
               <Input
@@ -293,6 +332,7 @@ export function AddNewProject() {
                 required
               />
             </div>
+
             <div>
               <label className="text-xs text-muted-foreground">
                 Description
@@ -309,12 +349,24 @@ export function AddNewProject() {
               />
             </div>
           </div>
+
           <DialogFooter>
             <div className="flex w-full justify-between">
               <DialogClose asChild>
-                <Button variant="outline">Cancel</Button>
+                <Button type="button" variant="outline">
+                  Cancel
+                </Button>
               </DialogClose>
-              <Button type="submit">Create Project</Button>
+
+              <Button type="submit" disabled={mutation.isPending}>
+                {mutation.isPending
+                  ? mode === "create"
+                    ? "Creating..."
+                    : "Saving..."
+                  : mode === "create"
+                    ? "Create Project"
+                    : "Save Changes"}
+              </Button>
             </div>
           </DialogFooter>
         </form>

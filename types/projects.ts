@@ -24,3 +24,13 @@ export type ProjectForm = {
   description: string;
   manager_name: string;
 };
+
+export type ProjectDialogFormProps = {
+  mode: "create" | "edit";
+  project?: ProjectProps;
+  trigger: React.ReactNode;
+};
+
+export type EditProjectProps = {
+  project: ProjectProps;
+};

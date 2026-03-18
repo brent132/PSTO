@@ -32,7 +32,7 @@ export function BreadCrumbHeader() {
   });
 
   return (
-    <Breadcrumb className="py-2">
+    <Breadcrumb className="p-2">
       <BreadcrumbList>
         <BreadcrumbItem>
           {pathname === "/" ? (

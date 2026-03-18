@@ -24,14 +24,78 @@ import {
 import { Button } from "@/components/ui/button";
 import { fetchProjects } from "../hooks/fetch-projects";
 import { ProjectsListViewProps } from "@/types/projects";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export function ProjectsListView({ search, status }: ProjectsListViewProps) {
-  const { data } = useQuery({
+  const { data, isLoading, isFetching, error } = useQuery({
     queryKey: ["projects", search, status],
     queryFn: () => fetchProjects({ search, status }),
   });
+
+  if (isLoading) {
+    return (
+      <div className="grid gap-4 p-4">
+        {Array.from({ length: 4 }).map((_, index) => (
+          <Card key={index} className="flex flex-col gap-4 p-4">
+            <div className="space-y-2">
+              <Skeleton className="h-6 w-40" />
+              <Skeleton className="h-4 w-24" />
+            </div>
+
+            <div className="grid grid-cols-2 gap-2">
+              <Skeleton className="h-14 w-full rounded-sm" />
+              <Skeleton className="h-14 w-full rounded-sm" />
+              <Skeleton className="h-14 w-full rounded-sm" />
+            </div>
+
+            <div className="space-y-2">
+              <Skeleton className="h-4 w-28" />
+              <div className="flex gap-2">
+                <Skeleton className="h-14 flex-1 rounded-sm" />
+                <Skeleton className="h-4 w-4 self-center" />
+                <Skeleton className="h-14 flex-1 rounded-sm" />
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <Skeleton className="h-4 w-24" />
+              <Skeleton className="h-24 w-full rounded-sm" />
+            </div>
+
+            <Skeleton className="h-4 w-32 self-center" />
+          </Card>
+        ))}
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="p-4 text-sm text-destructive">
+        Failed to load projects.
+      </div>
+    );
+  }
+
+  if (!data || data.length === 0) {
+    return (
+      <div className="flex min-h-75 items-center justify-center p-4">
+        <div className="text-center">
+          <h2 className="text-lg font-semibold">No projects found</h2>
+          <p className="text-muted-foreground text-sm">
+            Try changing your search or filter.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="grid gap-4 p-4">
+      {isFetching && (
+        <p className="text-muted-foreground text-xs">Refreshing projects...</p>
+      )}
+
       {data?.map((project) => (
         <Card key={project.id} className="flex flex-col gap-4 h-full p-4">
           <div>

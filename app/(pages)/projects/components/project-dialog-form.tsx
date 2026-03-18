@@ -128,7 +128,7 @@ export function ProjectDialogForm({
           <DialogTitle>
             {mode === "create" ? "Create a new Project" : "Edit Project"}
           </DialogTitle>
-          <DialogDescription>
+          <DialogDescription className="text-xs">
             {mode === "create"
               ? "Set up a new project by filling in its basic information, budget, timeline, status, and manager details."
               : "Update the project information, budget, timeline, status, and manager details."}
@@ -157,57 +157,59 @@ export function ProjectDialogForm({
               />
             </div>
 
-            <div>
-              <label className="text-xs font-medium text-muted-foreground">
-                Project Code
-              </label>
-              <Input
-                value={form.project_code}
-                onChange={(e) =>
-                  setForm((p) => ({
-                    ...p,
-                    project_code: e.target.value.toUpperCase(),
-                  }))
-                }
-                type="text"
-                required
-                className="uppercase text-sm"
-              />
-            </div>
-
-            <div>
-              <label className="text-xs font-medium text-muted-foreground">
-                Allocated Budget
-              </label>
-              <Input
-                value={form.budget}
-                type="text"
-                className="text-sm"
-                inputMode="decimal"
-                onChange={(e) => {
-                  const raw = e.target.value.replace(/,/g, "");
-
-                  if (/^\d*\.?\d{0,2}$/.test(raw)) {
+            <div className="flex gap-2">
+              <div className="flex-1">
+                <label className="text-xs font-medium text-muted-foreground">
+                  Project Code
+                </label>
+                <Input
+                  value={form.project_code}
+                  onChange={(e) =>
                     setForm((p) => ({
                       ...p,
-                      budget: formatWithCommas(raw),
-                    }));
+                      project_code: e.target.value.toUpperCase(),
+                    }))
                   }
-                }}
-                onBlur={() => {
-                  if (form.budget === "") return;
+                  type="text"
+                  required
+                  className="uppercase text-sm"
+                />
+              </div>
 
-                  setForm((p) => ({
-                    ...p,
-                    budget: formatMoneyOnBlur(p.budget),
-                  }));
-                }}
-                required
-              />
+              <div className="flex-1">
+                <label className="text-xs font-medium text-muted-foreground">
+                  Allocated Budget
+                </label>
+                <Input
+                  value={form.budget}
+                  type="text"
+                  className="text-sm"
+                  inputMode="decimal"
+                  onChange={(e) => {
+                    const raw = e.target.value.replace(/,/g, "");
+
+                    if (/^\d*\.?\d{0,2}$/.test(raw)) {
+                      setForm((p) => ({
+                        ...p,
+                        budget: formatWithCommas(raw),
+                      }));
+                    }
+                  }}
+                  onBlur={() => {
+                    if (form.budget === "") return;
+
+                    setForm((p) => ({
+                      ...p,
+                      budget: formatMoneyOnBlur(p.budget),
+                    }));
+                  }}
+                  required
+                />
+              </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-2">
-              <div className="flex flex-col">
+            <div className="flex gap-2">
+              <div className="flex flex-col flex-1">
                 <label className="text-xs font-medium text-muted-foreground">
                   Start Date
                 </label>
@@ -243,7 +245,7 @@ export function ProjectDialogForm({
                 </Popover>
               </div>
 
-              <div className="flex flex-col">
+              <div className="flex flex-col flex-1">
                 <label className="text-xs font-medium text-muted-foreground">
                   End Date
                 </label>

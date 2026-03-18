@@ -7,7 +7,7 @@ import { SearchProjects } from "./search-projects";
 import { SortProjects } from "./sort-projects";
 import { FiscalYearFilter } from "./fiscal-year-filter";
 
-export function ProjectHeader({
+export function ProjectsHeader({
   onTabChange,
   search,
   onSearchChange,
@@ -21,7 +21,7 @@ export function ProjectHeader({
   return (
     <div
       ref={ref}
-      className={`sticky top-0 z-10 px-4 py-2 flex flex-col gap-2 transition-colors duration-100 ${
+      className={`sticky top-0 z-10 px-2 py-2 flex flex-col gap-2 transition-colors duration-100 ${
         isStickyActive ? "bg-background shadow-sm" : "bg-transparent"
       }`}
     >
@@ -39,10 +39,12 @@ export function ProjectHeader({
           <AddProject />
         </div>
       </div>
-      <div className="flex w-full gap-2">
+      <div className="flex flex-col w-full gap-2">
         <SearchProjects value={search} onChange={onSearchChange} />
-        <SortProjects value={status} onChange={onStatusChange} />
-        <FiscalYearFilter value={fiscalYear} onChange={onFiscalYearChange} />
+        <div className="flex gap-2">
+          <SortProjects value={status} onChange={onStatusChange} />
+          <FiscalYearFilter value={fiscalYear} onChange={onFiscalYearChange} />
+        </div>
       </div>
     </div>
   );

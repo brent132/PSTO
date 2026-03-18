@@ -24,7 +24,11 @@ export async function GET(request: Request) {
             : {},
           q
             ? {
-                OR: [{ project_name: { contains: q } }],
+                OR: [
+                  { project_name: { contains: q } },
+                  { project_code: { contains: q } },
+                  { manager_name: { contains: q } },
+                ],
               }
             : {},
         ],

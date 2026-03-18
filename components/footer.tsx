@@ -14,6 +14,7 @@ import { CurrentUser } from "@/components/me";
 import { useRouter } from "next/navigation";
 import { useSidebar } from "./ui/sidebar";
 import { HandleItemClick } from "@/hooks/handle-item-click";
+import { Button } from "./ui/button";
 
 const DropItems1 = [
   { name: "Settings", icon: <Settings />, href: "/settings" },
@@ -56,18 +57,21 @@ export const Footer = () => {
                 route.push(DropItem.href);
                 HandleItemClick(isMobile, setOpenMobile);
               }}
+              asChild
             >
-              {DropItem.icon}
-              <p className="text-xs">{DropItem.name}</p>
+              <Button variant="ghost" className="justify-between flex w-full">
+                <p className="text-xs">{DropItem.name}</p>
+                {DropItem.icon}
+              </Button>
             </DropdownMenuItem>
           ))}
-          <DropdownMenuItem>
+          <DropdownMenuItem asChild>
             <ModeToggle />
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
+          <DropdownMenuItem asChild>
             <LogoutButton />
           </DropdownMenuItem>
         </DropdownMenuGroup>

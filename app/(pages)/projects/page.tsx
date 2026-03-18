@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { ProjectHeader } from "./components/project-header";
+import { ProjectsHeader } from "./components/projects-header";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { ProjectsListView } from "./components/projects-list-view";
 import { ProjectsTableView } from "./components/projects-table-view";
@@ -13,7 +13,7 @@ export default function ProjectsPage() {
 
   return (
     <Tabs value={tab} onValueChange={setTab} className="flex flex-col">
-      <ProjectHeader
+      <ProjectsHeader
         tab={tab}
         onTabChange={setTab}
         search={search}

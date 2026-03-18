@@ -1,7 +1,9 @@
+import { TransactionsHeader } from "./components/transactions-header";
+
 export default function Transactions() {
   return (
-    <div>
-      <h1>Transaction</h1>
+    <div className="flex flex-col">
+      <TransactionsHeader />
     </div>
   );
 }

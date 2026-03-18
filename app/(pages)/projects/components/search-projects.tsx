@@ -9,6 +9,7 @@ export function SearchProjects({ value, onChange }: SearchProjectsProps) {
         type="search"
         onChange={(e) => onChange(e.target.value)}
         placeholder="Search project name"
+        className="text-sm"
       />
     </div>
   );

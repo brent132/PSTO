@@ -9,6 +9,7 @@ export default function ProjectsPage() {
   const [tab, setTab] = useState("list");
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("all");
+  const [fiscalYear, setFiscalYear] = useState("all");
 
   return (
     <Tabs value={tab} onValueChange={setTab} className="flex flex-col">
@@ -19,13 +20,23 @@ export default function ProjectsPage() {
         onSearchChange={setSearch}
         status={status}
         onStatusChange={setStatus}
+        fiscalYear={fiscalYear}
+        onFiscalYearChange={setFiscalYear}
       />
 
       <TabsContent value="list">
-        <ProjectsListView search={search} status={status} />
+        <ProjectsListView
+          search={search}
+          status={status}
+          fiscalYear={fiscalYear}
+        />
       </TabsContent>
       <TabsContent value="table">
-        <ProjectsTableView search={search} status={status} />
+        <ProjectsTableView
+          search={search}
+          status={status}
+          fiscalYear={fiscalYear}
+        />
       </TabsContent>
     </Tabs>
   );

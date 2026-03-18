@@ -3,6 +3,7 @@ import { ProjectProps, ProjectsListViewProps } from "@/types/projects";
 export async function fetchProjects({
   search = "",
   status = "all",
+  fiscalYear = "all",
 }: ProjectsListViewProps): Promise<ProjectProps[]> {
   const params = new URLSearchParams();
 
@@ -12,6 +13,10 @@ export async function fetchProjects({
 
   if (status && status !== "all") {
     params.set("status", status);
+  }
+
+  if (fiscalYear && fiscalYear !== "all") {
+    params.set("fiscal_year", fiscalYear);
   }
 
   const queryString = params.toString();

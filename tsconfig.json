@@ -30,6 +30,7 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts",
     "app/api/admin-exists",
+    "app/api/projects/fiscal-years",
   ],
   "exclude": ["node_modules"],
 }

@@ -23,13 +23,17 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { fetchProjects } from "../hooks/fetch-projects";
-import { ProjectsListViewProps } from "@/types/projects";
+import { ProjectsListViewProps, statusStyles } from "@/types/projects";
 import { Skeleton } from "@/components/ui/skeleton";
 
-export function ProjectsListView({ search, status }: ProjectsListViewProps) {
+export function ProjectsListView({
+  search,
+  status,
+  fiscalYear,
+}: ProjectsListViewProps) {
   const { data, isLoading, isFetching, error } = useQuery({
-    queryKey: ["projects", search, status],
-    queryFn: () => fetchProjects({ search, status }),
+    queryKey: ["projects", search, status, fiscalYear],
+    queryFn: () => fetchProjects({ search, status, fiscalYear }),
   });
 
   if (isLoading) {
@@ -102,7 +106,9 @@ export function ProjectsListView({ search, status }: ProjectsListViewProps) {
             <div className="flex items-center justify-between">
               <h1 className="font-bold text-lg">{project.project_name}</h1>
               <div className="flex items-center gap-2">
-                <Badge className="text-xs bg-success/20 text-success">
+                <Badge
+                  className={`text-xs ${statusStyles[project.status] ?? "bg-muted text-muted-foreground"}`}
+                >
                   {project.status}
                 </Badge>
                 <DropdownMenu>
@@ -194,7 +200,7 @@ export function ProjectsListView({ search, status }: ProjectsListViewProps) {
             </p>
           </div>
 
-          <div className="text-muted-foreground text-xs flex gap-2 justify-center">
+          <div className="text-muted-foreground text-xs font-medium flex gap-2 justify-center">
             <Clock width={16} height={16} />
             <p>{formatDateTime(project.created_at)}</p>
           </div>

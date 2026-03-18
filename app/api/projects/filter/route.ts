@@ -7,6 +7,7 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const q = searchParams.get("q")?.trim() ?? "";
     const status = searchParams.get("status")?.trim() ?? "";
+    const fiscalYear = searchParams.get("fiscal_year")?.trim() ?? "";
 
     const projects = await prisma.projects.findMany({
       where: {
@@ -14,6 +15,11 @@ export async function GET(request: Request) {
           status && status !== "all"
             ? {
                 status,
+              }
+            : {},
+          fiscalYear && fiscalYear !== "all"
+            ? {
+                fiscal_year: fiscalYear,
               }
             : {},
           q

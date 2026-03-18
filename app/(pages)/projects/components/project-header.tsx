@@ -5,6 +5,7 @@ import { ProjectHeaderProps } from "@/types/projects";
 import { Layers2, Table2 } from "lucide-react";
 import { SearchProjects } from "./search-projects";
 import { SortProjects } from "./sort-projects";
+import { FiscalYearFilter } from "./fiscal-year-filter";
 
 export function ProjectHeader({
   onTabChange,
@@ -12,6 +13,8 @@ export function ProjectHeader({
   onSearchChange,
   status,
   onStatusChange,
+  fiscalYear,
+  onFiscalYearChange,
 }: ProjectHeaderProps) {
   const { ref, isStickyActive } = useStickyActive<HTMLDivElement>();
 
@@ -39,6 +42,7 @@ export function ProjectHeader({
       <div className="flex w-full gap-2">
         <SearchProjects value={search} onChange={onSearchChange} />
         <SortProjects value={status} onChange={onStatusChange} />
+        <FiscalYearFilter value={fiscalYear} onChange={onFiscalYearChange} />
       </div>
     </div>
   );

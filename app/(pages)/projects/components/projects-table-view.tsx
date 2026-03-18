@@ -13,10 +13,14 @@ import { formatDateTime } from "@/hooks/date-format";
 import { ProjectsListViewProps } from "@/types/projects";
 import { Skeleton } from "@/components/ui/skeleton";
 
-export function ProjectsTableView({ search, status }: ProjectsListViewProps) {
+export function ProjectsTableView({
+  search,
+  status,
+  fiscalYear,
+}: ProjectsListViewProps) {
   const { data, isLoading, isFetching, error } = useQuery({
-    queryKey: ["projects", search, status],
-    queryFn: () => fetchProjects({ search, status }),
+    queryKey: ["projects", search, status, fiscalYear],
+    queryFn: () => fetchProjects({ search, status, fiscalYear }),
   });
 
   if (isLoading) {

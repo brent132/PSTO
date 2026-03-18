@@ -63,6 +63,21 @@
     --radius-2xl: calc(var(--radius) + 8px);
     --radius-3xl: calc(var(--radius) + 12px);
     --radius-4xl: calc(var(--radius) + 16px);
+
+    --color-status-planning: var(--status-planning);
+    --color-status-planning-bg: var(--status-planning-bg);
+
+    --color-status-active: var(--status-active);
+    --color-status-active-bg: var(--status-active-bg);
+
+    --color-status-on-hold: var(--status-on-hold);
+    --color-status-on-hold-bg: var(--status-on-hold-bg);
+
+    --color-status-completed: var(--status-completed);
+    --color-status-completed-bg: var(--status-completed-bg);
+
+    --color-status-cancelled: var(--status-cancelled);
+    --color-status-cancelled-bg: var(--status-cancelled-bg);
 }
 
 :root {
@@ -122,6 +137,21 @@
     --sidebar-accent-foreground: oklch(0.18 0.02 256);
     --sidebar-border: var(--border);
     --sidebar-ring: var(--ring);
+
+    --status-planning: oklch(0.58 0.16 255);
+    --status-planning-bg: oklch(0.95 0.03 255);
+
+    --status-active: oklch(0.72 0.17 162);
+    --status-active-bg: oklch(0.95 0.04 162);
+
+    --status-on-hold: oklch(0.74 0.16 85);
+    --status-on-hold-bg: oklch(0.97 0.04 85);
+
+    --status-completed: oklch(0.68 0.16 150);
+    --status-completed-bg: oklch(0.95 0.04 150);
+
+    --status-cancelled: oklch(0.63 0.22 28);
+    --status-cancelled-bg: oklch(0.96 0.03 28);
 }
 
 .dark {
@@ -173,6 +203,21 @@
     --sidebar-accent-foreground: oklch(0.95 0 0);
     --sidebar-border: oklch(1 0 0 / 12%);
     --sidebar-ring: var(--ring);
+
+    --status-planning: oklch(0.74 0.13 255);
+    --status-planning-bg: oklch(0.22 0.04 255);
+
+    --status-active: oklch(0.78 0.16 162);
+    --status-active-bg: oklch(0.22 0.05 162);
+
+    --status-on-hold: oklch(0.82 0.14 85);
+    --status-on-hold-bg: oklch(0.24 0.04 85);
+
+    --status-completed: oklch(0.78 0.14 150);
+    --status-completed-bg: oklch(0.22 0.04 150);
+
+    --status-cancelled: oklch(0.76 0.16 28);
+    --status-cancelled-bg: oklch(0.22 0.04 28);
 }
 
 @layer base {

@@ -46,6 +46,8 @@ export type ProjectHeaderProps = {
   onSearchChange: (value: string) => void;
   status: string;
   onStatusChange: (value: string) => void;
+  fiscalYear: string;
+  onFiscalYearChange: (value: string) => void;
 };
 
 export type SearchProjectsProps = {
@@ -56,4 +58,13 @@ export type SearchProjectsProps = {
 export type ProjectsListViewProps = {
   search: string;
   status: string;
+  fiscalYear: string;
+};
+
+export const statusStyles: Record<string, string> = {
+  Planning: "bg-status-planning-bg text-status-planning",
+  Active: "bg-status-active-bg text-status-active",
+  "On hold": "bg-status-on-hold-bg text-status-on-hold",
+  Completed: "bg-status-completed-bg text-status-completed",
+  Cancelled: "bg-status-cancelled-bg text-status-cancelled",
 };

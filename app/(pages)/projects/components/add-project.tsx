@@ -7,9 +7,8 @@ export function AddProject() {
     <ProjectDialogForm
       mode="create"
       trigger={
-        <Button className="text-xs">
+        <Button className="text-xs" size="icon-sm">
           <Plus />
-          Create project
         </Button>
       }
     />

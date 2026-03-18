@@ -3,7 +3,6 @@ import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { formatDateTime } from "@/hooks/date-format";
 import { formatMoney } from "@/hooks/number-format";
-import { ProjectProps } from "@/types/projects";
 import { useQuery } from "@tanstack/react-query";
 import {
   Calendar1,
@@ -20,26 +19,16 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
-  DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
+import { fetchProjects } from "../hooks/fetch-projects";
+import { ProjectsListViewProps } from "@/types/projects";
 
-async function fetchProjects(): Promise<ProjectProps[]> {
-  const res = await fetch("/api/projects/get-project");
-  const data = await res.json();
-
-  if (!res.ok) {
-    throw new Error(data.error || "Failed to fetch projects");
-  }
-
-  return data;
-}
-
-export function ProjectsList() {
+export function ProjectsListView({ search, status }: ProjectsListViewProps) {
   const { data } = useQuery({
-    queryKey: ["projects"],
-    queryFn: fetchProjects,
+    queryKey: ["projects", search, status],
+    queryFn: () => fetchProjects({ search, status }),
   });
   return (
     <div className="grid gap-4 p-4">

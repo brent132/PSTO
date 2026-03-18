@@ -38,3 +38,22 @@ export type EditProjectProps = {
 export type DeleteProjectDialogProps = {
   projectId: number;
 };
+
+export type ProjectHeaderProps = {
+  tab: string;
+  onTabChange: (value: string) => void;
+  search: string;
+  onSearchChange: (value: string) => void;
+  status: string;
+  onStatusChange: (value: string) => void;
+};
+
+export type SearchProjectsProps = {
+  value: string;
+  onChange: (value: string) => void;
+};
+
+export type ProjectsListViewProps = {
+  search: string;
+  status: string;
+};

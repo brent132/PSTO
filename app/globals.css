@@ -183,6 +183,9 @@
     body {
         @apply bg-muted text-foreground list-none;
     }
+    html {
+        scrollbar-width: thin;
+    }
 
     /* Nice “logo-blue” selection highlight */
     ::selection {

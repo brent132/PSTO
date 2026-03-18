@@ -26,10 +26,10 @@ import { HandleItemClick } from "@/hooks/handle-item-click";
 
 export const SideItems = [
   { name: "Dashboard", icon: <LayoutDashboard />, href: "/" },
-  { name: "Transaction", icon: <ArrowLeftRight />, href: "/Transaction" },
+  { name: "Transaction", icon: <ArrowLeftRight />, href: "/transactions" },
   { name: "Projects", icon: <Layers />, href: "/projects" },
-  { name: "Reports", icon: <FileText />, href: "/Reports" },
-  { name: "Notifications", icon: <Bell />, href: "/Notifications" },
+  { name: "Reports", icon: <FileText />, href: "/reports" },
+  { name: "Notifications", icon: <Bell />, href: "/notifications" },
 ];
 
 export function AppSidebar() {
@@ -45,7 +45,7 @@ export function AppSidebar() {
           </div>
           <div>
             <h1 className="font-bold text-sm">FUND TRACKER</h1>
-            <p className="text-xs font-medium truncate max-w-50 text-muted-foreground">
+            <p className="text-xs font-medium truncate max-w-50 sm:max-w-40 text-muted-foreground">
               Provincial Science and Technology Offices
             </p>
           </div>

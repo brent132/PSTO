@@ -15,23 +15,25 @@ enum Role {
 }
 
 model User {
-  id         Int     @id @default(autoincrement())
-  username   String  @unique
-  firstName  String
-  lastName   String
-  middleName String?
-  suffix     String?
-  password   String  // store a HASH, not plain text
+  id               Int      @id @default(autoincrement())
+  username         String   @unique
+  firstName        String
+  lastName         String
+  middleName       String?
+  suffix           String?
+  password         String // store a HASH, not plain text
   profileImage     Bytes?
   profileImageMime String?
   role             Role     @default(USER)
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  created_at       DateTime @default(now())
+  updated_at       DateTime @updatedAt
+
+  transactionsCreated Transactions[] @relation("UserTransactions")
 }
 
 model Projects {
   id           Int      @id @default(autoincrement())
-  project_code String
+  project_code String   @unique
   project_name String
   fiscal_year  String
   budget       Float
@@ -42,19 +44,21 @@ model Projects {
   manager_name String
   created_at   DateTime @default(now())
   updated_at   DateTime @updatedAt
+
+  transactions Transactions[]
 }
 
 model Categories {
-  id            Int            @id @default(autoincrement())
+  id            Int      @id @default(autoincrement())
   category_name String
-  created_at    DateTime       @default(now())
-  updated_at    DateTime       @updatedAt
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
 
-  transactions  Transactions[]
+  transactions Transactions[]
 }
 
 model Transactions {
-  id               Int         @id @default(autoincrement())
+  id               Int      @id @default(autoincrement())
   transaction_date DateTime
   project_code     String
   category_id      Int
@@ -63,10 +67,12 @@ model Transactions {
   amount           Float
   status           String
   transaction_type String
-  created_by       String
-  created_at       DateTime    @default(now())
+  created_by       Int
+  created_at       DateTime @default(now())
   fiscal_year      String
-  updated_at       DateTime    @updatedAt
+  updated_at       DateTime @updatedAt
 
-category Categories @relation(fields: [category_id], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  category Categories @relation(fields: [category_id], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  project  Projects   @relation(fields: [project_code], references: [project_code], onDelete: Restrict, onUpdate: Cascade)
+  creator  User       @relation("UserTransactions", fields: [created_by], references: [id], onDelete: Restrict, onUpdate: Cascade)
 }

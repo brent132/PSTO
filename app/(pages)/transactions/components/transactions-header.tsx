@@ -1,5 +1,6 @@
 "use client";
 import { useStickyActive } from "@/hooks/use-sticky-active";
+import { AddTransactions } from "./add-transactions";
 
 export function TransactionsHeader() {
   const { ref, isStickyActive } = useStickyActive<HTMLDivElement>();
@@ -10,7 +11,10 @@ export function TransactionsHeader() {
         isStickyActive ? "bg-background shadow-sm" : "bg-transparent"
       }`}
     >
-      <h1 className="font-bold text-xl">Transactions</h1>
+      <div className="flex justify-between">
+        <h1 className="font-bold text-xl">Transactions</h1>
+        <AddTransactions />
+      </div>
     </div>
   );
 }

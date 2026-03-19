@@ -55,7 +55,7 @@ async function updateProject(id: number, payload: ProjectForm) {
   return res.json();
 }
 
-export function ProjectDialogForm({
+export function ProjectsDialogForm({
   mode,
   project,
   trigger,

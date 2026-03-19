@@ -1,10 +1,10 @@
 import { Button } from "@/components/ui/button";
-import { ProjectDialogForm } from "./project-dialog-form";
+import { ProjectsDialogForm } from "./projects-dialog-form";
 import { Plus } from "lucide-react";
 
 export function AddProject() {
   return (
-    <ProjectDialogForm
+    <ProjectsDialogForm
       mode="create"
       trigger={
         <Button className="text-xs" size="icon-sm">

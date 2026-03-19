@@ -33,7 +33,7 @@ export async function POST(req: Request) {
   } catch (error) {
     console.error("Failed to add project:", error);
     return NextResponse.json(
-      { error: "Failed to create user" },
+      { error: "Failed to create project" },
       { status: 500 },
     );
   }

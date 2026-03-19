@@ -1,11 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { EditProjectProps } from "@/types/projects";
 import { SquarePen } from "lucide-react";
-import { ProjectDialogForm } from "./project-dialog-form";
+import { ProjectsDialogForm } from "./projects-dialog-form";
 
 export function EditProject({ project }: EditProjectProps) {
   return (
-    <ProjectDialogForm
+    <ProjectsDialogForm
       key={project?.id}
       mode="edit"
       project={project}

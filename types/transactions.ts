@@ -12,14 +12,16 @@ export type TransactionForm = {
   fiscal_year: string;
 };
 
-export type Transaction = {
+export type TransactionProps = {
   id: number;
   transaction_date: string;
   project_code: string;
-  category_id: number;
+  category_mode: "existing" | "new";
+  category_id: string;
+  new_category_name: string;
   voucher_no: string;
   particulars: string;
-  amount: number;
+  amount: string;
   status: string;
   transaction_type: string;
   created_by: number;
@@ -44,4 +46,18 @@ export const statusTransactionsStyles: Record<string, string> = {
   Planned: "bg-status-on-hold-bg text-status-on-hold",
   Paid: "bg-status-completed-bg text-status-completed",
   Cancelled: "bg-status-cancelled-bg text-status-cancelled",
+};
+
+export type TransactionDialogFormProps = {
+  mode: "create" | "edit";
+  transaction?: TransactionProps;
+  trigger: React.ReactNode;
+};
+
+export type EditTransactionProps = {
+  transaction: TransactionProps;
+};
+
+export type DeleteTransactionDialogProps = {
+  transactionId: number;
 };

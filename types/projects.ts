@@ -14,7 +14,6 @@ export type ProjectProps = {
 };
 
 export type ProjectForm = {
-  id: string;
   project_code: string;
   project_name: string;
   fiscal_year: string;

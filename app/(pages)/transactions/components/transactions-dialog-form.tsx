@@ -26,27 +26,20 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { formatMoneyOnBlur, formatWithCommas } from "@/hooks/number-format";
 import { Category } from "@/types/categories";
-import { ProjectForm } from "@/types/projects";
-import { TransactionForm } from "@/types/transactions";
+import {
+  TransactionDialogFormProps,
+  TransactionForm,
+  TransactionProps,
+} from "@/types/transactions";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
-import { Calendar1, Plus } from "lucide-react";
-import React from "react";
+import { Calendar1 } from "lucide-react";
+import { useState } from "react";
 import { toast } from "sonner";
-
-const initialForm: TransactionForm = {
-  transaction_date: "",
-  project_code: "",
-  category_mode: "existing",
-  category_id: "",
-  new_category_name: "",
-  voucher_no: "",
-  particulars: "",
-  amount: "",
-  status: "",
-  transaction_type: "",
-  fiscal_year: "",
-};
+import {
+  EMPTY_TRANSACTION_FORM,
+  transactionToForm,
+} from "../hooks/transaction-to-form";
 
 async function fetchCategories(): Promise<Category[]> {
   const res = await fetch("/api/categories/fetch-categories", {
@@ -63,7 +56,7 @@ async function fetchCategories(): Promise<Category[]> {
   return data;
 }
 
-async function fetchProjects(): Promise<ProjectForm[]> {
+async function fetchProjects(): Promise<TransactionProps[]> {
   const res = await fetch("/api/projects/get-project", {
     method: "GET",
     cache: "no-store",
@@ -78,23 +71,7 @@ async function fetchProjects(): Promise<ProjectForm[]> {
   return data;
 }
 
-async function createTransaction(form: TransactionForm) {
-  const payload = {
-    transaction_date: form.transaction_date,
-    project_code: form.project_code,
-    category_mode: form.category_mode,
-    category_id:
-      form.category_mode === "existing" ? Number(form.category_id) : null,
-    new_category_name:
-      form.category_mode === "new" ? form.new_category_name : "",
-    voucher_no: form.voucher_no,
-    particulars: form.particulars,
-    amount: form.amount,
-    status: form.status,
-    transaction_type: form.transaction_type,
-    fiscal_year: form.fiscal_year,
-  };
-
+async function createTransaction(payload: TransactionForm) {
   const res = await fetch("/api/transactions/insert-transactions", {
     method: "POST",
     headers: {
@@ -112,13 +89,47 @@ async function createTransaction(form: TransactionForm) {
   return data;
 }
 
-export function TransactionsDialogForm() {
+async function updateTransaction(id: number, payload: TransactionForm) {
+  const res = await fetch("/api/transactions/update-transactions", {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ id, ...payload }),
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.error || "Failed to update transaction");
+  }
+
+  return data;
+}
+
+export function TransactionsDialogForm({
+  mode,
+  transaction,
+  trigger,
+}: TransactionDialogFormProps) {
   const queryClient = useQueryClient();
-  const [open, setOpen] = React.useState(false);
-  const [form, setForm] = React.useState<TransactionForm>(initialForm);
+  const [open, setOpen] = useState(false);
+  const [form, setForm] = useState<TransactionForm>(() =>
+    mode === "edit" && transaction
+      ? transactionToForm(transaction)
+      : EMPTY_TRANSACTION_FORM,
+  );
   const transactionDate = form.transaction_date
     ? new Date(form.transaction_date)
     : undefined;
+
+  function resetForm() {
+    setForm(
+      mode === "edit" && transaction
+        ? transactionToForm(transaction)
+        : EMPTY_TRANSACTION_FORM,
+    );
+  }
 
   const { data: categories } = useQuery({
     queryKey: ["categories"],
@@ -131,13 +142,18 @@ export function TransactionsDialogForm() {
   });
 
   const mutation = useMutation({
-    mutationFn: createTransaction,
+    mutationFn: async (payload: TransactionForm) => {
+      if (mode === "edit" && transaction) {
+        return updateTransaction(transaction.id, payload);
+      }
+      return createTransaction(payload);
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["transactions"] });
       queryClient.invalidateQueries({ queryKey: ["categories"] });
 
       toast.success("Transaction created successfully");
-      setForm(initialForm);
+      resetForm();
       setOpen(false);
     },
     onError: () => {
@@ -145,26 +161,21 @@ export function TransactionsDialogForm() {
     },
   });
 
-  function handleOpenChange(value: boolean) {
-    setOpen(value);
+  function handleOpenChange(nextOpen: boolean) {
+    setOpen(nextOpen);
 
-    if (!value) {
-      setForm(initialForm);
+    if (nextOpen) {
+      resetForm();
     }
-  }
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    mutation.mutate(form);
+    if (!nextOpen) {
+      mutation.reset();
+    }
   }
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogTrigger asChild>
-        <Button size="icon-sm">
-          <Plus />
-        </Button>
-      </DialogTrigger>
+      <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent className="max-w-md">
         <DialogHeader>
           <DialogTitle>Add Transaction</DialogTitle>
@@ -173,7 +184,13 @@ export function TransactionsDialogForm() {
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            mutation.mutate(form);
+          }}
+          className="flex flex-col gap-4"
+        >
           <div className="flex flex-col gap-2">
             <div>
               <label className="text-xs font-medium text-muted-foreground">

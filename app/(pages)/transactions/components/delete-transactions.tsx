@@ -10,39 +10,40 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { DeleteProjectDialogProps } from "@/types/projects";
+import { DeleteTransactionDialogProps } from "@/types/transactions";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Trash } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
-async function deleteProject(id: number) {
-  const res = await fetch("/api/projects/delete-project", {
+async function deleteTransaction(id: number) {
+  const res = await fetch("/api/transactions/delete-transactions", {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ id }),
   });
-
   const data = await res.json();
 
   if (!res.ok) {
-    throw new Error(data.message || "Failed to delete project");
+    throw new Error(data.message || "Failed to delete transaction");
   }
 
   return data;
 }
 
-export function DeleteProjectDialog({ projectId }: DeleteProjectDialogProps) {
+export function DeleteTransactionDialog({
+  transactionId,
+}: DeleteTransactionDialogProps) {
   const qc = useQueryClient();
   const [open, setOpen] = useState(false);
 
   const mutation = useMutation({
-    mutationFn: deleteProject,
+    mutationFn: deleteTransaction,
     onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ["projects"] });
-      toast.success(<p>Project delete seccessfully</p>);
+      qc.invalidateQueries({ queryKey: ["transactions"] });
+      toast.success(<p>Transaction delete seccessfully</p>);
       setOpen(false);
     },
     onError: () => {
@@ -72,7 +73,7 @@ export function DeleteProjectDialog({ projectId }: DeleteProjectDialogProps) {
           <AlertDialogCancel className="text-xs">Cancel</AlertDialogCancel>
           <AlertDialogAction asChild>
             <Button
-              onClick={() => mutation.mutate(projectId)}
+              onClick={() => mutation.mutate(transactionId)}
               className="text-xs bg-destructive/20 text-destructive hover:bg-destructive/30"
             >
               continue

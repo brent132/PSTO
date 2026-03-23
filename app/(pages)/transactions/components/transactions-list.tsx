@@ -11,7 +11,10 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatDateTime } from "@/hooks/date-format";
 import { formatMoney } from "@/hooks/number-format";
-import { statusTransactionsStyles, Transaction } from "@/types/transactions";
+import {
+  statusTransactionsStyles,
+  TransactionProps,
+} from "@/types/transactions";
 import { useQuery } from "@tanstack/react-query";
 import {
   ArrowLeftRight,
@@ -23,8 +26,10 @@ import {
   Tags,
   User,
 } from "lucide-react";
+import { EditTransactions } from "./edit-transactions";
+import { DeleteTransactionDialog } from "./delete-transactions";
 
-async function fetchTransactions(): Promise<Transaction[]> {
+async function fetchTransactions(): Promise<TransactionProps[]> {
   const res = await fetch("/api/transactions/fetch-transactions");
   const data = await res.json();
 
@@ -138,7 +143,12 @@ export function TransactionList() {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-40" align="end">
                     <DropdownMenuGroup>
-                      <div>actions</div>
+                      <div className="flex flex-col">
+                        <EditTransactions transaction={transaction} />
+                        <DeleteTransactionDialog
+                          transactionId={transaction.id}
+                        />
+                      </div>
                     </DropdownMenuGroup>
                   </DropdownMenuContent>
                 </DropdownMenu>
@@ -207,7 +217,7 @@ export function TransactionList() {
                   Amount
                 </p>
                 <p className="text-xs font-semibold">
-                  {formatMoney(transaction.amount)}
+                  {formatMoney(Number(transaction.amount))}
                 </p>
               </div>
             </div>

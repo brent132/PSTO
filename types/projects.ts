@@ -62,7 +62,7 @@ export type ProjectsListViewProps = {
   fiscalYear: string;
 };
 
-export const statusStyles: Record<string, string> = {
+export const statusProjectsStyles: Record<string, string> = {
   Planning: "bg-status-planning-bg text-status-planning",
   Active: "bg-status-active-bg text-status-active",
   "On hold": "bg-status-on-hold-bg text-status-on-hold",

@@ -14,4 +14,21 @@ export const transactionsListSelect = {
   fiscal_year: true,
   created_at: true,
   updated_at: true,
+
+  category: {
+    select: {
+      id: true,
+      category_name: true,
+    },
+  },
+
+  creator: {
+    select: {
+      id: true,
+      firstName: true,
+      middleName: true,
+      lastName: true,
+      suffix: true,
+    },
+  },
 } satisfies Prisma.TransactionsSelect;

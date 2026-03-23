@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { fetchProjects } from "../hooks/fetch-projects";
-import { ProjectsListViewProps, statusStyles } from "@/types/projects";
+import { ProjectsListViewProps, statusProjectsStyles } from "@/types/projects";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export function ProjectsListView({
@@ -107,7 +107,7 @@ export function ProjectsListView({
               <h1 className="font-bold text-lg">{project.project_name}</h1>
               <div className="flex items-center gap-2">
                 <Badge
-                  className={`text-xs ${statusStyles[project.status] ?? "bg-muted text-muted-foreground"}`}
+                  className={`text-xs ${statusProjectsStyles[project.status] ?? "bg-muted text-muted-foreground"}`}
                 >
                   {project.status}
                 </Badge>
@@ -135,7 +135,7 @@ export function ProjectsListView({
 
           <div className="grid grid-cols-2 gap-2">
             <div className="flex items-center gap-2 bg-muted p-2 rounded-sm">
-              <HandCoins width={20} height={20} />
+              <HandCoins className="w-4 h-4" />
               <div>
                 <label className="text-xs font-medium text-muted-foreground">
                   Budget
@@ -146,7 +146,7 @@ export function ProjectsListView({
               </div>
             </div>
             <div className="flex items-center gap-2 bg-muted p-2 rounded-sm">
-              <CalendarRange width={20} height={20} />
+              <CalendarRange className="w-4 h-4" />
               <div>
                 <label className="text-xs font-medium text-muted-foreground">
                   Fiscal Year
@@ -155,7 +155,7 @@ export function ProjectsListView({
               </div>
             </div>
             <div className="flex items-center gap-2 bg-muted p-2 rounded-sm">
-              <User width={20} height={20} />
+              <User className="w-4 h-4" />
               <div>
                 <label className="text-xs font-medium text-muted-foreground">
                   Manager Name
@@ -167,7 +167,7 @@ export function ProjectsListView({
 
           <div className="flex flex-col gap-2 w-full">
             <div className="flex gap-2 items-center">
-              <Calendar1 width={20} height={20} />
+              <Calendar1 className="w-4 h-4" />
               <h1 className="text-xs font-medium">Project Timeline</h1>
             </div>
             <div className="flex w-full gap-2 items-center">
@@ -179,7 +179,7 @@ export function ProjectsListView({
                   {formatDateTime(project.start_date)}
                 </p>
               </div>
-              <MoveRight width={16} height={16} />
+              <MoveRight className="w-4 h-4" />
               <div className="bg-muted flex-1 p-2 rounded-sm">
                 <label className="text-xs font-medium text-muted-foreground">
                   End Date
@@ -191,7 +191,7 @@ export function ProjectsListView({
             </div>
           </div>
 
-          <div>
+          <div className="flex flex-col gap-2">
             <label className="text-xs font-medium text-muted-foreground">
               Description
             </label>
@@ -201,7 +201,7 @@ export function ProjectsListView({
           </div>
 
           <div className="text-muted-foreground text-xs font-medium flex gap-2 justify-center">
-            <Clock width={16} height={16} />
+            <Clock className="w-4 h-4" />
             <p>{formatDateTime(project.created_at)}</p>
           </div>
         </Card>

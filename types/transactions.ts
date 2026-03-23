@@ -11,3 +11,37 @@ export type TransactionForm = {
   transaction_type: string;
   fiscal_year: string;
 };
+
+export type Transaction = {
+  id: number;
+  transaction_date: string;
+  project_code: string;
+  category_id: number;
+  voucher_no: string;
+  particulars: string;
+  amount: number;
+  status: string;
+  transaction_type: string;
+  created_by: number;
+  fiscal_year: string;
+  created_at: string;
+  updated_at: string;
+  category?: {
+    id: number;
+    category_name: string;
+  };
+  creator?: {
+    id: number;
+    username: string;
+    firstName: string;
+    lastName: string;
+  };
+};
+
+export const statusTransactionsStyles: Record<string, string> = {
+  Pending: "bg-status-planning-bg text-status-planning",
+  Approved: "bg-status-active-bg text-status-active",
+  Planned: "bg-status-on-hold-bg text-status-on-hold",
+  Paid: "bg-status-completed-bg text-status-completed",
+  Cancelled: "bg-status-cancelled-bg text-status-cancelled",
+};

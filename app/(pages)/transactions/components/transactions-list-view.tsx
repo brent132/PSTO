@@ -14,6 +14,7 @@ import { formatMoney } from "@/hooks/number-format";
 import {
   statusTransactionsStyles,
   TransactionProps,
+  TransactionsListViewProps,
 } from "@/types/transactions";
 import { useQuery } from "@tanstack/react-query";
 import {
@@ -28,22 +29,16 @@ import {
 } from "lucide-react";
 import { EditTransactions } from "./edit-transactions";
 import { DeleteTransactionDialog } from "./delete-transactions";
+import { fetchTransactions } from "../hooks/fetch-transactions";
 
-async function fetchTransactions(): Promise<TransactionProps[]> {
-  const res = await fetch("/api/transactions/fetch-transactions");
-  const data = await res.json();
-
-  if (!res.ok) {
-    throw new Error(data.message || "Failed to fetch transactions");
-  }
-
-  return data;
-}
-
-export function TransactionList() {
+export function TransactionListView({
+  search,
+  status,
+  fiscalYear,
+}: TransactionsListViewProps) {
   const { data, isLoading, isFetching, error } = useQuery({
-    queryKey: ["transactions"],
-    queryFn: fetchTransactions,
+    queryKey: ["transactions", search, status, fiscalYear],
+    queryFn: () => fetchTransactions({ search, status, fiscalYear }),
   });
 
   if (isLoading) {

@@ -61,3 +61,23 @@ export type EditTransactionProps = {
 export type DeleteTransactionDialogProps = {
   transactionId: number;
 };
+
+export type SearchTransactionsProps = {
+  value: string;
+  onChange: (value: string) => void;
+};
+
+export type TransactionHeaderProps = {
+  search: string;
+  onSearchChange: (value: string) => void;
+  status: string;
+  onStatusChange: (value: string) => void;
+  fiscalYear: string;
+  onFiscalYearChange: (value: string) => void;
+};
+
+export type TransactionsListViewProps = {
+  search: string;
+  status: string;
+  fiscalYear: string;
+};

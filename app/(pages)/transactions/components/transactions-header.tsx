@@ -1,8 +1,18 @@
-"use client";
 import { useStickyActive } from "@/hooks/use-sticky-active";
 import { AddTransactions } from "./add-transactions";
+import { TransactionHeaderProps } from "@/types/transactions";
+import { SearchTransactions } from "./search-transactions";
+import { SortStatusTransactions } from "./sort-status-transactions";
+import { SortYearTransactions } from "./sort-year-transactions";
 
-export function TransactionsHeader() {
+export function TransactionsHeader({
+  search,
+  onSearchChange,
+  status,
+  onStatusChange,
+  fiscalYear,
+  onFiscalYearChange,
+}: TransactionHeaderProps) {
   const { ref, isStickyActive } = useStickyActive<HTMLDivElement>();
   return (
     <div
@@ -14,6 +24,16 @@ export function TransactionsHeader() {
       <div className="flex justify-between">
         <h1 className="font-bold text-xl">Transactions</h1>
         <AddTransactions />
+      </div>
+      <div className="flex flex-col w-full gap-2">
+        <SearchTransactions value={search} onChange={onSearchChange} />
+        <div className="flex gap-2">
+          <SortStatusTransactions value={status} onChange={onStatusChange} />
+          <SortYearTransactions
+            value={fiscalYear}
+            onChange={onFiscalYearChange}
+          />
+        </div>
       </div>
     </div>
   );

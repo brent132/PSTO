@@ -1,4 +1,4 @@
-import { categorieListSelect } from "@/lib/categories";
+import { categoriesListSelect } from "@/lib/categories";
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
@@ -11,7 +11,7 @@ export async function POST(req: Request) {
         category_name: body.category_name,
         created_at: body.created_at,
       },
-      select: categorieListSelect,
+      select: categoriesListSelect,
     });
     return NextResponse.json(category, { status: 201 });
   } catch (error) {

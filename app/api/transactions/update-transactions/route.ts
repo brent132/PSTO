@@ -1,6 +1,9 @@
 import { prisma } from "@/lib/prisma";
 import { transactionsListSelect } from "@/lib/transactions";
+import { Prisma } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
+
+const SESSION_COOKIE = "session";
 
 export async function PUT(req: NextRequest) {
   try {
@@ -24,7 +27,7 @@ export async function PUT(req: NextRequest) {
       );
     }
 
-    const session = req.cookies.get("sessions")?.value;
+    const session = req.cookies.get(SESSION_COOKIE)?.value;
 
     if (!session) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -36,7 +39,7 @@ export async function PUT(req: NextRequest) {
 
     if (prefix !== "uid" || !userIdStr) {
       const res = NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-      res.cookies.delete("session");
+      res.cookies.delete(SESSION_COOKIE);
       return res;
     }
 
@@ -44,17 +47,32 @@ export async function PUT(req: NextRequest) {
 
     if (!Number.isInteger(userId)) {
       const res = NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-      res.cookies.delete("session");
+      res.cookies.delete(SESSION_COOKIE);
       return res;
     }
 
     const transaction = await prisma.$transaction(async (tx) => {
-      let categoryId = body.category_id;
+      let categoryId: number | null = body.category_id
+        ? Number(body.category_id)
+        : null;
+
+      if (
+        body.category_mode === "existing" &&
+        (categoryId === null || Number.isNaN(categoryId))
+      ) {
+        throw new Error("Category is required");
+      }
 
       if (body.category_mode === "new") {
+        const categoryName = String(body.new_category_name ?? "").trim();
+
+        if (!categoryName) {
+          throw new Error("New category name is required");
+        }
+
         const newCategory = await tx.categories.create({
           data: {
-            category_name: body.new_category_name.trim(),
+            category_name: categoryName,
           },
         });
 
@@ -68,7 +86,7 @@ export async function PUT(req: NextRequest) {
         data: {
           transaction_date: body.transaction_date,
           project_code: body.project_code,
-          category_id: categoryId,
+          category_id: Number(categoryId),
           voucher_no: body.voucher_no,
           particulars: body.particulars,
           amount: cleanAmount,
@@ -80,11 +98,33 @@ export async function PUT(req: NextRequest) {
         select: transactionsListSelect,
       });
     });
-    return NextResponse.json(transaction, { status: 201 });
+
+    return NextResponse.json(transaction, { status: 200 });
   } catch (error) {
-    console.error("Failed to add transaction:", error);
+    console.error("Failed to update transaction", error);
+
+    if (error instanceof Error) {
+      if (error.message === "Category is required") {
+        return NextResponse.json({ message: error.message }, { status: 400 });
+      }
+
+      if (error.message === "New category name is required") {
+        return NextResponse.json({ message: error.message }, { status: 400 });
+      }
+    }
+
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === "P2025"
+    ) {
+      return NextResponse.json(
+        { message: "Transaction not found" },
+        { status: 404 },
+      );
+    }
+
     return NextResponse.json(
-      { error: "Failed to create transaction" },
+      { error: "Failed to update transaction" },
       { status: 500 },
     );
   }

@@ -13,6 +13,7 @@ import { formatDateTime } from "@/hooks/date-format";
 import { ProjectsListViewProps } from "@/types/projects";
 import { Skeleton } from "@/components/ui/skeleton";
 import { DeleteProjectDialog } from "./delete-project-dialog";
+import { EditProject } from "./edit-project";
 
 export function ProjectsTableView({
   search,
@@ -97,7 +98,7 @@ export function ProjectsTableView({
             <TableHead>Manager Name</TableHead>
             <TableHead>Start Date</TableHead>
             <TableHead>End Date</TableHead>
-            <TableHead>Delete</TableHead>
+            <TableHead>Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -112,7 +113,10 @@ export function ProjectsTableView({
               <TableCell>{formatDateTime(project.start_date)}</TableCell>
               <TableCell>{formatDateTime(project.end_date)}</TableCell>
               <TableCell>
-                <DeleteProjectDialog projectId={project.id} />
+                <div className="flex">
+                  <EditProject project={project} />
+                  <DeleteProjectDialog projectId={project.id} />
+                </div>
               </TableCell>
             </TableRow>
           ))}

@@ -152,7 +152,7 @@ export function ProjectsDialogForm({
                   setForm((p) => ({ ...p, project_name: e.target.value }))
                 }
                 type="text"
-                className="text-sm"
+                className="text-xs"
                 required
               />
             </div>
@@ -172,7 +172,7 @@ export function ProjectsDialogForm({
                   }
                   type="text"
                   required
-                  className="uppercase text-sm"
+                  className="uppercase text-xs"
                 />
               </div>
 
@@ -183,7 +183,7 @@ export function ProjectsDialogForm({
                 <Input
                   value={form.budget}
                   type="text"
-                  className="text-sm"
+                  className="text-xs"
                   inputMode="decimal"
                   onChange={(e) => {
                     const raw = e.target.value.replace(/,/g, "");
@@ -219,7 +219,7 @@ export function ProjectsDialogForm({
                       type="button"
                       variant="outline"
                       data-empty={!startDate}
-                      className="w-full justify-between text-left font-normal data-[empty=true]:text-muted-foreground"
+                      className="w-full justify-between text-left font-normal data-[empty=true]:text-muted-foreground text-xs"
                     >
                       {startDate ? (
                         format(startDate, "PPP")
@@ -255,7 +255,7 @@ export function ProjectsDialogForm({
                       type="button"
                       variant="outline"
                       data-empty={!endDate}
-                      className="w-full justify-between text-left font-normal data-[empty=true]:text-muted-foreground"
+                      className="w-full justify-between text-left font-normal data-[empty=true]:text-muted-foreground text-xs"
                     >
                       {endDate ? (
                         format(endDate, "PPP")
@@ -296,7 +296,7 @@ export function ProjectsDialogForm({
                     }))
                   }
                   type="text"
-                  className="uppercase text-sm"
+                  className="uppercase text-xs"
                   required
                 />
               </div>
@@ -311,7 +311,7 @@ export function ProjectsDialogForm({
                     setForm((prev) => ({ ...prev, status: value }))
                   }
                 >
-                  <SelectTrigger className="w-full">
+                  <SelectTrigger className="w-full text-xs">
                     <SelectValue placeholder="Select status" />
                   </SelectTrigger>
                   <SelectContent>
@@ -337,7 +337,7 @@ export function ProjectsDialogForm({
                   setForm((p) => ({ ...p, manager_name: e.target.value }))
                 }
                 type="text"
-                className="text-sm"
+                className="text-xs"
                 required
               />
             </div>
@@ -353,7 +353,7 @@ export function ProjectsDialogForm({
                 }
                 rows={4}
                 required
-                className="max-h-40 text-sm"
+                className="max-h-40 text-xs"
                 style={{ scrollbarWidth: "none" }}
               />
             </div>

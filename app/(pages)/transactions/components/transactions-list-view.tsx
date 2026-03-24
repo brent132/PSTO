@@ -11,11 +11,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatDateTime } from "@/hooks/date-format";
 import { formatMoney } from "@/hooks/number-format";
-import {
-  statusTransactionsStyles,
-  TransactionProps,
-  TransactionsListViewProps,
-} from "@/types/transactions";
+import { statusTransactionsStyles } from "@/types/transactions";
 import { useQuery } from "@tanstack/react-query";
 import {
   ArrowLeftRight,
@@ -30,12 +26,13 @@ import {
 import { EditTransactions } from "./edit-transactions";
 import { DeleteTransactionDialog } from "./delete-transactions";
 import { fetchTransactions } from "../hooks/fetch-transactions";
+import { useSearchParams } from "next/navigation";
 
-export function TransactionListView({
-  search,
-  status,
-  fiscalYear,
-}: TransactionsListViewProps) {
+export function TransactionListView() {
+  const searchParams = useSearchParams();
+  const search = searchParams.get("q") ?? "";
+  const status = searchParams.get("status") ?? "all";
+  const fiscalYear = searchParams.get("fiscal_year") ?? "all";
   const { data, isLoading, isFetching, error } = useQuery({
     queryKey: ["transactions", search, status, fiscalYear],
     queryFn: () => fetchTransactions({ search, status, fiscalYear }),

@@ -10,16 +10,16 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { formatDateTime } from "@/hooks/date-format";
-import { ProjectsListViewProps } from "@/types/projects";
 import { Skeleton } from "@/components/ui/skeleton";
 import { DeleteProjectDialog } from "./delete-project-dialog";
 import { EditProject } from "./edit-project";
+import { useSearchParams } from "next/navigation";
 
-export function ProjectsTableView({
-  search,
-  status,
-  fiscalYear,
-}: ProjectsListViewProps) {
+export function ProjectsTableView() {
+  const searchParams = useSearchParams();
+  const search = searchParams.get("q") ?? "";
+  const status = searchParams.get("status") ?? "all";
+  const fiscalYear = searchParams.get("fiscal_year") ?? "all";
   const { data, isLoading, isFetching, error } = useQuery({
     queryKey: ["projects", search, status, fiscalYear],
     queryFn: () => fetchProjects({ search, status, fiscalYear }),

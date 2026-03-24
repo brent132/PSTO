@@ -23,14 +23,15 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { fetchProjects } from "../hooks/fetch-projects";
-import { ProjectsListViewProps, statusProjectsStyles } from "@/types/projects";
+import { statusProjectsStyles } from "@/types/projects";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useSearchParams } from "next/navigation";
 
-export function ProjectsListView({
-  search,
-  status,
-  fiscalYear,
-}: ProjectsListViewProps) {
+export function ProjectsListView() {
+  const searchParams = useSearchParams();
+  const search = searchParams.get("q") ?? "";
+  const status = searchParams.get("status") ?? "all";
+  const fiscalYear = searchParams.get("fiscal_year") ?? "all";
   const { data, isLoading, isFetching, error } = useQuery({
     queryKey: ["projects", search, status, fiscalYear],
     queryFn: () => fetchProjects({ search, status, fiscalYear }),

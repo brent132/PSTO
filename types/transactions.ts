@@ -75,9 +75,3 @@ export type TransactionHeaderProps = {
   fiscalYear: string;
   onFiscalYearChange: (value: string) => void;
 };
-
-export type TransactionsListViewProps = {
-  search: string;
-  status: string;
-  fiscalYear: string;
-};

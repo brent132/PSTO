@@ -202,7 +202,7 @@ export function TransactionsDialogForm({
                     type="button"
                     variant="outline"
                     data-empty={!transactionDate}
-                    className="w-full justify-between text-left font-normal data-[empty=true]:text-muted-foreground"
+                    className="w-full justify-between text-left font-normal data-[empty=true]:text-muted-foreground text-xs"
                   >
                     {transactionDate ? (
                       format(transactionDate, "PPP")
@@ -242,7 +242,7 @@ export function TransactionsDialogForm({
                     }))
                   }
                 >
-                  <SelectTrigger className="w-full">
+                  <SelectTrigger className="w-full text-xs">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -267,6 +267,7 @@ export function TransactionsDialogForm({
                       voucher_no: e.target.value,
                     }))
                   }
+                  className="text-xs"
                 />
               </div>
 
@@ -277,7 +278,7 @@ export function TransactionsDialogForm({
                 <Input
                   value={form.amount}
                   type="text"
-                  className="text-sm"
+                  className="text-xs"
                   inputMode="decimal"
                   onChange={(e) => {
                     const raw = e.target.value.replace(/,/g, "");
@@ -313,6 +314,7 @@ export function TransactionsDialogForm({
                       fiscal_year: e.target.value,
                     }))
                   }
+                  className="text-xs"
                 />
               </div>
 
@@ -329,7 +331,7 @@ export function TransactionsDialogForm({
                     }))
                   }
                 >
-                  <SelectTrigger className="w-full">
+                  <SelectTrigger className="w-full text-xs">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -355,7 +357,7 @@ export function TransactionsDialogForm({
                     }))
                   }
                 >
-                  <SelectTrigger className="w-full">
+                  <SelectTrigger className="w-full text-xs">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -409,7 +411,7 @@ export function TransactionsDialogForm({
                       }))
                     }
                   >
-                    <SelectTrigger className="w-full">
+                    <SelectTrigger className="w-full text-xs">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>

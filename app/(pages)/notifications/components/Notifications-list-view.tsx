@@ -5,10 +5,16 @@ import { formatDateTime } from "@/hooks/date-format";
 import { useRouter } from "next/navigation";
 import { useMarkNotificationAsRead } from "../hooks/use-mark-notification-as-read";
 import { NotificationItem } from "@/types/notifications";
+import { useDeleteNotification } from "../hooks/use-delete-notification";
+import { Button } from "@/components/ui/button";
+import { Trash } from "lucide-react";
+import { useMarkAllNotificationsAsRead } from "../hooks/use-mark-all-notifications-as-read";
 
 export function NotificationListView() {
   const { data, isPending, error } = useNotifications();
   const markAsRead = useMarkNotificationAsRead();
+  const markAllAsRead = useMarkAllNotificationsAsRead();
+  const deleteNotification = useDeleteNotification();
   const router = useRouter();
 
   async function handleClick(item: NotificationItem) {
@@ -21,6 +27,27 @@ export function NotificationListView() {
     } catch (error) {
       console.error("Failed to mark notification as read:", error);
       router.push(item.notification.action_url ?? "/projects");
+    }
+  }
+
+  async function handleDelete(
+    e: React.MouseEvent<HTMLButtonElement>,
+    recipientId: number,
+  ) {
+    e.stopPropagation();
+
+    try {
+      await deleteNotification.mutateAsync(recipientId);
+    } catch (error) {
+      console.error("Failed to delete notification:", error);
+    }
+  }
+
+  async function handleMarkAllAsRead() {
+    try {
+      await markAllAsRead.mutateAsync();
+    } catch (error) {
+      console.error("Failed to mark all notifications as read:", error);
     }
   }
 
@@ -39,6 +66,10 @@ export function NotificationListView() {
 
   return (
     <div>
+      <Button onClick={handleMarkAllAsRead} disabled={markAllAsRead.isPending}>
+        {markAllAsRead.isPending ? "Marking..." : "Mark all as read"}
+      </Button>
+
       {data.map((item) => (
         <Card
           key={item.id}
@@ -46,6 +77,9 @@ export function NotificationListView() {
           onClick={() => handleClick(item)}
         >
           <div>
+            <Button onClick={(e) => handleDelete(e, item.id)}>
+              <Trash className="w-4 h-4" />
+            </Button>
             <p>{item.notification.title}</p>
             <p>{item.notification.message}</p>
             <p>

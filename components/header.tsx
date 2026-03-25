@@ -2,9 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import { SidebarTrigger } from "./ui/sidebar";
 import { fetchMe } from "@/hooks/get-user-details";
 import { Badge } from "./ui/badge";
-import { Button } from "./ui/button";
-import { Bell } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { NotificationsBell } from "@/app/(pages)/notifications/components/notifications-bell";
 
 export const Header = () => {
   const { data } = useQuery({
@@ -29,13 +28,7 @@ export const Header = () => {
           <AvatarFallback>DT</AvatarFallback>
         </Avatar>
 
-        <Button
-          size="icon-sm"
-          variant="ghost"
-          className="text-primary hover:text-primary hover:bg-primary/20"
-        >
-          <Bell />
-        </Button>
+        <NotificationsBell />
       </div>
     </div>
   );

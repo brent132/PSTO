@@ -55,7 +55,7 @@ export async function POST(req: NextRequest) {
     }
 
     const transaction = await prisma.$transaction(async (tx) => {
-      let categoryId = body.category_id;
+      let categoryId = Number(body.category_id);
 
       if (body.category_mode === "new") {
         const newCategory = await tx.categories.create({

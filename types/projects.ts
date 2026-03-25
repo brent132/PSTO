@@ -54,6 +54,11 @@ export type SearchProjectsProps = {
   value: string;
   onChange: (value: string) => void;
 };
+export type ProjectsListViewProps = {
+  search: string;
+  status: string;
+  fiscalYear: string;
+};
 
 export const statusProjectsStyles: Record<string, string> = {
   Planning: "bg-status-planning-bg text-status-planning",

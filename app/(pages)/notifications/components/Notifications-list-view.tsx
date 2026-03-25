@@ -8,12 +8,11 @@ import { NotificationItem } from "@/types/notifications";
 import { useDeleteNotification } from "../hooks/use-delete-notification";
 import { Button } from "@/components/ui/button";
 import { Trash } from "lucide-react";
-import { useMarkAllNotificationsAsRead } from "../hooks/use-mark-all-notifications-as-read";
+import { Badge } from "@/components/ui/badge";
 
 export function NotificationListView() {
   const { data, isPending, error } = useNotifications();
   const markAsRead = useMarkNotificationAsRead();
-  const markAllAsRead = useMarkAllNotificationsAsRead();
   const deleteNotification = useDeleteNotification();
   const router = useRouter();
 
@@ -43,14 +42,6 @@ export function NotificationListView() {
     }
   }
 
-  async function handleMarkAllAsRead() {
-    try {
-      await markAllAsRead.mutateAsync();
-    } catch (error) {
-      console.error("Failed to mark all notifications as read:", error);
-    }
-  }
-
   if (isPending) return <p>Loading...</p>;
   if (error) return <p>Failed to load notifications.</p>;
 
@@ -65,33 +56,46 @@ export function NotificationListView() {
   }
 
   return (
-    <div>
-      <Button onClick={handleMarkAllAsRead} disabled={markAllAsRead.isPending}>
-        {markAllAsRead.isPending ? "Marking..." : "Mark all as read"}
-      </Button>
-
+    <div className="p-4">
       {data.map((item) => (
         <Card
           key={item.id}
-          className={`cursor-pointer p-4 ${!item.is_read ? "border-primary bg-muted/40" : ""}`}
+          className={`cursor-pointer p-4 ${!item.is_read ? "border-primary" : ""}`}
           onClick={() => handleClick(item)}
         >
-          <div>
-            <Button onClick={(e) => handleDelete(e, item.id)}>
-              <Trash className="w-4 h-4" />
-            </Button>
-            <p>{item.notification.title}</p>
-            <p>{item.notification.message}</p>
-            <p>
-              {item.notification.creator?.firstName}{" "}
+          <div className="flex flex-col gap-4">
+            <div>
+              <div className="flex items-center justify-between">
+                <p className="text-xl font-bold">{item.notification.title}</p>
+                <div className="flex items-center gap-2">
+                  <Badge>{item.notification.priority}</Badge>
+                  <Button
+                    variant="ghost"
+                    size="icon-sm"
+                    onClick={(e) => handleDelete(e, item.id)}
+                    className="text-destructive hover:text-destructive hover:bg-destructive/20"
+                  >
+                    <Trash className="w-4 h-4" />
+                  </Button>
+                </div>
+              </div>
+              <p className="text-xs text-muted-foreground font-medium">
+                {item.notification.reference_type}
+              </p>
+            </div>
+            <p className="p-2 bg-muted text-xs font-semibold">
+              {item.notification.message}
+            </p>
+            <p className="text-xs font-medium">
+              From: {item.notification.creator?.firstName}{" "}
               {item.notification.creator?.middleName}{" "}
               {item.notification.creator?.lastName}{" "}
               {item.notification.creator?.suffix}
             </p>
-            <p>{item.notification.type}</p>
-            <p>{item.notification.reference_type}</p>
-            <p>{item.notification.priority}</p>
-            <p>{formatDateTime(item.notification.created_at)}</p>
+            <div className="flex justify-between text-muted-foreground text-xs">
+              <p>{item.notification.type}</p>
+              <p>{formatDateTime(item.notification.created_at)}</p>
+            </div>
           </div>
         </Card>
       ))}

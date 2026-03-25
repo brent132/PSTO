@@ -52,13 +52,13 @@ export async function PUT(req: NextRequest) {
     }
 
     const transaction = await prisma.$transaction(async (tx) => {
-      let categoryId: number | null = body.category_id
+      let categoryId: number | undefined = body.category_id
         ? Number(body.category_id)
-        : null;
+        : undefined;
 
       if (
         body.category_mode === "existing" &&
-        (categoryId === null || Number.isNaN(categoryId))
+        (!Number.isInteger(categoryId) || Number.isNaN(categoryId))
       ) {
         throw new Error("Category is required");
       }
@@ -79,14 +79,14 @@ export async function PUT(req: NextRequest) {
         categoryId = newCategory.id;
       }
 
-      return tx.transactions.update({
+      const updatedTransaction = await tx.transactions.update({
         where: {
           id: transactionId,
         },
         data: {
           transaction_date: body.transaction_date,
           project_code: body.project_code,
-          category_id: Number(categoryId),
+          category_id: categoryId,
           voucher_no: body.voucher_no,
           particulars: body.particulars,
           amount: cleanAmount,
@@ -94,6 +94,47 @@ export async function PUT(req: NextRequest) {
           transaction_type: body.transaction_type,
           created_by: userId,
           fiscal_year: body.fiscal_year,
+        },
+      });
+
+      const recipients = await tx.user.findMany({
+        where: {
+          id: {
+            not: userId,
+          },
+        },
+        select: {
+          id: true,
+        },
+      });
+
+      const notification = await tx.notifications.create({
+        data: {
+          title: "Transaction Updated",
+          message: `${updatedTransaction.particulars} was updated under ${updatedTransaction.project_code}.`,
+          type: "TRANSACTION_UPDATED",
+          priority: "HIGH",
+          created_by: userId,
+          reference_type: "TRANSACTION",
+          reference_id: updatedTransaction.id,
+          action_url: `/transactions?q=${encodeURIComponent(
+            updatedTransaction.voucher_no || updatedTransaction.project_code,
+          )}`,
+        },
+      });
+
+      if (recipients.length > 0) {
+        await tx.notification_recipients.createMany({
+          data: recipients.map((recipient) => ({
+            notification_id: notification.id,
+            user_id: recipient.id,
+          })),
+        });
+      }
+
+      return tx.transactions.findUnique({
+        where: {
+          id: updatedTransaction.id,
         },
         select: transactionsListSelect,
       });

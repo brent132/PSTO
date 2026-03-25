@@ -56,7 +56,7 @@ export function NotificationListView() {
   }
 
   return (
-    <div className="p-4">
+    <div className="p-4 flex flex-col gap-4">
       {data.map((item) => (
         <Card
           key={item.id}
@@ -86,8 +86,8 @@ export function NotificationListView() {
             <p className="p-2 bg-muted text-xs font-semibold">
               {item.notification.message}
             </p>
-            <p className="text-xs font-medium">
-              From: {item.notification.creator?.firstName}{" "}
+            <p className="text-xs font-medium text-muted-foreground">
+              {item.notification.creator?.firstName}{" "}
               {item.notification.creator?.middleName}{" "}
               {item.notification.creator?.lastName}{" "}
               {item.notification.creator?.suffix}

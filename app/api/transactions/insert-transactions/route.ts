@@ -67,7 +67,7 @@ export async function POST(req: NextRequest) {
         categoryId = newCategory.id;
       }
 
-      return tx.transactions.create({
+      const createdTransaction = await tx.transactions.create({
         data: {
           transaction_date: body.transaction_date,
           project_code: body.project_code,
@@ -81,6 +81,43 @@ export async function POST(req: NextRequest) {
           fiscal_year: body.fiscal_year,
         },
       });
+
+      const recipients = await tx.user.findMany({
+        where: {
+          id: {
+            not: userId,
+          },
+        },
+        select: {
+          id: true,
+        },
+      });
+
+      const notification = await tx.notifications.create({
+        data: {
+          title: "New Transaction Created",
+          message: `${createdTransaction.particulars} was added under ${createdTransaction.project_code}.`,
+          type: "TRANSACTION_CREATED",
+          priority: "MEDIUM",
+          created_by: userId,
+          reference_type: "TRANSACTION",
+          reference_id: createdTransaction.id,
+          action_url: `/transactions?q=${encodeURIComponent(
+            createdTransaction.voucher_no || createdTransaction.project_code,
+          )}`,
+        },
+      });
+
+      if (recipients.length > 0) {
+        await tx.notification_recipients.createMany({
+          data: recipients.map((recipients) => ({
+            notification_id: notification.id,
+            user_id: recipients.id,
+          })),
+        });
+      }
+
+      return createdTransaction;
     });
 
     return NextResponse.json(transaction, { status: 201 });

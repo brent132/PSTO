@@ -1,3 +1,9 @@
+import { QuarterlyFinancialReport } from "./quarterly-financial-report";
+
 export function PreBuiltReports() {
-  return <div className="h-1500">pre built reports</div>;
+  return (
+    <div>
+      <QuarterlyFinancialReport />
+    </div>
+  );
 }

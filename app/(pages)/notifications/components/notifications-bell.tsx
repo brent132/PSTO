@@ -69,20 +69,21 @@ export function NotificationsBell() {
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent
-        className="w-60 h-100"
+        className="w-80 h-100"
         style={{ scrollbarWidth: "thin" }}
         align="end"
       >
-        <DropdownMenuGroup>
+        <DropdownMenuGroup className="flex flex-col gap-2">
           <DropdownMenuLabel className="text-xs">
             Notifications
           </DropdownMenuLabel>
           {data?.slice(0, 3).map((item) => (
-            <DropdownMenuItem key={item.id}>
-              <div
-                className={`cursor-pointer flex flex-col gap-2 shadow-sm p-2 rounded-sm ${!item.is_read ? "border-primary border" : ""}`}
-                onClick={() => handleClick(item)}
-              >
+            <DropdownMenuItem
+              key={item.id}
+              className={`cursor-pointer flex flex-col gap-2 shadow-sm p-2 rounded-sm ${!item.is_read ? "border-primary border" : ""}`}
+              onClick={() => handleClick(item)}
+            >
+              <div>
                 <div className="flex items-center justify-between">
                   <Badge>{item.notification.priority}</Badge>
                   <Button

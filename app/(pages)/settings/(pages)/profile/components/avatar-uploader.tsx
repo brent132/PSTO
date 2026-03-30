@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Button } from "../../../../components/ui/button";
+import { Button } from "@/components/ui/button";
 import { useRef, useState } from "react";
 import Image from "next/image";
 import { ImageDown } from "lucide-react";

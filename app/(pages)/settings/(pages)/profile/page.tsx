@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { useQuery } from "@tanstack/react-query";
 import { Pen } from "lucide-react";
-import { AvatarUploader } from "../../components/avatar-uploader";
+import { AvatarUploader } from "./components/avatar-uploader";
 import { useState } from "react";
 import { fetchMe } from "@/hooks/get-user-details";
 

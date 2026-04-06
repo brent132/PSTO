@@ -1,11 +1,8 @@
 "use client";
-import { Import, UserPen } from "lucide-react";
+import { UserPen } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-const Sets = [
-  { name: "Profile", href: "/settings/profile", icon: UserPen },
-  { name: "Import Data", href: "/settings/import-data", icon: Import },
-];
+const Sets = [{ name: "Profile", href: "/settings/profile", icon: UserPen }];
 
 export default function Settings() {
   const router = useRouter();

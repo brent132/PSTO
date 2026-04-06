@@ -338,7 +338,6 @@ export function ProjectsDialogForm({
                 }
                 type="text"
                 className="text-xs"
-                required
               />
             </div>
 
@@ -352,7 +351,6 @@ export function ProjectsDialogForm({
                   setForm((p) => ({ ...p, description: e.target.value }))
                 }
                 rows={4}
-                required
                 className="max-h-40 text-xs"
                 style={{ scrollbarWidth: "none" }}
               />

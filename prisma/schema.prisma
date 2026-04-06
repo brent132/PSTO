@@ -12,6 +12,8 @@ datasource db {
 enum Role {
   USER
   ADMIN
+  SETUP
+  PROGRAM
 }
 
 model User {
@@ -34,18 +36,18 @@ model User {
 }
 
 model Projects {
-  id           Int      @id @default(autoincrement())
-  project_code String   @unique
+  id           Int       @id @default(autoincrement())
+  project_code String    @unique
   project_name String
-  fiscal_year  String
-  budget       Float
-  start_date   DateTime
-  end_date     DateTime
-  status       String
-  description  String
-  manager_name String
-  created_at   DateTime @default(now())
-  updated_at   DateTime @updatedAt
+  fiscal_year  String?
+  budget       Float?
+  start_date   DateTime?
+  end_date     DateTime?
+  status       String?
+  description  String?
+  manager_name String?
+  created_at   DateTime  @default(now())
+  updated_at   DateTime  @updatedAt
 
   transactions Transactions[]
 }

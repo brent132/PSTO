@@ -44,7 +44,7 @@ export default function SignUp() {
     lastName: "",
     suffix: "",
     password: "",
-    role: "USER",
+    role: "",
   });
   const mutation = useMutation({
     mutationFn: createUser,
@@ -60,7 +60,7 @@ export default function SignUp() {
         lastName: "",
         suffix: "",
         password: "",
-        role: "USER",
+        role: "",
       });
       toast.success(
         <p className="text-success">Account created successfully</p>,
@@ -152,7 +152,7 @@ export default function SignUp() {
           <label className="text-sm text-muted-foreground">Pick Role</label>
           <Select
             value={form.role}
-            onValueChange={(value: "USER" | "ADMIN") =>
+            onValueChange={(value: "USER" | "ADMIN" | "SETUP" | "PROGRAM") =>
               setForm((prev) => ({ ...prev, role: value }))
             }
           >
@@ -164,6 +164,8 @@ export default function SignUp() {
                 <SelectLabel>Roles</SelectLabel>
                 <SelectItem value="USER">User</SelectItem>
                 {!adminExists && <SelectItem value="ADMIN">Admin</SelectItem>}
+                <SelectItem value="SETUP">Setup</SelectItem>
+                <SelectItem value="PROGRAM">Program</SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>

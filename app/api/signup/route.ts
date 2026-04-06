@@ -11,6 +11,8 @@ export async function POST(req: Request) {
 
     const passwordHash = await bcrypt.hash(body.password, 10);
 
+    const allowedRoles = [Role.USER, Role.ADMIN, Role.SETUP, Role.PROGRAM];
+
     const user = await prisma.user.create({
       data: {
         username: body.username,
@@ -19,10 +21,7 @@ export async function POST(req: Request) {
         suffix: body.suffix ?? null,
         middleName: body.middleName ?? null,
         password: passwordHash,
-        role:
-          body.role === Role.ADMIN || body.role === Role.USER
-            ? body.role
-            : Role.USER,
+        role: allowedRoles.includes(body.role) ? body.role : Role.USER,
       },
       select: userListSelect,
     });

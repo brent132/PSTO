@@ -73,7 +73,7 @@ export function NotificationsBell() {
         style={{ scrollbarWidth: "thin" }}
         align="end"
       >
-        <DropdownMenuGroup className="flex flex-col gap-2">
+        <DropdownMenuGroup className="flex flex-col gap-2 h-full justify-between">
           <DropdownMenuLabel className="text-xs">
             Notifications
           </DropdownMenuLabel>

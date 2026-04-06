@@ -5,5 +5,5 @@ export type SignUpProps = {
   lastName: string;
   suffix: string;
   password: string;
-  role: "USER" | "ADMIN";
+  role: string;
 };

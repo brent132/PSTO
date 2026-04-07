@@ -139,25 +139,23 @@ export function AvatarUploader({ onClose }: AvatarUploaderProps) {
             <div className="w-30 h-30 flex flex-col items-center justify-center text-center gap-2">
               <ImageDown className="text-muted-foreground" />
               <p className="text-xs text-muted-foreground font-medium">
-                Maximum (2mb)
+                Max 2mb
               </p>
             </div>
           )}
         </div>
       </div>
       <DialogFooter className="w-full">
-        <div className="flex justify-between">
-          <DialogClose asChild>
-            <Button variant="outline">Cancel</Button>
-          </DialogClose>
-          <Button
-            type="submit"
-            disabled={mutation.isPending}
-            className="w-fit cursor-pointer"
-          >
-            {mutation.isPending ? "Saving..." : "Save Avatar"}
-          </Button>
-        </div>
+        <DialogClose asChild>
+          <Button variant="outline">Cancel</Button>
+        </DialogClose>
+        <Button
+          type="submit"
+          disabled={mutation.isPending}
+          className="cursor-pointer"
+        >
+          {mutation.isPending ? "Saving..." : "Save Avatar"}
+        </Button>
       </DialogFooter>
     </form>
   );

@@ -38,11 +38,11 @@ export default function ProfilePage() {
           </Avatar>
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger className="absolute bottom-0 right-0" asChild>
-              <Button variant="outline" size="icon">
+              <Button variant="outline" size="icon-sm">
                 <Pen />
               </Button>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className="w-sm flex flex-col gap-8">
               <DialogTitle>Upload profile picture</DialogTitle>
               <AvatarUploader onClose={() => setOpen(false)} />
             </DialogContent>
@@ -53,7 +53,20 @@ export default function ProfilePage() {
             {data?.me?.firstName} {data?.me?.middleName} {data?.me?.lastName}
             {data?.me?.suffix}
           </h1>
-          <p className="text-muted-foreground">{data?.me?.username}</p>
+          <div className="">
+            <div>
+              <label className="text-xs font-medium text-muted-foreground">
+                Username
+              </label>
+              <p className="text-sm font-medium">{data?.me?.username}</p>
+            </div>
+            <div>
+              <label className="text-xs font-medium text-muted-foreground">
+                Asigned as
+              </label>
+              <p className="text-sm font-medium">{data?.me?.role}</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

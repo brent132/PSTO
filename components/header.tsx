@@ -21,7 +21,7 @@ export const Header = () => {
 
         <Avatar>
           <AvatarImage
-            src="/api/me/get-avatar"
+            src={`/api/me/get-avatar?v=${data?.me?.updated_at ?? ""}`}
             alt="profile"
             className="object-cover"
           />

@@ -25,11 +25,11 @@ import { usePathname } from "next/navigation";
 import { HandleItemClick } from "@/hooks/handle-item-click";
 
 export const SideItems = [
-  { name: "Dashboard", icon: <LayoutDashboard />, href: "/" },
-  { name: "Transaction", icon: <ArrowLeftRight />, href: "/transactions" },
-  { name: "Projects", icon: <Layers />, href: "/projects" },
-  { name: "Reports", icon: <FileText />, href: "/reports" },
-  { name: "Notifications", icon: <Bell />, href: "/notifications" },
+  { name: "Dashboard", icon: LayoutDashboard, href: "/" },
+  { name: "Transaction", icon: ArrowLeftRight, href: "/transactions" },
+  { name: "Projects", icon: Layers, href: "/projects" },
+  { name: "Reports", icon: FileText, href: "/reports" },
+  { name: "Notifications", icon: Bell, href: "/notifications" },
 ];
 
 export function AppSidebar() {
@@ -53,11 +53,13 @@ export function AppSidebar() {
       </SidebarHeader>
       <SidebarContent className="p-4">
         <SidebarGroupLabel>Menu</SidebarGroupLabel>
-        <SidebarMenu>
+        <SidebarMenu className="gap-2">
           {SideItems.map((item, index) => {
+            const Icon = item.icon;
             const isActive =
               pathname === item.href ||
               (item.href !== "/" && pathname.startsWith(item.href + "/"));
+
             return (
               <SidebarMenuItem key={index}>
                 <SidebarMenuButton
@@ -69,7 +71,7 @@ export function AppSidebar() {
                     className="font-medium"
                     onClick={() => HandleItemClick(isMobile, setOpenMobile)}
                   >
-                    {item.icon}
+                    <Icon className="w-4 h-4" />
                     {item.name}
                   </Link>
                 </SidebarMenuButton>

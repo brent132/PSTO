@@ -26,8 +26,8 @@ export const Footer = () => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <div className="mx-4 py-2 border-t">
+      <div className="mx-4 py-2 border-t">
+        <DropdownMenuTrigger asChild>
           <div className="flex justify-between items-center hover:bg-muted cursor-pointer p-2 rounded-sm">
             <div className="flex gap-2 items-center">
               <Avatar>
@@ -44,8 +44,8 @@ export const Footer = () => {
             </div>
             <ChevronsUpDown className="text-muted-foreground w-4 h-4" />
           </div>
-        </div>
-      </DropdownMenuTrigger>
+        </DropdownMenuTrigger>
+      </div>
       <DropdownMenuContent className="w-50" align="end">
         <DropdownMenuGroup>
           {DropItems1.map((DropItem) => (

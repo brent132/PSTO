@@ -36,10 +36,12 @@ export function BreadCrumbHeader() {
       <BreadcrumbList>
         <BreadcrumbItem>
           {pathname === "/" ? (
-            <BreadcrumbPage>Dashboard</BreadcrumbPage>
+            <BreadcrumbPage className="text-xs">Dashboard</BreadcrumbPage>
           ) : (
             <BreadcrumbLink asChild>
-              <Link href="/">Home</Link>
+              <Link href="/" className="text-xs">
+                Home
+              </Link>
             </BreadcrumbLink>
           )}
         </BreadcrumbItem>
@@ -48,7 +50,7 @@ export function BreadCrumbHeader() {
           const isLast = index === items.length - 1;
 
           return (
-            <div key={item.href} className="flex items-center">
+            <div key={item.href} className="flex items-center text-xs">
               <BreadcrumbSeparator />
               <BreadcrumbItem>
                 {isLast ? (

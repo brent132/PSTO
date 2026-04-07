@@ -31,6 +31,7 @@
     "**/*.mts",
     "app/api/admin-exists",
     "app/api/projects/fiscal-years",
+    "app/api/settings/update-credentials",
   ],
   "exclude": ["node_modules"],
 }

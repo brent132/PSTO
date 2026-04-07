@@ -14,7 +14,6 @@ import { useDeleteNotification } from "../hooks/use-delete-notification";
 import { useRouter } from "next/navigation";
 import { NotificationItem } from "@/types/notifications";
 import { formatDateTime } from "@/hooks/date-format";
-import { Badge } from "@/components/ui/badge";
 
 export function NotificationsBell() {
   const { data } = useNotifications();
@@ -57,23 +56,21 @@ export function NotificationsBell() {
           <Button
             size="icon-sm"
             variant="ghost"
-            className="text-primary hover:text-primary hover:bg-primary/20"
+            className="hover:bg-transparent cursor-pointer"
           >
-            <Bell />
+            <Bell className="text-muted-foreground" />
           </Button>
           {unreadCount > 0 && (
-            <span className="bg-destructive text-brand-foreground text-xs rounded-full absolute min-w-4 h-4 text-center top-0 right-0">
-              {unreadCount > 99 ? "99+" : unreadCount}
-            </span>
+            <span className="bg-primary rounded-full absolute min-w-2 h-2 top-1 right-1"></span>
           )}
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent
-        className="w-80 h-100"
+        className="w-80 h-100 flex flex-col justify-between"
         style={{ scrollbarWidth: "thin" }}
         align="end"
       >
-        <DropdownMenuGroup className="flex flex-col gap-2 h-full justify-between">
+        <DropdownMenuGroup className="flex flex-col gap-2">
           <DropdownMenuLabel className="text-xs">
             Notifications
           </DropdownMenuLabel>
@@ -83,21 +80,19 @@ export function NotificationsBell() {
               className={`cursor-pointer flex flex-col gap-2 shadow-sm p-2 rounded-sm ${!item.is_read ? "border-primary border" : ""}`}
               onClick={() => handleClick(item)}
             >
-              <div>
-                <div className="flex items-center justify-between">
-                  <Badge>{item.notification.priority}</Badge>
-                  <Button
-                    variant="ghost"
-                    size="icon-sm"
-                    onClick={(e) => handleDelete(e, item.id)}
-                    className=" hover:text-destructive hover:bg-destructive/20"
-                  >
-                    <Trash className="w-4 h-4 text-destructive" />
-                  </Button>
-                </div>
-
+              <div className="w-full">
                 <div>
-                  <h1 className="font-bold">{item.notification.title}</h1>
+                  <div className="flex items-center justify-between">
+                    <h1 className="font-bold">{item.notification.title}</h1>
+                    <Button
+                      variant="ghost"
+                      size="icon-sm"
+                      onClick={(e) => handleDelete(e, item.id)}
+                      className=" hover:text-destructive hover:bg-destructive/20"
+                    >
+                      <Trash className="w-4 h-4 text-destructive" />
+                    </Button>
+                  </div>
                   <p className="text-muted-foreground text-xs font-medium">
                     {item.notification.reference_type}
                   </p>
@@ -112,13 +107,13 @@ export function NotificationsBell() {
               </div>
             </DropdownMenuItem>
           ))}
-          <DropdownMenuItem
-            className="text-primary cursor-pointer"
-            onClick={() => router.push("/notifications")}
-          >
-            See all notification
-          </DropdownMenuItem>
         </DropdownMenuGroup>
+        <DropdownMenuItem
+          className="text-primary cursor-pointer"
+          onClick={() => router.push("/notifications")}
+        >
+          See all notification
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

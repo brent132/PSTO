@@ -16,10 +16,10 @@ export default function Settings() {
           <div
             key={index}
             onClick={() => router.push(set.href)}
-            className="cursor-pointer flex gap-2 border-b p-2"
+            className="cursor-pointer flex items-center gap-2 border-b p-2"
           >
             <Icon className="w-4 h-4" />
-            <p className="text-xs font-medium">{set.name}</p>
+            <p className="text-sm font-medium">{set.name}</p>
           </div>
         );
       })}

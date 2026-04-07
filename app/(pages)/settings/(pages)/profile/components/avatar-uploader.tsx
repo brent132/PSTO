@@ -3,8 +3,15 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { useRef, useState } from "react";
 import Image from "next/image";
-import { ImageDown } from "lucide-react";
-import { DialogClose, DialogFooter } from "@/components/ui/dialog";
+import { ImageDown, ImageUp } from "lucide-react";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 async function uploadAvatar(file: File) {
   // make form data
@@ -27,17 +34,14 @@ async function uploadAvatar(file: File) {
   return data;
 }
 
-type AvatarUploaderProps = {
-  onClose: () => void;
-};
-
-export function AvatarUploader({ onClose }: AvatarUploaderProps) {
+export function AvatarUploader() {
   const qc = useQueryClient();
   const inputRef = useRef<HTMLInputElement | null>(null);
   const objecturlRef = useRef<string | null>(null);
   const [file, setFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [isdragging, setIsDragging] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const mutation = useMutation({
     mutationFn: uploadAvatar,
@@ -47,7 +51,7 @@ export function AvatarUploader({ onClose }: AvatarUploaderProps) {
       toast(<p>Avatar uploaded successfully</p>);
       setFile(null);
       setPreviewUrl(null);
-      onClose();
+      setOpen(false);
     },
     onError: () => {
       toast(<p>Upload Failed</p>);
@@ -89,74 +93,84 @@ export function AvatarUploader({ onClose }: AvatarUploaderProps) {
   }
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="flex flex-col justify-center items-center gap-8"
-    >
-      <div>
-        <input
-          ref={inputRef}
-          id="avatar"
-          type="file"
-          accept="image/png,image/jpeg,image/webp"
-          className="hidden"
-          onChange={(e) => {
-            // get first selected file
-            const selected = e.target.files?.[0] ?? null;
-            handleFile(selected);
-          }}
-        />
-        <div
-          onClick={() => inputRef.current?.click()}
-          onDragOver={(e) => {
-            // allow dropping
-            e.preventDefault();
-            setIsDragging(true);
-          }}
-          onDragLeave={() => {
-            setIsDragging(false);
-          }}
-          onDrop={(e) => {
-            // stop browser from opening file
-            e.preventDefault();
-            setIsDragging(false);
-
-            const dropped = e.dataTransfer.files?.[0] ?? null;
-            handleFile(dropped);
-          }}
-          className={`border-2 rounded-full overflow-hidden border-muted-foreground ${isdragging ? "border border-primary" : ""}`}
-        >
-          {previewUrl ? (
-            <div className="w-30 h-30 aspect-square flex items-center justify-center relative self-center">
-              <Image
-                src={previewUrl}
-                alt="Avatar preview"
-                fill
-                className="object-cover"
-              />
-            </div>
-          ) : (
-            <div className="w-30 h-30 flex flex-col items-center justify-center text-center gap-2">
-              <ImageDown className="text-muted-foreground" />
-              <p className="text-xs text-muted-foreground font-medium">
-                Max 2mb
-              </p>
-            </div>
-          )}
-        </div>
-      </div>
-      <DialogFooter className="w-full">
-        <DialogClose asChild>
-          <Button variant="outline">Cancel</Button>
-        </DialogClose>
-        <Button
-          type="submit"
-          disabled={mutation.isPending}
-          className="cursor-pointer"
-        >
-          {mutation.isPending ? "Saving..." : "Save Avatar"}
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger className="absolute bottom-0 right-0" asChild>
+        <Button variant="outline" size="icon-sm">
+          <ImageUp />
         </Button>
-      </DialogFooter>
-    </form>
+      </DialogTrigger>
+      <DialogContent className="w-sm flex flex-col gap-8">
+        <DialogTitle>Upload profile picture</DialogTitle>
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col justify-center items-center gap-8"
+        >
+          <div>
+            <input
+              ref={inputRef}
+              id="avatar"
+              type="file"
+              accept="image/png,image/jpeg,image/webp"
+              className="hidden"
+              onChange={(e) => {
+                // get first selected file
+                const selected = e.target.files?.[0] ?? null;
+                handleFile(selected);
+              }}
+            />
+            <div
+              onClick={() => inputRef.current?.click()}
+              onDragOver={(e) => {
+                // allow dropping
+                e.preventDefault();
+                setIsDragging(true);
+              }}
+              onDragLeave={() => {
+                setIsDragging(false);
+              }}
+              onDrop={(e) => {
+                // stop browser from opening file
+                e.preventDefault();
+                setIsDragging(false);
+
+                const dropped = e.dataTransfer.files?.[0] ?? null;
+                handleFile(dropped);
+              }}
+              className={`border-2 rounded-full overflow-hidden border-muted-foreground ${isdragging ? "border border-primary" : ""}`}
+            >
+              {previewUrl ? (
+                <div className="w-30 h-30 aspect-square flex items-center justify-center relative self-center">
+                  <Image
+                    src={previewUrl}
+                    alt="Avatar preview"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              ) : (
+                <div className="w-30 h-30 flex flex-col items-center justify-center text-center gap-2">
+                  <ImageDown className="text-muted-foreground" />
+                  <p className="text-xs text-muted-foreground font-medium">
+                    Max 2mb
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+          <DialogFooter className="w-full">
+            <DialogClose asChild>
+              <Button variant="outline">Cancel</Button>
+            </DialogClose>
+            <Button
+              type="submit"
+              disabled={mutation.isPending}
+              className="cursor-pointer"
+            >
+              {mutation.isPending ? "Saving..." : "Save Avatar"}
+            </Button>
+          </DialogFooter>
+        </form>
+      </DialogContent>
+    </Dialog>
   );
 }

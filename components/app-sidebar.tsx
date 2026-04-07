@@ -39,15 +39,17 @@ export function AppSidebar() {
   return (
     <Sidebar>
       <SidebarHeader>
-        <div className="flex items-center gap-4">
-          <div className="h-10 aspect-square relative">
-            <Image src={LOGO} alt="DOST" fill />
-          </div>
-          <div>
-            <h1 className="font-bold text-sm">FUND TRACKER</h1>
-            <p className="text-xs font-medium truncate max-w-50 sm:max-w-40 text-muted-foreground">
-              Provincial Science and Technology Offices
-            </p>
+        <div className="px-4">
+          <div className="flex items-center gap-4 border-b py-6">
+            <div className="h-10 aspect-square relative">
+              <Image src={LOGO} alt="DOST" fill />
+            </div>
+            <div>
+              <h1 className="font-bold text-sm">FUND TRACKER</h1>
+              <p className="text-xs truncate max-w-40 sm:max-w-40 text-muted-foreground">
+                Provincial Science and Technology Offices
+              </p>
+            </div>
           </div>
         </div>
       </SidebarHeader>
@@ -64,11 +66,11 @@ export function AppSidebar() {
               <SidebarMenuItem key={index}>
                 <SidebarMenuButton
                   asChild
-                  className={`${isActive ? "bg-muted" : "text-muted-foreground"}`}
+                  className={`${isActive ? "bg-primary text-brand-foreground hover:bg-primary hover:text-brand-foreground" : "text-muted-foreground"}`}
                 >
                   <Link
                     href={item.href}
-                    className="font-medium"
+                    className="h-10 text-xs"
                     onClick={() => HandleItemClick(isMobile, setOpenMobile)}
                   >
                     <Icon className="w-4 h-4" />

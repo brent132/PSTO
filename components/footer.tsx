@@ -27,25 +27,23 @@ export const Footer = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <div className="flex justify-between items-center bg-muted p-2 rounded-sm">
-          <div className="flex gap-2 items-center">
-            <Avatar>
-              <AvatarImage
-                src="/api/me/get-avatar"
-                alt="profile"
-                className="object-cover"
-              />
-              <AvatarFallback>DT</AvatarFallback>
-            </Avatar>
-            <div>
-              <CurrentUser />
+        <div className="mx-4 py-2 border-t">
+          <div className="flex justify-between items-center hover:bg-muted cursor-pointer p-2 rounded-sm">
+            <div className="flex gap-2 items-center">
+              <Avatar>
+                <AvatarImage
+                  src="/api/me/get-avatar"
+                  alt="profile"
+                  className="object-cover"
+                />
+                <AvatarFallback>DT</AvatarFallback>
+              </Avatar>
+              <div>
+                <CurrentUser />
+              </div>
             </div>
+            <ChevronsUpDown className="text-muted-foreground w-4 h-4" />
           </div>
-          <ChevronsUpDown
-            className="text-muted-foreground"
-            width={20}
-            height={20}
-          />
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-50" align="end">

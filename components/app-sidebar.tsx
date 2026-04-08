@@ -14,22 +14,13 @@ import LOGO from "@/public/LOGO.png";
 import Image from "next/image";
 import { Footer } from "./footer";
 import Link from "next/link";
-import {
-  ArrowLeftRight,
-  Bell,
-  FileText,
-  Layers,
-  LayoutDashboard,
-} from "lucide-react";
+import { Layers2, LayoutDashboard } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { HandleItemClick } from "@/hooks/handle-item-click";
 
 export const SideItems = [
   { name: "Dashboard", icon: LayoutDashboard, href: "/" },
-  { name: "Transaction", icon: ArrowLeftRight, href: "/transactions" },
-  { name: "Projects", icon: Layers, href: "/projects" },
-  { name: "Reports", icon: FileText, href: "/reports" },
-  { name: "Notifications", icon: Bell, href: "/notifications" },
+  { name: "Projects", icon: Layers2, href: "/projects" },
 ];
 
 export function AppSidebar() {

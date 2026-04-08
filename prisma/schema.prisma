@@ -30,3 +30,28 @@ model User {
   created_at       DateTime @default(now())
   updated_at       DateTime @updatedAt
 }
+
+model Projects {
+  id            Int            @id @default(autoincrement())
+  project_title String         @unique
+  created_at    DateTime       @default(now())
+  updated_at    DateTime       @updatedAt
+  deleted_at    DateTime?
+
+  requirements  Requirements[]
+}
+
+model Requirements {
+  id            Int       @id @default(autoincrement())
+  project_id    Int
+  requirement   String
+  is_compiled   Boolean   @default(false)
+  remarks       String?
+  created_at    DateTime  @default(now())
+  updated_at    DateTime  @updatedAt
+  deleted_at    DateTime?
+
+  project       Projects  @relation(fields: [project_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([project_id])
+}

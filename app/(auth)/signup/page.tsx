@@ -86,9 +86,9 @@ export default function SignUp() {
       }}
       className="flex flex-col gap-4"
     >
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-2">
         <div>
-          <label className="text-sm text-muted-foreground">Username</label>
+          <label className="text-xs text-muted-foreground">USERNAME</label>
           <Input
             value={form.username}
             onChange={(e) =>
@@ -96,68 +96,79 @@ export default function SignUp() {
             }
             id="input-field-username"
             type="text"
-            placeholder="Enter your username"
+            placeholder="Username"
+            className="text-xs"
             required
           />
         </div>
-        <div>
-          <label className="text-sm text-muted-foreground">First name</label>
-          <Input
-            value={form.firstName}
-            onChange={(e) =>
-              setForm((p) => ({ ...p, firstName: e.target.value }))
-            }
-            id="input-field-firstname"
-            type="text"
-            placeholder="Enter your first name"
-            required
-          />
+        <div className="flex gap-2">
+          <div className="flex-1">
+            <label className="text-xs text-muted-foreground">FIRST NAME</label>
+            <Input
+              value={form.firstName}
+              onChange={(e) =>
+                setForm((p) => ({ ...p, firstName: e.target.value }))
+              }
+              id="input-field-firstname"
+              type="text"
+              placeholder="First"
+              className="text-xs"
+              required
+            />
+          </div>
+          <div className="flex-1">
+            <label className="text-xs text-muted-foreground">LAST NAME</label>
+            <Input
+              value={form.lastName}
+              onChange={(e) =>
+                setForm((p) => ({ ...p, lastName: e.target.value }))
+              }
+              id="input-field-lastname"
+              type="text"
+              placeholder="Last"
+              className="text-xs"
+              required
+            />
+          </div>
+        </div>
+        <div className="flex gap-2">
+          <div className="flex-2">
+            <label className="text-xs text-muted-foreground">MIDDLE NAME</label>
+            <Input
+              value={form.middleName ?? ""}
+              onChange={(e) =>
+                setForm((p) => ({ ...p, middleName: e.target.value }))
+              }
+              id="input-field-middlename"
+              type="text"
+              placeholder="Middle"
+              className="text-xs"
+            />
+          </div>
+          <div className="flex-1">
+            <label className="text-xs text-muted-foreground">SUFFIX</label>
+            <Input
+              value={form.suffix ?? ""}
+              onChange={(e) =>
+                setForm((p) => ({ ...p, suffix: e.target.value }))
+              }
+              id="input-field-suffix"
+              type="text"
+              placeholder="Jr."
+              className="text-xs"
+            />
+          </div>
         </div>
         <div>
-          <label className="text-sm text-muted-foreground">Last name</label>
-          <Input
-            value={form.lastName}
-            onChange={(e) =>
-              setForm((p) => ({ ...p, lastName: e.target.value }))
-            }
-            id="input-field-lastname"
-            type="text"
-            placeholder="Enter your last name"
-            required
-          />
-        </div>
-        <div>
-          <label className="text-sm text-muted-foreground">Middle name</label>
-          <Input
-            value={form.middleName ?? ""}
-            onChange={(e) =>
-              setForm((p) => ({ ...p, middleName: e.target.value }))
-            }
-            id="input-field-middlename"
-            type="text"
-            placeholder="Enter your middle name"
-          />
-        </div>
-        <div>
-          <label className="text-sm text-muted-foreground">Suffix</label>
-          <Input
-            value={form.suffix ?? ""}
-            onChange={(e) => setForm((p) => ({ ...p, suffix: e.target.value }))}
-            id="input-field-suffix"
-            type="text"
-            placeholder="Enter your suffix"
-          />
-        </div>
-        <div>
-          <label className="text-sm text-muted-foreground">Pick Role</label>
+          <label className="text-xs text-muted-foreground">ROLE</label>
           <Select
             value={form.role}
             onValueChange={(value: "USER" | "ADMIN" | "SETUP" | "PROGRAM") =>
               setForm((prev) => ({ ...prev, role: value }))
             }
           >
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select a role" />
+            <SelectTrigger className="w-full text-xs">
+              <SelectValue placeholder="Role" />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
@@ -171,7 +182,7 @@ export default function SignUp() {
           </Select>
         </div>
         <div>
-          <label className="text-sm text-muted-foreground">Password</label>
+          <label className="text-xs text-muted-foreground">PASSWORD</label>
           <div className="relative">
             <Input
               value={form.password}
@@ -180,8 +191,9 @@ export default function SignUp() {
               }
               id="input-field-password"
               type={show ? "text" : "password"}
-              placeholder="Enter your password"
               minLength={6}
+              placeholder="Password"
+              className="text-xs"
               required
             />
             <Button

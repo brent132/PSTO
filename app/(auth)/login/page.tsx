@@ -61,7 +61,7 @@ export default function LoginPage() {
         />
       </div>
       <Tabs defaultValue="Login" className="flex gap-8 items-center">
-        <TabsList className="w-full border">
+        <TabsList className="w-full border min-h-10">
           <TabsTrigger value="Login">Login</TabsTrigger>
           <TabsTrigger value="Signup">Signup</TabsTrigger>
         </TabsList>
@@ -71,12 +71,12 @@ export default function LoginPage() {
               e.preventDefault();
               loginMutation.mutate(form);
             }}
-            className="flex flex-col gap-4"
+            className="flex flex-col gap-4 min-w-xs"
           >
             <div className="flex flex-col gap-4">
               <div>
-                <label className="text-sm text-muted-foreground">
-                  Username
+                <label className="text-xs text-muted-foreground">
+                  USERNAME
                 </label>
                 <Input
                   value={form.username}
@@ -85,13 +85,14 @@ export default function LoginPage() {
                   }
                   id="input-field-username"
                   type="text"
-                  placeholder="Enter your username"
+                  placeholder="Username"
+                  className="text-xs"
                   required
                 />
               </div>
               <div>
-                <label className="text-sm text-muted-foreground">
-                  Password
+                <label className="text-xs text-muted-foreground">
+                  PASSWORD
                 </label>
                 <div className="relative">
                   <Input
@@ -101,8 +102,9 @@ export default function LoginPage() {
                     }
                     id="input-field-password"
                     type={show ? "text" : "password"}
-                    placeholder="Enter your password"
                     minLength={6}
+                    placeholder="Password"
+                    className="text-xs"
                     required
                   />
                   <Button

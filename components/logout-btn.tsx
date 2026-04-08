@@ -3,7 +3,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { LogOut } from "lucide-react";
-import { Button } from "./ui/button";
 
 async function logoutRequest() {
   const res = await fetch("/api/logout", {
@@ -25,13 +24,12 @@ export function LogoutButton() {
   });
 
   return (
-    <Button
+    <div
       onClick={() => logoutMutation.mutate()}
       className="text-xs text-destructive flex items-center w-full justify-between"
-      variant="ghost"
     >
       {logoutMutation.isPending ? "Logging out..." : "Logout"}
-      <LogOut className="text-destructive" />
-    </Button>
+      <LogOut className="text-destructive w-4 h-4" />
+    </div>
   );
 }

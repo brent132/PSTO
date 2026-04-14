@@ -20,6 +20,7 @@ import { Label } from "@/components/ui/label";
 export default function CreateProjectDialogForm() {
   const [projectTitle, setProjectTitle] = useState("");
   const { mutate, isPending } = useCreateProject();
+  const [open, setOpen] = useState(false);
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -29,13 +30,14 @@ export default function CreateProjectDialogForm() {
       {
         onSuccess: () => {
           setProjectTitle("");
+          setOpen(false);
         },
       },
     );
   }
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button size="icon-sm">
           <Plus className="w-4 h-4" />

@@ -3,6 +3,7 @@ export type CreateProjectPayload = {
   project_title: string;
 };
 
+// create project | use-fetch-projects
 export type Project = {
   id: number;
   project_title: string;

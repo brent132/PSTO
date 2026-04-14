@@ -28,7 +28,7 @@ export function useCreateProject() {
       queryClient.invalidateQueries({ queryKey: ["projects"] });
     },
     onError: () => {
-      toast.error("Something went wrong, try again later");
+      toast.error("Something went wrong, project already exist");
     },
   });
 }

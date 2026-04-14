@@ -13,7 +13,7 @@ export default function ProjectsHeader() {
       }`}
     >
       <div className="flex items-center justify-between">
-        <p>Projects</p>
+        <p className="text-lg font-medium">Projects</p>
         <CreateProjectDialogForm />
       </div>
     </div>

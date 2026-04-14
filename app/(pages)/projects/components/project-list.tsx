@@ -1,7 +1,7 @@
 "use client";
 import { useProjects } from "../hooks/use-fetch-projects";
 import { formatDateTime } from "@/hooks/date-format";
-import { Calendar } from "lucide-react";
+import { Pen, Trash2 } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -18,10 +18,11 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { Button } from "@/components/ui/button";
 
-export default function ProjectList() {
+export default function ProjectList({ search }: { search: string }) {
   const [page, setPage] = useState(1);
-  const { data: projects, isLoading } = useProjects(page);
+  const { data: projects, isLoading } = useProjects(page, search);
 
   if (isLoading) {
     return <p>Loading...</p>;
@@ -34,8 +35,7 @@ export default function ProjectList() {
           <TableRow>
             <TableHead>Project title</TableHead>
             <TableHead className="flex items-center gap-2">
-              <Calendar className="w-4 h-4" />
-              Created on
+              Created at
             </TableHead>
             <TableHead>Actions</TableHead>
           </TableRow>
@@ -47,7 +47,14 @@ export default function ProjectList() {
                 {project.project_title}
               </TableCell>
               <TableCell>{formatDateTime(project.created_at)}</TableCell>
-              <TableCell>actions</TableCell>
+              <TableCell className="flex gap-2">
+                <Button variant="outline" size="icon-sm">
+                  <Pen className="w-4 h-4" />
+                </Button>
+                <Button variant="outline" size="icon-sm">
+                  <Trash2 className="w-4 h-4 text-destructive" />
+                </Button>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

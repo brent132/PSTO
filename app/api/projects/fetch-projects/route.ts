@@ -6,11 +6,17 @@ export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
     const page = Number(searchParams.get("page") ?? 1);
     const limit = 10;
+    const search = searchParams.get("search") ?? "";
+
+    const where = {
+      deleted_at: null,
+      project_title: {
+        contains: search,
+      },
+    };
 
     const projects = await prisma.projects.findMany({
-      where: {
-        deleted_at: null,
-      },
+      where,
       orderBy: {
         created_at: "desc",
       },
@@ -19,9 +25,7 @@ export async function GET(req: Request) {
     });
 
     const total = await prisma.projects.count({
-      where: {
-        deleted_at: null,
-      },
+      where,
     });
 
     return NextResponse.json({

@@ -18,3 +18,9 @@ export type Response = {
   page: number;
   lastPage: number;
 };
+
+// project search feature
+export type ProjectSearchProps = {
+  value: string;
+  action: (value: string) => void;
+};

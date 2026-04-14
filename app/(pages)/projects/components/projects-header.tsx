@@ -1,8 +1,10 @@
 "use client";
 import { useStickyActive } from "@/hooks/use-sticky-active";
 import CreateProjectDialogForm from "./create-project-dialog-form";
+import { Input } from "@/components/ui/input";
+import { ProjectSearchProps } from "@/types/projects";
 
-export default function ProjectsHeader() {
+export default function ProjectsHeader({ value, action }: ProjectSearchProps) {
   const { ref, isStickyActive } = useStickyActive<HTMLDivElement>();
 
   return (
@@ -15,6 +17,13 @@ export default function ProjectsHeader() {
       <div className="flex items-center justify-between">
         <p className="text-lg font-medium">Projects</p>
         <CreateProjectDialogForm />
+      </div>
+      <div>
+        <Input
+          placeholder="Search projects..."
+          value={value}
+          onChange={(e) => action(e.target.value)}
+        />
       </div>
     </div>
   );

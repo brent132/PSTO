@@ -1,5 +1,6 @@
 "use client";
 import { useStickyActive } from "@/hooks/use-sticky-active";
+import CreateProjectDialogForm from "./create-project-dialog-form";
 
 export default function ProjectsHeader() {
   const { ref, isStickyActive } = useStickyActive<HTMLDivElement>();
@@ -11,7 +12,10 @@ export default function ProjectsHeader() {
         isStickyActive ? "bg-background shadow-sm" : "bg-transparent"
       }`}
     >
-      <p>Projects</p>
+      <div className="flex items-center justify-between">
+        <p>Projects</p>
+        <CreateProjectDialogForm />
+      </div>
     </div>
   );
 }

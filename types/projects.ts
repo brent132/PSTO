@@ -11,3 +11,10 @@ export type Project = {
   updated_at: string;
   deleted_at: string | null;
 };
+
+export type Response = {
+  data: Project[];
+  total: number;
+  page: number;
+  lastPage: number;
+};

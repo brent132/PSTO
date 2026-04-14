@@ -1,8 +1,8 @@
-import { Project } from "@/types/projects";
+import { Response } from "@/types/projects";
 import { useQuery } from "@tanstack/react-query";
 
-async function fetchProjects(): Promise<Project[]> {
-  const res = await fetch("/api/projects/fetch-projects");
+async function fetchProjects(page: number): Promise<Response> {
+  const res = await fetch(`/api/projects/fetch-projects?page=${page}`);
 
   if (!res.ok) {
     throw new Error("Failed to fetch projects");
@@ -11,9 +11,9 @@ async function fetchProjects(): Promise<Project[]> {
   return res.json();
 }
 
-export function useProjects() {
+export function useProjects(page: number) {
   return useQuery({
-    queryKey: ["projects"],
-    queryFn: fetchProjects,
+    queryKey: ["projects", page],
+    queryFn: () => fetchProjects(page),
   });
 }

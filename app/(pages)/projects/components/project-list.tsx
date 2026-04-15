@@ -1,7 +1,6 @@
 "use client";
 import { useProjects } from "../hooks/use-fetch-projects";
 import { formatDateTime } from "@/hooks/date-format";
-import { Trash2 } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -18,8 +17,8 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { Button } from "@/components/ui/button";
 import EditProjectDialog from "./edit-project-dialog";
+import DeleteProjectButton from "./delete-project-button";
 
 export default function ProjectList({
   search,
@@ -59,9 +58,7 @@ export default function ProjectList({
                   id={project.id}
                   project_title={project.project_title}
                 />
-                <Button variant="outline" size="icon-sm">
-                  <Trash2 className="w-4 h-4 text-destructive" />
-                </Button>
+                <DeleteProjectButton id={project.id} />
               </TableCell>
             </TableRow>
           ))}

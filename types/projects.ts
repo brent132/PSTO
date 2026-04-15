@@ -27,7 +27,13 @@ export type ProjectSearchProps = {
   sortAction: (value: string) => void;
 };
 
+// edit project
 export type UpdateProjectProps = {
   id: number;
   project_title: string;
+};
+
+// delete project
+export type DeleteProjectProps = {
+  id: number;
 };

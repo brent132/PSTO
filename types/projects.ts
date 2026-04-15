@@ -26,3 +26,8 @@ export type ProjectSearchProps = {
   sort: string;
   sortAction: (value: string) => void;
 };
+
+export type UpdateProjectProps = {
+  id: number;
+  project_title: string;
+};

@@ -1,7 +1,7 @@
 "use client";
 import { useProjects } from "../hooks/use-fetch-projects";
 import { formatDateTime } from "@/hooks/date-format";
-import { Pen, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -19,6 +19,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { Button } from "@/components/ui/button";
+import EditProjectDialog from "./edit-project-dialog";
 
 export default function ProjectList({
   search,
@@ -54,9 +55,10 @@ export default function ProjectList({
               </TableCell>
               <TableCell>{formatDateTime(project.created_at)}</TableCell>
               <TableCell className="flex gap-2">
-                <Button variant="outline" size="icon-sm">
-                  <Pen className="w-4 h-4" />
-                </Button>
+                <EditProjectDialog
+                  id={project.id}
+                  project_title={project.project_title}
+                />
                 <Button variant="outline" size="icon-sm">
                   <Trash2 className="w-4 h-4 text-destructive" />
                 </Button>

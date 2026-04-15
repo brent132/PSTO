@@ -23,4 +23,6 @@ export type Response = {
 export type ProjectSearchProps = {
   value: string;
   action: (value: string) => void;
+  sort: string;
+  sortAction: (value: string) => void;
 };

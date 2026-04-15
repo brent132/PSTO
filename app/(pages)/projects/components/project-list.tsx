@@ -20,9 +20,15 @@ import {
 } from "@/components/ui/pagination";
 import { Button } from "@/components/ui/button";
 
-export default function ProjectList({ search }: { search: string }) {
+export default function ProjectList({
+  search,
+  sort,
+}: {
+  search: string;
+  sort: string;
+}) {
   const [page, setPage] = useState(1);
-  const { data: projects, isLoading } = useProjects(page, search);
+  const { data: projects, isLoading } = useProjects(page, search, sort);
 
   if (isLoading) {
     return <p>Loading...</p>;

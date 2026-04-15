@@ -7,18 +7,21 @@ export async function GET(req: Request) {
     const page = Number(searchParams.get("page") ?? 1);
     const limit = 10;
     const search = searchParams.get("search") ?? "";
+    const sort = searchParams.get("sort") ?? "latest";
 
     const where = {
       deleted_at: null,
-      project_title: {
-        contains: search,
-      },
+      ...(search && {
+        project_title: {
+          contains: search,
+        },
+      }),
     };
 
     const projects = await prisma.projects.findMany({
       where,
       orderBy: {
-        created_at: "desc",
+        created_at: sort === "old" ? "asc" : "desc",
       },
       skip: (page - 1) * limit,
       take: limit,

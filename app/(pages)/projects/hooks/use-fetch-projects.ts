@@ -1,9 +1,13 @@
 import { Response } from "@/types/projects";
 import { useQuery } from "@tanstack/react-query";
 
-async function fetchProjects(page: number, search: string): Promise<Response> {
+async function fetchProjects(
+  page: number,
+  search: string,
+  sort: string,
+): Promise<Response> {
   const res = await fetch(
-    `/api/projects/fetch-projects?page=${page}&search=${encodeURIComponent(search)}`,
+    `/api/projects/fetch-projects?page=${page}&search=${search}&sort=${sort}`,
   );
 
   if (!res.ok) {
@@ -13,9 +17,9 @@ async function fetchProjects(page: number, search: string): Promise<Response> {
   return res.json();
 }
 
-export function useProjects(page: number, search: string) {
+export function useProjects(page: number, search: string, sort: string) {
   return useQuery({
-    queryKey: ["projects", page, search],
-    queryFn: () => fetchProjects(page, search),
+    queryKey: ["projects", page, search, sort],
+    queryFn: () => fetchProjects(page, search, sort),
   });
 }

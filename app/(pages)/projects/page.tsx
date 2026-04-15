@@ -5,11 +5,17 @@ import ProjectsHeader from "./components/projects-header";
 
 export default function ProjectsPage() {
   const [search, setSearch] = useState("");
+  const [sort, setSort] = useState("latest");
 
   return (
     <div>
-      <ProjectsHeader value={search} action={setSearch} />
-      <ProjectList search={search} />
+      <ProjectsHeader
+        value={search}
+        action={setSearch}
+        sort={sort}
+        sortAction={setSort}
+      />
+      <ProjectList search={search} sort={sort} />
     </div>
   );
 }

@@ -16,6 +16,11 @@ import { Plus } from "lucide-react";
 import { Field, FieldGroup } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export default function CreateProjectDialogForm() {
   const [projectTitle, setProjectTitle] = useState("");
@@ -39,9 +44,16 @@ export default function CreateProjectDialogForm() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button size="icon-sm">
-          <Plus className="w-4 h-4" />
-        </Button>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button size="icon-sm">
+              <Plus className="w-4 h-4" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Add a project</p>
+          </TooltipContent>
+        </Tooltip>
       </DialogTrigger>
       <DialogContent className="max-w-sm">
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">

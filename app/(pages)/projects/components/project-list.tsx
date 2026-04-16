@@ -22,6 +22,11 @@ import DeleteProjectButton from "./delete-project-button";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { FileText } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export default function ProjectList({
   search,
@@ -65,19 +70,28 @@ export default function ProjectList({
                 onClick={(e) => e.stopPropagation()}
                 className="flex gap-2"
               >
-                <Button
-                  size="icon-sm"
-                  variant="outline"
-                  onClick={() =>
-                    router.push(`/projects/${project.id}/requirements`)
-                  }
-                >
-                  <FileText className="w-4 h-4" />
-                </Button>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      size="icon-sm"
+                      variant="outline"
+                      onClick={() =>
+                        router.push(`/projects/${project.id}/requirements`)
+                      }
+                    >
+                      <FileText className="w-4 h-4" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>View requirements</p>
+                  </TooltipContent>
+                </Tooltip>
+
                 <EditProjectDialog
                   id={project.id}
                   project_title={project.project_title}
                 />
+
                 <DeleteProjectButton id={project.id} />
               </TableCell>
             </TableRow>

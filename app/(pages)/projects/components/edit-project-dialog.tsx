@@ -13,6 +13,11 @@ import { Button } from "@/components/ui/button";
 import { Pen } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { UpdateProjectProps } from "@/types/projects";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export default function EditProjectDialog({
   id,
@@ -39,9 +44,16 @@ export default function EditProjectDialog({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" size="icon-sm">
-          <Pen className="w-4 h-4" />
-        </Button>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button variant="outline" size="icon-sm">
+              <Pen className="w-4 h-4" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Edit project</p>
+          </TooltipContent>
+        </Tooltip>
       </DialogTrigger>
       <DialogContent className="max-w-sm">
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">

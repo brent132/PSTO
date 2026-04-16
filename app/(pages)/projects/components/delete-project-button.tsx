@@ -14,6 +14,11 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Trash2 } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export default function DeleteProjectButton({ id }: DeleteProjectProps) {
   const { mutate, isPending } = useDeleteProject();
@@ -21,9 +26,16 @@ export default function DeleteProjectButton({ id }: DeleteProjectProps) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="outline" size="icon-sm">
-          <Trash2 className="w-4 h-4 text-destructive" />
-        </Button>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button variant="outline" size="icon-sm">
+              <Trash2 className="w-4 h-4 text-destructive" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Delete project</p>
+          </TooltipContent>
+        </Tooltip>
       </AlertDialogTrigger>
 
       <AlertDialogContent className="max-w-sm">

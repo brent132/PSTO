@@ -8,7 +8,7 @@ export default function ProjectsPage() {
   const [sort, setSort] = useState("latest");
 
   return (
-    <div>
+    <div className="flex flex-col gap-4">
       <ProjectsHeader
         value={search}
         action={setSearch}

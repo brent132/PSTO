@@ -19,6 +19,9 @@ import {
 } from "@/components/ui/pagination";
 import EditProjectDialog from "./edit-project-dialog";
 import DeleteProjectButton from "./delete-project-button";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { FileText } from "lucide-react";
 
 export default function ProjectList({
   search,
@@ -29,13 +32,14 @@ export default function ProjectList({
 }) {
   const [page, setPage] = useState(1);
   const { data: projects, isLoading } = useProjects(page, search, sort);
+  const router = useRouter();
 
   if (isLoading) {
     return <p>Loading...</p>;
   }
 
   return (
-    <div className="flex flex-col gap-4 p-4 bg-brand-foreground">
+    <div className="flex flex-col gap-4 p-4 bg-background">
       <Table>
         <TableHeader>
           <TableRow>
@@ -48,12 +52,28 @@ export default function ProjectList({
         </TableHeader>
         <TableBody>
           {projects?.data?.map((project) => (
-            <TableRow key={project.id}>
+            <TableRow
+              key={project.id}
+              onClick={() => router.push(`/projects/${project.id}`)}
+              className="cursor-pointer"
+            >
               <TableCell className="uppercase">
                 {project.project_title}
               </TableCell>
               <TableCell>{formatDateTime(project.created_at)}</TableCell>
-              <TableCell className="flex gap-2">
+              <TableCell
+                onClick={(e) => e.stopPropagation()}
+                className="flex gap-2"
+              >
+                <Button
+                  size="icon-sm"
+                  variant="outline"
+                  onClick={() =>
+                    router.push(`/projects/${project.id}/requirements`)
+                  }
+                >
+                  <FileText className="w-4 h-4" />
+                </Button>
                 <EditProjectDialog
                   id={project.id}
                   project_title={project.project_title}

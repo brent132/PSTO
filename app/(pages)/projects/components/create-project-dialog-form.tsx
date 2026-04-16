@@ -43,7 +43,7 @@ export default function CreateProjectDialogForm() {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
+      <DialogTrigger>
         <Tooltip>
           <TooltipTrigger asChild>
             <Button size="icon-sm">

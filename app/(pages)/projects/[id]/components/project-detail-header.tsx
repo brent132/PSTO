@@ -1,6 +1,6 @@
 "use client";
 import { useStickyActive } from "@/hooks/use-sticky-active";
-import { useProject } from "../hooks/use-project";
+import { useProject } from "../../hooks/use-project";
 import { Button } from "@/components/ui/button";
 import { FileText } from "lucide-react";
 import { useRouter } from "next/navigation";

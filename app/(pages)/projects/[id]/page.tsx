@@ -1,4 +1,4 @@
-import ProjectDetailHeader from "../components/project-detail-header";
+import ProjectDetailHeader from "./components/project-detail-header";
 
 export default async function ProjectDetailPage({
   params,

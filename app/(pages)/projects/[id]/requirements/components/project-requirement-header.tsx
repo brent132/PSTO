@@ -1,5 +1,6 @@
 "use client";
 import { useStickyActive } from "@/hooks/use-sticky-active";
+import CreateRequirementForm from "./create-requirement-form";
 
 export default function ProjectRequirementHeader() {
   const { ref, isStickyActive } = useStickyActive<HTMLDivElement>();
@@ -11,7 +12,10 @@ export default function ProjectRequirementHeader() {
         isStickyActive ? "bg-background shadow-sm" : "bg-transparent"
       }`}
     >
-      <h1>Requirement list</h1>
+      <div className="flex items-center justify-between">
+        <h1>Requirement list</h1>
+        <CreateRequirementForm />
+      </div>
     </div>
   );
 }

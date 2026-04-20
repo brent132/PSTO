@@ -46,6 +46,7 @@ model Requirements {
   requirement  String                @unique
   created_at   DateTime              @default(now())
   updated_at   DateTime              @updatedAt
+  deleted_at    DateTime?
 
   projects     ProjectRequirements[]
 }
@@ -61,6 +62,7 @@ model ProjectRequirements {
 
   created_at     DateTime @default(now())
   updated_at     DateTime @updatedAt
+  deleted_at    DateTime?
 
   project        Projects     @relation(fields: [project_id], references: [id], onDelete: Cascade)
   requirement    Requirements @relation(fields: [requirement_id], references: [id], onDelete: Cascade)

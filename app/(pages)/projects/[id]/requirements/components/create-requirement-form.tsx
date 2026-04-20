@@ -1,6 +1,5 @@
-"use client";
-import { useState } from "react";
-import { useCreateProject } from "../hooks/use-create-project";
+import React, { useState } from "react";
+import { useCreateRequirement } from "../hooks/use-create-requirement";
 import {
   Dialog,
   DialogClose,
@@ -11,30 +10,28 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
-import { Field, FieldGroup } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
+import { Input } from "@/components/ui/input";
 
-export default function CreateProjectDialogForm() {
-  const [projectTitle, setProjectTitle] = useState("");
-  const { mutate, isPending } = useCreateProject();
+export default function CreateRequirementForm() {
+  const [requirement, setRequirement] = useState("");
+  const { mutate, isPending } = useCreateRequirement();
   const [open, setOpen] = useState(false);
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
     mutate(
-      { project_title: projectTitle },
+      { requirement: requirement },
       {
         onSuccess: () => {
-          setProjectTitle("");
+          setRequirement("");
           setOpen(false);
         },
       },
@@ -52,33 +49,31 @@ export default function CreateProjectDialogForm() {
           </TooltipTrigger>
         </DialogTrigger>
         <TooltipContent>
-          <p>Add a project</p>
+          <p>Add a requirement</p>
         </TooltipContent>
       </Tooltip>
 
       <DialogContent className="max-w-sm">
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <DialogHeader>
-            <DialogTitle>Create new project</DialogTitle>
+            <DialogTitle>Create new requirement</DialogTitle>
             <DialogDescription>?</DialogDescription>
           </DialogHeader>
-          <FieldGroup>
-            <Field>
-              <Label>Project title</Label>
-              <Input
-                value={projectTitle}
-                onChange={(e) => setProjectTitle(e.target.value)}
-                placeholder="Project title"
-                className="text-xs"
-              />
-            </Field>
-          </FieldGroup>
+
+          <Input
+            value={requirement}
+            onChange={(e) => setRequirement(e.target.value)}
+            placeholder="Enter Requirement"
+            className="text-xs"
+            required
+          />
+
           <DialogFooter>
             <DialogClose asChild>
               <Button variant="outline">Cancel</Button>
             </DialogClose>
             <Button type="submit" disabled={isPending}>
-              {isPending ? "Creating..." : "Create Project"}
+              {isPending ? "Creating..." : "Create Requirement"}
             </Button>
           </DialogFooter>
         </form>

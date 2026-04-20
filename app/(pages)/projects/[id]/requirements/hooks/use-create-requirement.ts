@@ -5,7 +5,7 @@ import { toast } from "sonner";
 async function createRequirement(
   payload: CreateRequirementPayload,
 ): Promise<Requirement> {
-  const res = await fetch("/api/projects/insert-requirements", {
+  const res = await fetch("/api/projects/insert-requirement", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

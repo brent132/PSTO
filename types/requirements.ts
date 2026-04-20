@@ -9,3 +9,6 @@ export type Requirement = {
   updated_at: string;
   deleted_at: string | null;
 };
+export type RequirementsResponse = {
+  data: Requirement[];
+};

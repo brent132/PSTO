@@ -43,18 +43,19 @@ export default function CreateProjectDialogForm() {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger>
-        <Tooltip>
+      <Tooltip>
+        <DialogTrigger asChild>
           <TooltipTrigger asChild>
             <Button size="icon-sm">
               <Plus className="w-4 h-4" />
             </Button>
           </TooltipTrigger>
-          <TooltipContent>
-            <p>Add a project</p>
-          </TooltipContent>
-        </Tooltip>
-      </DialogTrigger>
+        </DialogTrigger>
+        <TooltipContent>
+          <p>Add a project</p>
+        </TooltipContent>
+      </Tooltip>
+
       <DialogContent className="max-w-sm">
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <DialogHeader>

@@ -38,20 +38,33 @@ model Projects {
   updated_at    DateTime       @updatedAt
   deleted_at    DateTime?
 
-  requirements  Requirements[]
+  requirements  ProjectRequirements[]
 }
 
 model Requirements {
-  id            Int       @id @default(autoincrement())
-  project_id    Int
-  requirement   String
-  is_compiled   Boolean   @default(false)
-  remarks       String?
-  created_at    DateTime  @default(now())
-  updated_at    DateTime  @updatedAt
-  deleted_at    DateTime?
+  id           Int                   @id @default(autoincrement())
+  requirement  String                @unique
+  created_at   DateTime              @default(now())
+  updated_at   DateTime              @updatedAt
 
-  project       Projects  @relation(fields: [project_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  projects     ProjectRequirements[]
+}
 
+model ProjectRequirements {
+  id             Int      @id @default(autoincrement())
+
+  project_id     Int
+  requirement_id Int
+
+  is_compiled    Boolean  @default(false)
+  remarks        String?
+
+  created_at     DateTime @default(now())
+  updated_at     DateTime @updatedAt
+
+  project        Projects     @relation(fields: [project_id], references: [id], onDelete: Cascade)
+  requirement    Requirements @relation(fields: [requirement_id], references: [id], onDelete: Cascade)
+
+  @@unique([project_id, requirement_id])
   @@index([project_id])
 }

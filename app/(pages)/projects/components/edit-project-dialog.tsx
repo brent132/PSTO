@@ -43,18 +43,19 @@ export default function EditProjectDialog({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger>
-        <Tooltip>
+      <Tooltip>
+        <DialogTrigger asChild>
           <TooltipTrigger asChild>
             <Button variant="outline" size="icon-sm">
               <Pen className="w-4 h-4" />
             </Button>
           </TooltipTrigger>
-          <TooltipContent>
-            <p>Edit project</p>
-          </TooltipContent>
-        </Tooltip>
-      </DialogTrigger>
+        </DialogTrigger>
+        <TooltipContent>
+          <p>Edit project</p>
+        </TooltipContent>
+      </Tooltip>
+
       <DialogContent className="max-w-xs">
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <DialogHeader>

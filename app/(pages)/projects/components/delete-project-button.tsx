@@ -25,18 +25,18 @@ export default function DeleteProjectButton({ id }: DeleteProjectProps) {
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger>
-        <Tooltip>
+      <Tooltip>
+        <AlertDialogTrigger asChild>
           <TooltipTrigger asChild>
             <Button variant="outline" size="icon-sm">
               <Trash2 className="w-4 h-4 text-destructive" />
             </Button>
           </TooltipTrigger>
-          <TooltipContent>
-            <p>Delete project</p>
-          </TooltipContent>
-        </Tooltip>
-      </AlertDialogTrigger>
+        </AlertDialogTrigger>
+        <TooltipContent>
+          <p>Delete project</p>
+        </TooltipContent>
+      </Tooltip>
 
       <AlertDialogContent className="max-w-xs">
         <AlertDialogHeader>

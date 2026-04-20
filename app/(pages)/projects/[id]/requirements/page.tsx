@@ -1,7 +1,9 @@
+import ProjectRequirementHeader from "./components/project-requirement-header";
+
 export default function ProjectRequirementPage() {
   return (
     <div>
-      <p>hello</p>
+      <ProjectRequirementHeader />
     </div>
   );
 }

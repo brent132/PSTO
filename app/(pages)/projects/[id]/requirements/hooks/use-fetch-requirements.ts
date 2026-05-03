@@ -5,7 +5,7 @@ async function fetchRequirements(): Promise<RequirementsResponse> {
   const res = await fetch("/api/projects/fetch-requirements");
 
   if (!res.ok) {
-    throw new Error("Failed to fetch projects");
+    throw new Error("Failed to fetch requirements");
   }
 
   return res.json();

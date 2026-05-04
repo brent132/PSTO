@@ -7,6 +7,17 @@ export async function GET(_req: Request, { params }: Context) {
     const { id } = await params;
     const projectId = Number(id);
 
+    const project = await prisma.projects.findFirst({
+      where: {
+        id: projectId,
+        deleted_at: null,
+      },
+      select: {
+        id: true,
+        project_title: true,
+      },
+    });
+
     const requirements = await prisma.requirements.findMany({
       where: {
         deleted_at: null,
@@ -35,7 +46,7 @@ export async function GET(_req: Request, { params }: Context) {
       };
     });
 
-    return NextResponse.json({ data });
+    return NextResponse.json({ data, project });
   } catch (error) {
     console.error("Failed to fetch project requirements:", error);
 

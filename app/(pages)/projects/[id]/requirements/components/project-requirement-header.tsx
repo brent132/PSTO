@@ -1,8 +1,17 @@
-"use client";
 import { useStickyActive } from "@/hooks/use-sticky-active";
 import CreateRequirementForm from "./create-requirement-form";
+import { ProjectRequirementHeaderProps } from "@/types/requirements";
+import { Button } from "@/components/ui/button";
+import { Pen } from "lucide-react";
 
-export default function ProjectRequirementHeader() {
+export default function ProjectRequirementHeader({
+  projectTitle,
+  isEditing,
+  isSaving,
+  onEdit,
+  onCancel,
+  onSave,
+}: ProjectRequirementHeaderProps) {
   const { ref, isStickyActive } = useStickyActive<HTMLDivElement>();
 
   return (
@@ -12,9 +21,31 @@ export default function ProjectRequirementHeader() {
         isStickyActive ? "bg-background shadow-sm" : "bg-transparent"
       }`}
     >
-      <div className="flex items-center justify-between">
-        <h1>Requirement list</h1>
-        <CreateRequirementForm />
+      <div className="flex items-start justify-between">
+        <div>
+          <h1 className="text-lg font-medium capitalize">{projectTitle}</h1>
+          <p className="text-sm text-muted-foreground">Requirement list</p>
+        </div>
+
+        <div className="flex items-center gap-2">
+          {!isEditing ? (
+            <>
+              <Button size="icon-sm" onClick={onEdit}>
+                <Pen className="w-4 h-4" />
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button size="sm" variant="outline" onClick={onCancel}>
+                Cancel
+              </Button>
+              <Button size="sm" onClick={onSave} disabled={isSaving}>
+                {isSaving ? "Saving..." : "Save"}
+              </Button>
+            </>
+          )}
+          <CreateRequirementForm />
+        </div>
       </div>
     </div>
   );

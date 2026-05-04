@@ -35,6 +35,10 @@ export type ProjectRequirementRow = {
 };
 
 export type ProjectRequirementsResponse = {
+  project: {
+    id: number;
+    project_title: string;
+  } | null;
   data: ProjectRequirementRow[];
 };
 
@@ -50,4 +54,25 @@ export type RequirementListRow = {
   requirement: string;
   is_compiled: boolean;
   remarks: string;
+};
+
+export type RequirementListProps = {
+  rows: RequirementListRow[];
+  isLoading: boolean;
+  isEditing: boolean;
+  onUpdateRow: (
+    requirementId: number,
+    field: "is_compiled" | "remarks",
+    value: boolean | string,
+  ) => void;
+};
+
+// requirement-header
+export type ProjectRequirementHeaderProps = {
+  projectTitle: string;
+  isEditing: boolean;
+  isSaving: boolean;
+  onEdit: () => void;
+  onCancel: () => void;
+  onSave: () => void;
 };

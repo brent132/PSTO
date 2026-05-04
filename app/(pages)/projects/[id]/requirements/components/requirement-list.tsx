@@ -1,8 +1,3 @@
-"use client";
-
-import { useState } from "react";
-import { useParams } from "next/navigation";
-
 import {
   Table,
   TableBody,
@@ -12,94 +7,28 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Input } from "@/components/ui/input";
+import { RequirementListProps } from "@/types/requirements";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Check, X } from "lucide-react";
 
-import { useProjectRequirements } from "../hooks/use-fetch-project-requirements";
-import { useSaveProjectRequirements } from "../hooks/use-save-project-requirements";
-import { RequirementListRow } from "@/types/requirements";
-
-export default function RequirementList() {
-  const params = useParams();
-  const projectId = String(params.id);
-
-  const { data: requirements, isLoading } = useProjectRequirements(projectId);
-  const saveRequirements = useSaveProjectRequirements();
-
-  const [isEditing, setIsEditing] = useState(false);
-  const [editableRows, setEditableRows] = useState<RequirementListRow[]>([]);
-
-  const rows = isEditing ? editableRows : (requirements?.data ?? []);
-
-  function handleEdit() {
-    setEditableRows(requirements?.data ?? []);
-    setIsEditing(true);
-  }
-
-  function updateRow(
-    requirementId: number,
-    field: "is_compiled" | "remarks",
-    value: boolean | string,
-  ) {
-    setEditableRows((prev) =>
-      prev.map((row) =>
-        row.requirement_id === requirementId
-          ? {
-              ...row,
-              [field]: value,
-            }
-          : row,
-      ),
-    );
-  }
-
-  function handleSave() {
-    saveRequirements.mutate(
-      {
-        projectId,
-        items: editableRows,
-      },
-      {
-        onSuccess: () => {
-          setIsEditing(false);
-          setEditableRows([]);
-        },
-      },
-    );
-  }
-
-  function handleCancel() {
-    setIsEditing(false);
-    setEditableRows([]);
-  }
-
+export default function RequirementList({
+  rows,
+  isLoading,
+  isEditing,
+  onUpdateRow,
+}: RequirementListProps) {
   if (isLoading) {
     return <p>Loading...</p>;
   }
 
   return (
-    <>
-      {!isEditing ? (
-        <Button onClick={handleEdit}>Edit</Button>
-      ) : (
-        <>
-          <Button variant="outline" onClick={handleCancel}>
-            Cancel
-          </Button>
-
-          <Button onClick={handleSave} disabled={saveRequirements.isPending}>
-            {saveRequirements.isPending ? "Saving..." : "Save"}
-          </Button>
-        </>
-      )}
-
+    <div className="flex flex-col gap-4 p-4 bg-background">
       <Table>
         <TableHeader>
           <TableRow>
             <TableHead>Requirement</TableHead>
             <TableHead>Compiled</TableHead>
-            <TableHead>Not compiled</TableHead>
             <TableHead>Remarks</TableHead>
           </TableRow>
         </TableHeader>
@@ -107,45 +36,44 @@ export default function RequirementList() {
         <TableBody>
           {rows.map((row) => (
             <TableRow key={row.requirement_id}>
-              <TableCell>{row.requirement}</TableCell>
+              <TableCell className="">{row.requirement}</TableCell>
 
               <TableCell>
-                <Input
-                  type="radio"
-                  name={`compiled-${row.requirement_id}`}
-                  checked={row.is_compiled === true}
-                  disabled={!isEditing}
-                  onChange={() =>
-                    updateRow(row.requirement_id, "is_compiled", true)
-                  }
-                />
+                {isEditing ? (
+                  <Checkbox
+                    checked={row.is_compiled}
+                    onCheckedChange={(checked) =>
+                      onUpdateRow(
+                        row.requirement_id,
+                        "is_compiled",
+                        checked === true,
+                      )
+                    }
+                  />
+                ) : row.is_compiled ? (
+                  <Check className="w-8 h-8 text-primary" />
+                ) : (
+                  <X className="w-8 h-8 text-destructive" />
+                )}
               </TableCell>
 
-              <TableCell>
-                <Input
-                  type="radio"
-                  name={`compiled-${row.requirement_id}`}
-                  checked={row.is_compiled === false}
-                  disabled={!isEditing}
-                  onChange={() =>
-                    updateRow(row.requirement_id, "is_compiled", false)
-                  }
-                />
-              </TableCell>
-
-              <TableCell>
-                <Textarea
-                  value={row.remarks ?? ""}
-                  disabled={!isEditing}
-                  onChange={(e) =>
-                    updateRow(row.requirement_id, "remarks", e.target.value)
-                  }
-                />
+              <TableCell className="">
+                {isEditing ? (
+                  <Textarea
+                    value={row.remarks ?? ""}
+                    className="w-full text-sm"
+                    onChange={(e) =>
+                      onUpdateRow(row.requirement_id, "remarks", e.target.value)
+                    }
+                  />
+                ) : (
+                  <p>{row.remarks || "No remarks"}</p>
+                )}
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
-    </>
+    </div>
   );
 }

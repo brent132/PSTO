@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
-import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function CreateRequirementForm() {
   const [requirement, setRequirement] = useState("");
@@ -54,13 +54,13 @@ export default function CreateRequirementForm() {
       </Tooltip>
 
       <DialogContent className="max-w-sm">
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <form onSubmit={handleSubmit} className="flex min-w-0 flex-col gap-4">
           <DialogHeader>
             <DialogTitle>Create new requirement</DialogTitle>
             <DialogDescription>?</DialogDescription>
           </DialogHeader>
 
-          <Input
+          <Textarea
             value={requirement}
             onChange={(e) => setRequirement(e.target.value)}
             placeholder="Enter Requirement"

@@ -76,3 +76,21 @@ export type ProjectRequirementHeaderProps = {
   onCancel: () => void;
   onSave: () => void;
 };
+
+// app/api/requirements/[id]/route.ts
+export type UpdateRequirementContext = {
+  params: Promise<{
+    id: string;
+  }>;
+};
+
+export type updateRequirementPayload = {
+  requirementId: number;
+  requirement: string;
+};
+
+// UpdateRequirementForm
+export type UpdateRequirementFormProps = {
+  requirementId: number;
+  initialRequirement: string;
+};

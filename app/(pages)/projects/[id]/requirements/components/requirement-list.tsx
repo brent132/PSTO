@@ -10,7 +10,9 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { RequirementListProps } from "@/types/requirements";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Check, X } from "lucide-react";
+import { Check, Pen, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import UpdateRequirementForm from "./update-requirement-form";
 
 export default function RequirementList({
   rows,
@@ -30,15 +32,16 @@ export default function RequirementList({
             <TableHead>Requirement</TableHead>
             <TableHead>Compiled</TableHead>
             <TableHead>Remarks</TableHead>
+            <TableHead>Actions</TableHead>
           </TableRow>
         </TableHeader>
 
         <TableBody>
           {rows.map((row) => (
             <TableRow key={row.requirement_id}>
-              <TableCell className="">{row.requirement}</TableCell>
+              <TableCell>{row.requirement}</TableCell>
 
-              <TableCell>
+              <TableCell className="text-right">
                 {isEditing ? (
                   <Checkbox
                     checked={row.is_compiled}
@@ -57,11 +60,11 @@ export default function RequirementList({
                 )}
               </TableCell>
 
-              <TableCell className="">
+              <TableCell>
                 {isEditing ? (
                   <Textarea
                     value={row.remarks ?? ""}
-                    className="w-full text-sm"
+                    className="text-sm"
                     onChange={(e) =>
                       onUpdateRow(row.requirement_id, "remarks", e.target.value)
                     }
@@ -69,6 +72,12 @@ export default function RequirementList({
                 ) : (
                   <p>{row.remarks || "No remarks"}</p>
                 )}
+              </TableCell>
+              <TableCell>
+                <UpdateRequirementForm
+                  requirementId={row.requirement_id}
+                  initialRequirement={row.requirement}
+                />
               </TableCell>
             </TableRow>
           ))}

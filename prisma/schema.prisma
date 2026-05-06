@@ -43,10 +43,10 @@ model Projects {
 
 model Requirements {
   id           Int                   @id @default(autoincrement())
-  requirement  String                @unique
+  requirement  String                @unique @db.VarChar(800)
   created_at   DateTime              @default(now())
   updated_at   DateTime              @updatedAt
-  deleted_at    DateTime?
+  deleted_at   DateTime?
 
   projects     ProjectRequirements[]
 }
@@ -58,11 +58,11 @@ model ProjectRequirements {
   requirement_id Int
 
   is_compiled    Boolean  @default(false)
-  remarks        String?
+  remarks        String?  @db.VarChar(500)
 
   created_at     DateTime @default(now())
   updated_at     DateTime @updatedAt
-  deleted_at    DateTime?
+  deleted_at     DateTime?
 
   project        Projects     @relation(fields: [project_id], references: [id], onDelete: Cascade)
   requirement    Requirements @relation(fields: [requirement_id], references: [id], onDelete: Cascade)

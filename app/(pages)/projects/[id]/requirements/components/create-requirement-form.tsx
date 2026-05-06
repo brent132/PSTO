@@ -57,7 +57,9 @@ export default function CreateRequirementForm() {
         <form onSubmit={handleSubmit} className="flex min-w-0 flex-col gap-4">
           <DialogHeader>
             <DialogTitle>Create new requirement</DialogTitle>
-            <DialogDescription>?</DialogDescription>
+            <DialogDescription>
+              Create an iFund application requirements checklist
+            </DialogDescription>
           </DialogHeader>
 
           <Textarea

@@ -28,6 +28,9 @@ export function useCreateRequirement() {
     onSuccess: () => {
       toast.success("requirement created");
       queryClient.invalidateQueries({ queryKey: ["requirements"] });
+      queryClient.invalidateQueries({
+        queryKey: ["project-requirements"],
+      });
     },
     onError: () => {
       toast.error("Something went wrong, requirement already exist");

@@ -10,9 +10,9 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { RequirementListProps } from "@/types/requirements";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Check, Pen, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Check, X } from "lucide-react";
 import UpdateRequirementForm from "./update-requirement-form";
+import DeleteRequirementButton from "./delete-requirement-button";
 
 export default function RequirementList({
   rows,
@@ -39,7 +39,9 @@ export default function RequirementList({
         <TableBody>
           {rows.map((row) => (
             <TableRow key={row.requirement_id}>
-              <TableCell>{row.requirement}</TableCell>
+              <TableCell className="whitespace-normal">
+                <p className="text-xs">{row.requirement}</p>
+              </TableCell>
 
               <TableCell className="text-right">
                 {isEditing ? (
@@ -60,24 +62,28 @@ export default function RequirementList({
                 )}
               </TableCell>
 
-              <TableCell>
+              <TableCell className="whitespace-normal">
                 {isEditing ? (
                   <Textarea
                     value={row.remarks ?? ""}
-                    className="text-sm"
+                    className="text-xs"
                     onChange={(e) =>
                       onUpdateRow(row.requirement_id, "remarks", e.target.value)
                     }
                   />
                 ) : (
-                  <p>{row.remarks || "No remarks"}</p>
+                  <p className="text-xs">{row.remarks || "No remarks"}</p>
                 )}
               </TableCell>
+
               <TableCell>
-                <UpdateRequirementForm
-                  requirementId={row.requirement_id}
-                  initialRequirement={row.requirement}
-                />
+                <div className="flex gap-2">
+                  <UpdateRequirementForm
+                    requirementId={row.requirement_id}
+                    initialRequirement={row.requirement}
+                  />
+                  <DeleteRequirementButton id={row.requirement_id} />
+                </div>
               </TableCell>
             </TableRow>
           ))}

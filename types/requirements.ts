@@ -94,3 +94,13 @@ export type UpdateRequirementFormProps = {
   requirementId: number;
   initialRequirement: string;
 };
+
+// use-delete-requirement.ts
+export type DeleteRequirementPayload = {
+  id: number;
+};
+
+// delete-requirement-button.tsx
+export type DeleteRequirementButtonProps = {
+  id: number;
+};

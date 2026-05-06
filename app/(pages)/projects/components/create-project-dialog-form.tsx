@@ -60,7 +60,9 @@ export default function CreateProjectDialogForm() {
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <DialogHeader>
             <DialogTitle>Create new project</DialogTitle>
-            <DialogDescription>?</DialogDescription>
+            <DialogDescription>
+              Add a new project by entering the project title below
+            </DialogDescription>
           </DialogHeader>
           <FieldGroup>
             <Field>

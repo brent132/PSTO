@@ -2,7 +2,7 @@ import { useStickyActive } from "@/hooks/use-sticky-active";
 import CreateRequirementForm from "./create-requirement-form";
 import { ProjectRequirementHeaderProps } from "@/types/requirements";
 import { Button } from "@/components/ui/button";
-import { Pen } from "lucide-react";
+import { ListChecks } from "lucide-react";
 
 export default function ProjectRequirementHeader({
   projectTitle,
@@ -31,7 +31,7 @@ export default function ProjectRequirementHeader({
           {!isEditing ? (
             <>
               <Button size="icon-sm" onClick={onEdit}>
-                <Pen className="w-4 h-4" />
+                <ListChecks className="w-4 h-4" />
               </Button>
             </>
           ) : (

@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { Context, RequirementInput } from "@/types/requirements";
+import { Context } from "@/types/requirements";
 import { NextResponse } from "next/server";
 
 export async function GET(_req: Request, { params }: Context) {
@@ -52,51 +52,6 @@ export async function GET(_req: Request, { params }: Context) {
 
     return NextResponse.json(
       { error: "Failed to fetch projects requirements" },
-      { status: 500 },
-    );
-  }
-}
-
-export async function POST(req: Request, { params }: Context) {
-  try {
-    const { id } = await params;
-    const projectId = Number(id);
-
-    const body = await req.json();
-
-    const items = body.items as RequirementInput[];
-
-    await prisma.$transaction(
-      items.map((item) =>
-        prisma.projectRequirements.upsert({
-          where: {
-            project_id_requirement_id: {
-              project_id: projectId,
-              requirement_id: item.requirement_id,
-            },
-          },
-          update: {
-            is_compiled: item.is_compiled,
-            remarks: item.remarks,
-          },
-          create: {
-            project_id: projectId,
-            requirement_id: item.requirement_id,
-            is_compiled: item.is_compiled,
-            remarks: item.remarks,
-          },
-        }),
-      ),
-    );
-
-    return NextResponse.json({
-      message: "Requirement saved successfully",
-    });
-  } catch (error) {
-    console.error("Failed to save project requirement:", error);
-
-    return NextResponse.json(
-      { error: "Failed to save project requirements" },
       { status: 500 },
     );
   }

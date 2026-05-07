@@ -42,12 +42,6 @@ export type ProjectRequirementsResponse = {
   data: ProjectRequirementRow[];
 };
 
-// use-save-project-requirements.ts
-export type SavePayload = {
-  projectId: string;
-  items: ProjectRequirementRow[];
-};
-
 // requirement-list
 export type RequirementListRow = {
   requirement_id: number;
@@ -57,24 +51,14 @@ export type RequirementListRow = {
 };
 
 export type RequirementListProps = {
+  projectId: string;
   rows: RequirementListRow[];
   isLoading: boolean;
-  isEditing: boolean;
-  onUpdateRow: (
-    requirementId: number,
-    field: "is_compiled" | "remarks",
-    value: boolean | string,
-  ) => void;
 };
 
 // requirement-header
 export type ProjectRequirementHeaderProps = {
   projectTitle: string;
-  isEditing: boolean;
-  isSaving: boolean;
-  onEdit: () => void;
-  onCancel: () => void;
-  onSave: () => void;
 };
 
 // app/api/requirements/[id]/route.ts
@@ -103,4 +87,20 @@ export type DeleteRequirementPayload = {
 // delete-requirement-button.tsx
 export type DeleteRequirementButtonProps = {
   id: number;
+};
+
+// app/api/projects/[id]/requirements/[requirementId]/route.ts
+export type RequirementIdContext = {
+  params: Promise<{
+    id: string;
+    requirementId: string;
+  }>;
+};
+
+// hooks/use-update-project-requirement.ts
+export type UpdateProjectRequirementPayload = {
+  projectId: string;
+  requirementId: number;
+  is_compiled: boolean;
+  remarks?: string | null;
 };

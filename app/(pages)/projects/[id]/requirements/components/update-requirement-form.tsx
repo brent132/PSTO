@@ -3,7 +3,6 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -49,7 +48,7 @@ export default function UpdateRequirementForm({
       <Tooltip>
         <DialogTrigger asChild>
           <TooltipTrigger asChild>
-            <Button size="icon-sm" variant="outline">
+            <Button size="icon-sm" variant="ghost">
               <Pen className="w-4 h-4" />
             </Button>
           </TooltipTrigger>
@@ -63,7 +62,6 @@ export default function UpdateRequirementForm({
         <form onSubmit={handleSubmit} className="flex min-w-0 flex-col gap-4">
           <DialogHeader>
             <DialogTitle>Edit requirement</DialogTitle>
-            <DialogDescription>?</DialogDescription>
           </DialogHeader>
 
           <Textarea

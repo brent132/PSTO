@@ -33,7 +33,7 @@ export default function DeleteRequirementButton({
       <Tooltip>
         <AlertDialogTrigger asChild>
           <TooltipTrigger asChild>
-            <Button variant="outline" size="icon-sm">
+            <Button variant="ghost" size="icon-sm">
               <Trash2 className="w-4 h-4 text-destructive" />
             </Button>
           </TooltipTrigger>

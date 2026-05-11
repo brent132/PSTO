@@ -48,7 +48,7 @@ export default function UpdateRequirementForm({
       <Tooltip>
         <DialogTrigger asChild>
           <TooltipTrigger asChild>
-            <Button size="icon-sm" variant="ghost">
+            <Button size="icon-sm" variant="outline">
               <Pen className="w-4 h-4" />
             </Button>
           </TooltipTrigger>
